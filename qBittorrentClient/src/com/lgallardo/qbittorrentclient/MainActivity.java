@@ -929,13 +929,19 @@ public class MainActivity extends FragmentActivity {
 			Log.i("upload_rate_limit", "global_upload: " + global_upload);
 			Log.i("upload_rate_limit", "uploadRateLimit: " + uploadRateLimit);
 
-			limit = (Integer.parseInt(uploadRateLimit) > Integer.parseInt(global_upload) && Integer.parseInt(global_upload) != 0) ? Integer
-					.parseInt(global_upload) : Integer.parseInt(uploadRateLimit);
+			if (global_upload != null) {
 
-			Log.i("upload_rate_limit", hash + "&limit=" + limit * 1024);
+				limit = (Integer.parseInt(uploadRateLimit) > Integer.parseInt(global_upload) && Integer.parseInt(global_upload) != 0) ? Integer
+						.parseInt(global_upload) : Integer.parseInt(uploadRateLimit);
 
-			qBittorrentCommand qtc = new qBittorrentCommand();
-			qtc.execute(new String[] { "setUploadRateLimit", hash + "&" + limit * 1024 });
+				Log.i("upload_rate_limit", hash + "&limit=" + limit * 1024);
+
+				qBittorrentCommand qtc = new qBittorrentCommand();
+				qtc.execute(new String[] { "setUploadRateLimit", hash + "&" + limit * 1024 });
+
+			} else {
+				// TODO: Dialog with error message
+			}
 		}
 
 	}
@@ -946,13 +952,21 @@ public class MainActivity extends FragmentActivity {
 
 		if (downloadRateLimit != null && !downloadRateLimit.equals("")) {
 
-			limit = (Integer.parseInt(downloadRateLimit) > Integer.parseInt(global_upload)) ? Integer.parseInt(global_upload) : Integer
-					.parseInt(downloadRateLimit);
+			Log.i("download_rate_limit", "global_download: " + global_download);
+			Log.i("download_rate_limit", "downloadRateLimit: " + downloadRateLimit);
 
-			Log.i("download_rate_limit", hash + "&limit=" + limit * 1024);
+			if (global_download != null) {
 
-			qBittorrentCommand qtc = new qBittorrentCommand();
-			qtc.execute(new String[] { "setDownloadRateLimit", hash + "&" + limit * 1024 });
+				limit = (Integer.parseInt(downloadRateLimit) > Integer.parseInt(global_download)) ? Integer.parseInt(global_download) : Integer
+						.parseInt(downloadRateLimit);
+
+				Log.i("download_rate_limit", hash + "&limit=" + limit * 1024);
+
+				qBittorrentCommand qtc = new qBittorrentCommand();
+				qtc.execute(new String[] { "setDownloadRateLimit", hash + "&" + limit * 1024 });
+			} else {
+				// TODO: Dialog with error message
+			}
 		}
 
 	}
@@ -1618,7 +1632,7 @@ public class MainActivity extends FragmentActivity {
 
 			progressBar.setProgress(Integer.parseInt(percentage));
 
-			percentageTV.setText(percentage+"%");
+			percentageTV.setText(percentage + "%");
 
 			return (row);
 		}
