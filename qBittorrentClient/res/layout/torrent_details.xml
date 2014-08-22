@@ -34,7 +34,6 @@
                 android:id="@+id/torrentName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:text="Torrent Name"
                 android:textSize="20sp" />
 
@@ -43,55 +42,167 @@
                 android:layout_height="1dp"
                 android:background="@android:color/darker_gray" />
 
-            <TextView
-                android:id="@+id/torrentSize"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/torrentName"
-                android:layout_marginTop="15dp"
-                android:text="Size" />
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal" >
 
-            <TextView
-                android:id="@+id/torrentProgress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Progress" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/torrentRatio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ratio" />
+                    <TextView
+                        android:id="@+id/downloadedVsTotal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="357 MiB / 600 MiB"
+                        android:textSize="15sp" />
 
-            <TextView
-                android:id="@+id/torrentState"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="State" />
+                    <ProgressBar
+                        android:id="@+id/progressBar1"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:indeterminate="false"
+                        android:max="100"
+                        android:progress="0" />
+                </LinearLayout>
 
-            <TextView
-                android:id="@+id/torrentLeechs"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Leechs" />
+                <TextView
+                    android:id="@+id/percentage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="0%"
+                    android:textSize="30sp" />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/torrentSeeds"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Seeds" />
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal" >
 
-            <TextView
-                android:id="@+id/torrentHash"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="hash" />
+                <TextView
+                    android:id="@+id/torrentRatioLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Ratio:" />
 
-            <TextView
-                android:id="@+id/torrentPriority"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/torrentRatio"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Ratio" />
+
+                <TextView
+                    android:id="@+id/torrentPriorityLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Priority:" />
+
+                <TextView
+                    android:id="@+id/torrentPriority"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Priority" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Priority" />
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/torrentLeechsLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Leechs:" />
+
+                <TextView
+                    android:id="@+id/torrentLeechs"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Leechs" />
+
+                <TextView
+                    android:id="@+id/torrentSeedsLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Seeds:" />
+
+                <TextView
+                    android:id="@+id/torrentSeeds"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Seeds" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/torrentStateLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="State:" />
+
+                <TextView
+                    android:id="@+id/torrentState"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="State" />
+
+                <TextView
+                    android:id="@+id/torrentProgressLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Progress:" />
+
+                <TextView
+                    android:id="@+id/torrentProgress"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Progress" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/torrentHashLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Torrent Hash: " />
+
+                <TextView
+                    android:id="@+id/torrentHash"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="hash" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/general"
@@ -107,41 +218,123 @@
                 android:layout_marginTop="10dp"
                 android:background="@android:color/darker_gray" />
 
-            <TextView
-                android:id="@+id/torrentSavePath"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:orientation="horizontal" >
 
-            <TextView
-                android:id="@+id/torrentCreationDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TextView" />
+                <TextView
+                    android:id="@+id/torrentSavePathLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Save Path: " />
 
-            <TextView
-                android:id="@+id/torrentComment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TextView" />
+                <TextView
+                    android:id="@+id/torrentSavePath"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Path" />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/torrentUploadRateLimit"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:orientation="horizontal" >
 
-            <TextView
-                android:id="@+id/torrentDownloadRateLimit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TextView" />
+                <TextView
+                    android:id="@+id/torrentCreationDateLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Created Date:" />
 
-            <TextView
-                android:id="@+id/torrentTotalWasted"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/torrentCreationDate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Date" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/torrentCommentLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Comment" />
+
+                <TextView
+                    android:id="@+id/torrentComment"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Comment" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/torrentUploadRateLimitLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Upload Rate Limit:" />
+
+                <TextView
+                    android:id="@+id/torrentUploadRateLimit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Upload rate limit" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/torrentDownloadRateLimitLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Download Rate Limit" />
+
+                <TextView
+                    android:id="@+id/torrentDownloadRateLimit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Download rate limit" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/torrentTotalWastedLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total Wasted: " />
+
+                <TextView
+                    android:id="@+id/torrentTotalWasted"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TextView" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/torrentTotalUploaded"

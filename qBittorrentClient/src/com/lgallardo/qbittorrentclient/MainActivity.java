@@ -43,6 +43,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -1158,7 +1159,7 @@ public class MainActivity extends FragmentActivity {
 		@Override
 		protected Torrent[] doInBackground(String... params) {
 
-			String name, size, info, progress, state, hash, ratio, leechs, seeds, priority;
+			String name, size, info, progress, state, hash, ratio, leechs, seeds, priority, downloaded;
 
 			Torrent[] torrents = null;
 
@@ -1186,7 +1187,7 @@ public class MainActivity extends FragmentActivity {
 						name = json.getString(TAG_NAME);
 						size = json.getString(TAG_SIZE);
 						progress = String.format("%.2f", json.getDouble(TAG_PROGRESS) * 100) + "%";
-						info = size + " | D:" + json.getString(TAG_DLSPEED) + " | U:" + json.getString(TAG_UPSPEED) + " | " + progress;
+						info = "";
 						state = json.getString(TAG_STATE);
 						hash = json.getString(TAG_HASH);
 						ratio = json.getString(TAG_RATIO);
@@ -1225,6 +1226,14 @@ public class MainActivity extends FragmentActivity {
 							torrents[i].setShareRatio(json2.getString(TAG_SHARE_RATIO));
 							torrents[i].setUploadLimit(json2.getString(TAG_UPLOAD_LIMIT));
 							torrents[i].setDownloadLimit(json2.getString(TAG_DOWNLOAD_LIMIT));
+
+							// Info
+							downloaded = torrents[i].getTotalDownloaded();
+							downloaded = downloaded.substring(0, downloaded.indexOf("(") - 1);
+
+							torrents[i].setInfo(downloaded + " | " + Character.toString('\u2193') + " " + json.getString(TAG_DLSPEED) + " | "
+									+ Character.toString('\u2191') + " " + json.getString(TAG_UPSPEED));
+
 						}
 
 					}
@@ -1527,7 +1536,7 @@ public class MainActivity extends FragmentActivity {
 				Toast.makeText(getApplicationContext(), R.string.connection_error, Toast.LENGTH_SHORT).show();
 
 			} else {
-				
+
 				// Set options with the preference UI
 
 				if (result.equals("setOptions")) {
@@ -1590,6 +1599,26 @@ public class MainActivity extends FragmentActivity {
 			if ("queuedDL".equals(state) || "queuedUP".equals(state)) {
 				icon.setImageResource(R.drawable.queued);
 			}
+
+			// Set progress bar
+			ProgressBar progressBar = (ProgressBar) row.findViewById(R.id.progressBar1);
+			TextView percentageTV = (TextView) row.findViewById(R.id.percentage);
+
+			int index = lines[position].getProgress().indexOf(".");
+
+			if (index == -1) {
+				index = lines[position].getProgress().indexOf(",");
+
+				if (index == -1) {
+					index = lines[position].getProgress().length();
+				}
+			}
+
+			String percentage = lines[position].getProgress().substring(0, index);
+
+			progressBar.setProgress(Integer.parseInt(percentage));
+
+			percentageTV.setText(percentage+"%");
 
 			return (row);
 		}
