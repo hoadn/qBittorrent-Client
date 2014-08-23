@@ -214,7 +214,12 @@ public class MainActivity extends FragmentActivity {
 
 		// Get preferences
 		getSettings();
-
+		
+		
+		// Get options and save them as shared preferences
+		qBittorrentOptions qso = new qBittorrentOptions();
+		qso.execute(new String[] { "json/preferences", "getSettings" });
+		
 		// If it were awaked from an intent-filter,
 		// get intent from the intent filter and Add URL torrent
 		Intent intent = getIntent();
@@ -234,9 +239,9 @@ public class MainActivity extends FragmentActivity {
 			// However, if we're being restored from a previous state,
 			// then we don't need to do anything and should return or else
 			// we could end up with overlapping fragments.
-			if (savedInstanceState != null) {
-				return;
-			}
+//			if (savedInstanceState != null) {
+//				return;
+//			}
 
 			// This fragment will hold the list of torrents
 			firstFragment = new ItemstFragment();
@@ -286,6 +291,8 @@ public class MainActivity extends FragmentActivity {
 
 			fragmentTransaction.commit();
 		}
+		
+		refresh();
 
 	}
 

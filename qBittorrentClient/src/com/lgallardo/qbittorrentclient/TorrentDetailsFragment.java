@@ -20,6 +20,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -122,11 +123,11 @@ public class TorrentDetailsFragment extends Fragment {
 				creationDateTextView.setText(creationDate);
 				commentTextView.setText(comment);
 				totalWastedTextView.setText(totalWasted);
-				totalUploadedTextView.setText("Total Uploaded: " + totalUploaded);
-				totalDownloadedTextView.setText("Total Downloaded: " + totalDownloaded);
-				timeElapsedTextView.setText("Time Elapsed: " + timeElapsed);
-				nbConnectionsTextView.setText("Num. Connections: " + nbConnections);
-				shareRatioTextView.setText("Share Ratio: " + shareRatio);
+				totalUploadedTextView.setText(totalUploaded);
+				totalDownloadedTextView.setText(totalDownloaded);
+				timeElapsedTextView.setText(timeElapsed);
+				nbConnectionsTextView.setText(nbConnections);
+				shareRatioTextView.setText(shareRatio);
 				uploadRateLimitTextView.setText(uploadRateLimit);
 				downloadRateLimitTextView.setText(downloadRateLimit);
 
@@ -152,6 +153,35 @@ public class TorrentDetailsFragment extends Fragment {
 
 				progressBar.setProgress(Integer.parseInt(percentage));
 				percentageTV.setText(percentage + "%");
+				
+				// Set status icon
+				ImageView icon = (ImageView) rootView.findViewById(R.id.icon);
+
+				if ("pausedUP".equals(state) || "pausedDL".equals(state)) {
+					icon.setImageResource(R.drawable.paused);
+				}
+
+				if ("stalledUP".equals(state)) {
+					icon.setImageResource(R.drawable.stalledup);
+				}
+
+				if ("stalledDL".equals(state)) {
+					icon.setImageResource(R.drawable.stalleddl);
+				}
+
+				if ("downloading".equals(state)) {
+					icon.setImageResource(R.drawable.downloading);
+				}
+
+				if ("uploading".equals(state)) {
+					icon.setImageResource(R.drawable.uploading);
+				}
+
+				if ("queuedDL".equals(state) || "queuedUP".equals(state)) {
+					icon.setImageResource(R.drawable.queued);
+				}
+
+				
 
 			}
 		} catch (Exception e) {
