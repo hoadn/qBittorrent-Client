@@ -86,9 +86,9 @@ public class TorrentDetailsFragment extends Fragment {
 				shareRatio = MainActivity.lines[position].getShareRatio();
 				uploadRateLimit = MainActivity.lines[position].getUploadLimit();
 				downloadRateLimit = MainActivity.lines[position].getDownloadLimit();
-				
+
 				downloaded = MainActivity.lines[position].getTotalDownloaded();
-				downloaded = downloaded.substring(0,downloaded.indexOf("(")-1); 
+				downloaded = downloaded.substring(0, downloaded.indexOf("(") - 1);
 
 				TextView nameTextView = (TextView) rootView.findViewById(R.id.torrentName);
 				TextView sizeTextView = (TextView) rootView.findViewById(R.id.downloadedVsTotal);
@@ -131,10 +131,9 @@ public class TorrentDetailsFragment extends Fragment {
 				uploadRateLimitTextView.setText(uploadRateLimit);
 				downloadRateLimitTextView.setText(downloadRateLimit);
 
-				
 				// Set Downloaded vs Total size
 				sizeTextView.setText(downloaded + " / " + size);
-				
+
 				// Set progress bar
 				ProgressBar progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar1);
 				TextView percentageTV = (TextView) rootView.findViewById(R.id.percentage);
@@ -153,7 +152,7 @@ public class TorrentDetailsFragment extends Fragment {
 
 				progressBar.setProgress(Integer.parseInt(percentage));
 				percentageTV.setText(percentage + "%");
-				
+
 				// Set status icon
 				ImageView icon = (ImageView) rootView.findViewById(R.id.icon);
 
@@ -180,8 +179,6 @@ public class TorrentDetailsFragment extends Fragment {
 				if ("queuedDL".equals(state) || "queuedUP".equals(state)) {
 					icon.setImageResource(R.drawable.queued);
 				}
-
-				
 
 			}
 		} catch (Exception e) {
@@ -215,6 +212,8 @@ public class TorrentDetailsFragment extends Fragment {
 			menu.findItem(R.id.action_decrease_prio).setVisible(true);
 			menu.findItem(R.id.action_delete).setVisible(true);
 			menu.findItem(R.id.action_delete_drive).setVisible(true);
+			menu.findItem(R.id.action_download_rate_limit).setVisible(true);
+			menu.findItem(R.id.action_upload_rate_limit).setVisible(true);
 
 		}
 	}
