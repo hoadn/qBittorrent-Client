@@ -8,19 +8,19 @@
  * Contributors:
  *     Luis M. Gallardo D. - initial implementation
  ******************************************************************************/
-package com.lgallardo.qbittorrentclient;
+package com.lgallardo.qbittorrentclientpro;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.view.Menu;
 
-public class SettingsActivity extends PreferenceActivity {
+public class OptionsActivity extends PreferenceActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		addPreferencesFromResource(R.xml.preferences);
+		addPreferencesFromResource(R.xml.options);
 	}
 
 	@Override

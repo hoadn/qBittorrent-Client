@@ -8,7 +8,7 @@
  * Contributors:
  *     Luis M. Gallardo D.
  ******************************************************************************/
-package com.lgallardo.qbittorrentclient;
+package com.lgallardo.qbittorrentclientpro;
 
 import java.util.ArrayList;
 

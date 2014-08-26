@@ -8,17 +8,17 @@
  * Contributors:
  *     Luis M. Gallardo D. - initial implementation
  ******************************************************************************/
-package com.lgallardo.qbittorrentclient;
+package com.lgallardo.qbittorrentclientpro;
 
 import android.app.Fragment;
 import android.view.*;
 import android.os.*;
 
-public class HelpFragment extends Fragment {
+public class AboutFragment extends Fragment {
 
 
 
-	public HelpFragment() {		
+	public AboutFragment() {		
 	}
 
 	@Override
@@ -30,7 +30,7 @@ public class HelpFragment extends Fragment {
 		setHasOptionsMenu(true);
 
 
-		View rootView = inflater.inflate(R.layout.tablet_help, container,
+		View rootView = inflater.inflate(R.layout.about, container,
 										 false);
 
 		return rootView;
@@ -85,5 +85,6 @@ public class HelpFragment extends Fragment {
 
 		}
 	}
+	
 
 }

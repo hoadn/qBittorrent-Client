@@ -8,7 +8,7 @@
  * Contributors:
  *     Luis M. Gallardo D. - initial implementation
  ******************************************************************************/
-package com.lgallardo.qbittorrentclient;
+package com.lgallardo.qbittorrentclientpro;
 
 import org.apache.http.conn.ssl.SSLSocketFactory;
 import java.io.IOException;

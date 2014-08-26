@@ -8,7 +8,7 @@
  * Contributors:
  *     Luis M. Gallardo D. - initial implementation
  ******************************************************************************/
-package com.lgallardo.qbittorrentclient;
+package com.lgallardo.qbittorrentclientpro;
 
 import android.app.Activity;
 import android.content.Context;
