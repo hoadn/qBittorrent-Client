@@ -28,8 +28,8 @@
     <string name="title_activity_setting">Settings</string>
     <string name="dm_deleteTorrent">Pressing OK will delete the torrent</string>
     <string name="dt_deleteTorrent">Delete torrent</string>
-    <string name="dm_deleteDriveTorrent">Pressing OK will delete torrent and data from the hard drive</string>
-    <string name="dt_deleteDriveTorrent">Delete torrent and data </string>
+    <string name="dm_deleteDriveTorrent">Pressing OK will delete the torrent and its data from the hard drive</string>
+    <string name="dt_deleteDriveTorrent">Delete the torrent and its data </string>
     <string name="torrentAdded">Torrent sent!</string>
     <string name="torrentStarted">Torrent started!</string>
     <string name="torrentPaused">Torrent paused!</string>
