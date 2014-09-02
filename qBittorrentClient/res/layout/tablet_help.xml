@@ -21,10 +21,11 @@
         android:layout_toRightOf="@+id/arrow"
         android:background="@android:color/white"
         android:padding="10dp"
-        android:text="Use the drawer menu to choose an option" />
+        android:text="@string/tablet_help" />
 
     <ImageView
         android:id="@+id/arrow"
+        android:contentDescription="@string/icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"

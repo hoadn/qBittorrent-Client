@@ -76,11 +76,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.lgallardo.qbittorrentclientpro.TorrentActionsActivity"
-            android:label="@string/title_activity_torrent_actions"
-            android:uiOptions="splitActionBarWhenNarrow" >
-        </activity>
-        <activity
             android:name="com.lgallardo.qbittorrentclientpro.SettingsActivity"
             android:label="@string/title_activity_settings" >
         </activity> 

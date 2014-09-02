@@ -171,14 +171,14 @@ public class MainActivity extends FragmentActivity {
 		// Drawer item list objects
 		ObjectDrawerItem[] drawerItem = new ObjectDrawerItem[8];
 
-		drawerItem[0] = new ObjectDrawerItem(R.drawable.ic_drawer_all, "All");
-		drawerItem[1] = new ObjectDrawerItem(R.drawable.ic_drawer_downloading, "Downloading");
-		drawerItem[2] = new ObjectDrawerItem(R.drawable.ic_drawer_completed, "Completed");
-		drawerItem[3] = new ObjectDrawerItem(R.drawable.ic_drawer_paused, "Paused");
-		drawerItem[4] = new ObjectDrawerItem(R.drawable.ic_drawer_active, "Active");
-		drawerItem[5] = new ObjectDrawerItem(R.drawable.ic_drawer_inactive, "Inactive");
-		drawerItem[6] = new ObjectDrawerItem(R.drawable.ic_action_options, "Options");
-		drawerItem[7] = new ObjectDrawerItem(R.drawable.ic_drawer_settings, "Settings");
+		drawerItem[0] = new ObjectDrawerItem(R.drawable.ic_drawer_all, navigationDrawerItemTitles[0]);
+		drawerItem[1] = new ObjectDrawerItem(R.drawable.ic_drawer_downloading, navigationDrawerItemTitles[1]);
+		drawerItem[2] = new ObjectDrawerItem(R.drawable.ic_drawer_completed, navigationDrawerItemTitles[2]);
+		drawerItem[3] = new ObjectDrawerItem(R.drawable.ic_drawer_paused, navigationDrawerItemTitles[3]);
+		drawerItem[4] = new ObjectDrawerItem(R.drawable.ic_drawer_active, navigationDrawerItemTitles[4]);
+		drawerItem[5] = new ObjectDrawerItem(R.drawable.ic_drawer_inactive, navigationDrawerItemTitles[5]);
+		drawerItem[6] = new ObjectDrawerItem(R.drawable.ic_action_options, navigationDrawerItemTitles[6]);
+		drawerItem[7] = new ObjectDrawerItem(R.drawable.ic_drawer_settings, navigationDrawerItemTitles[7]);
 
 		// Create object for drawer item OnbjectDrawerItem
 		DrawerItemCustomAdapter adapter = new DrawerItemCustomAdapter(this, R.layout.listview_item_row, drawerItem);
@@ -947,8 +947,8 @@ public class MainActivity extends FragmentActivity {
 
 			} else {
 				// TODO: Dialog with error message
-				genericOkDialog(R.string.error,R.string.global_value_error);
-				
+				genericOkDialog(R.string.error, R.string.global_value_error);
+
 			}
 		}
 
@@ -974,15 +974,13 @@ public class MainActivity extends FragmentActivity {
 				qtc.execute(new String[] { "setDownloadRateLimit", hash + "&" + limit * 1024 });
 			} else {
 				// TODO: Dialog with error message
-				genericOkDialog(R.string.error,R.string.global_value_error);
+				genericOkDialog(R.string.error, R.string.global_value_error);
 			}
 		}
 
 	}
-	
-	
-	public void genericOkDialog(int title, int message){
-		
+
+	public void genericOkDialog(int title, int message) {
 
 		Builder builder = new AlertDialog.Builder(this);
 
@@ -991,9 +989,9 @@ public class MainActivity extends FragmentActivity {
 
 		// Ok
 		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-			
+
 			public void onClick(DialogInterface dialog, int id) {
-				// User accepted the dialog	
+				// User accepted the dialog
 			}
 		});
 
@@ -1003,7 +1001,6 @@ public class MainActivity extends FragmentActivity {
 		// Show dialog
 		dialog.show();
 
-		
 	}
 
 	// Delay method
@@ -1135,6 +1132,10 @@ public class MainActivity extends FragmentActivity {
 
 			if ("pauseAll".equals(result)) {
 				messageId = R.string.AllTorrentsPaused;
+			}
+
+			if ("resumeAll".equals(result)) {
+				messageId = R.string.AllTorrentsResumed;
 			}
 
 			if ("increasePrio".equals(result)) {
