@@ -30,7 +30,7 @@ public class TorrentDetailsFragment extends Fragment {
 
 	// Torrent variables
 	String name, info, hash, ratio, size, state, leechs, seeds, progress, priority, savePath, creationDate, comment, totalWasted, totalUploaded,
-			totalDownloaded, timeElapsed, nbConnections, shareRatio, uploadRateLimit, downloadRateLimit, downloaded = "";
+			totalDownloaded, timeElapsed, nbConnections, shareRatio, uploadRateLimit, downloadRateLimit, downloaded, eta = "";
 
 	String hostname;
 	String protocol;
@@ -74,8 +74,9 @@ public class TorrentDetailsFragment extends Fragment {
 				progress = MainActivity.lines[position].getProgress();
 				hash = MainActivity.lines[position].getHash();
 				priority = MainActivity.lines[position].getPriority();
+				// ETA
+				
 				savePath = MainActivity.lines[position].getSavePath();
-
 				creationDate = MainActivity.lines[position].getCreationDate();
 				comment = MainActivity.lines[position].getComment();
 				totalWasted = MainActivity.lines[position].getTotalWasted();

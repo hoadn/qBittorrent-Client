@@ -10,6 +10,8 @@
  ******************************************************************************/
 package com.lgallardo.qbittorrentclientpro;
 
+import android.util.Log;
+
 class Torrent {
 
 	private String file;
@@ -23,6 +25,7 @@ class Torrent {
 	private String leechs;
 	private String seeds;
 	private String priority;
+	private String eta;
 	private String savePath;
 	private String creationDate;
 	private String comment;
@@ -37,7 +40,7 @@ class Torrent {
 	
 	public Torrent(String file, String size, String state, String hash,
 					String info, String ratio, String progress, String leechs,
-					String seeds, String priority) {
+					String seeds, String priority, String eta) {
 		this.file = file;
 		this.size = size;
 		this.state = state;
@@ -48,6 +51,7 @@ class Torrent {
 		this.leechs = leechs;
 		this.seeds = seeds;
 		this.priority = priority;
+		this.eta = eta;
 		this.uploadLimit = null;
 		this.downloadLimit = null;
 	}
@@ -128,6 +132,24 @@ class Torrent {
 	public String getPriority() {
 		return priority;
 	}
+	
+	/**
+	 * @return the eta
+	 */
+	public String getEta() {
+		
+		// If apply, return infinity symbol
+		
+		Log.i("Torrent - torrent", ""+Character.codePointAt(eta, 0));
+		
+		if(eta != null && Character.codePointAt(eta, 0) == 226){
+			return Character.toString('\u221E');
+		}
+		
+		
+		return eta;
+	}
+
 
 	/**
 	 * @return the path
@@ -288,6 +310,13 @@ class Torrent {
 	 */
 	public void setPriority(String priority) {
 		this.priority = priority;
+	}
+
+	/**
+	 * @param priority the eta to set
+	 */
+	public void setEta(String eta) {
+		this.eta = eta;
 	}
 
 	/**

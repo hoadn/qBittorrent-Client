@@ -71,6 +71,8 @@ public class MainActivity extends FragmentActivity {
 	protected static final String TAG_NUMSEEDS = "num_seeds";
 	protected static final String TAG_RATIO = "ratio";
 	protected static final String TAG_PRIORITY = "priority";
+	protected static final String TAG_ETA = "eta";
+	
 	protected static final String TAG_SAVE_PATH = "save_path";
 	protected static final String TAG_CREATION_DATE = "creation_date";
 	protected static final String TAG_COMMENT = "comment";
@@ -1216,7 +1218,7 @@ public class MainActivity extends FragmentActivity {
 		@Override
 		protected Torrent[] doInBackground(String... params) {
 
-			String name, size, info, progress, state, hash, ratio, leechs, seeds, priority, downloaded;
+			String name, size, info, progress, state, hash, ratio, leechs, seeds, priority, downloaded, eta;
 
 			Torrent[] torrents = null;
 
@@ -1251,8 +1253,9 @@ public class MainActivity extends FragmentActivity {
 						leechs = json.getString(TAG_NUMLEECHS);
 						seeds = json.getString(TAG_NUMSEEDS);
 						priority = json.getString(TAG_PRIORITY);
+						eta = json.getString(TAG_ETA);
 
-						torrents[i] = new Torrent(name, size, state, hash, info, ratio, progress, leechs, seeds, priority);
+						torrents[i] = new Torrent(name, size, state, hash, info, ratio, progress, leechs, seeds, priority, eta);
 
 						MainActivity.names[i] = name;
 
@@ -1289,7 +1292,7 @@ public class MainActivity extends FragmentActivity {
 							downloaded = downloaded.substring(0, downloaded.indexOf("(") - 1);
 
 							torrents[i].setInfo(downloaded + " | " + Character.toString('\u2193') + " " + json.getString(TAG_DLSPEED) + " | "
-									+ Character.toString('\u2191') + " " + json.getString(TAG_UPSPEED));
+									+ Character.toString('\u2191') + " " + json.getString(TAG_UPSPEED) + " | " + torrents[i].getEta()) ;
 
 						}
 

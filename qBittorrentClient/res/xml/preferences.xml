@@ -13,6 +13,13 @@
     <PreferenceCategory
         android:key="Account"
         android:title="Account" >
+        <ListPreference
+            android:entries="@array/qBittorrentServers"
+            android:entryValues="@array/qBittorrentServersValues"
+            android:key="prefSyncFrequency"
+            android:summary="qBitttorent Server "
+            android:title="Choose current server" />
+
         <EditTextPreference
             android:defaultValue="192.168.1.1"
             android:dialogTitle="Hostname or IP?"

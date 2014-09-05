@@ -11,13 +11,11 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.lgallardo.qbittorrentclientpro"
-    
     android:versionCode="191"
     android:versionName="1.9.1" >
 
     <uses-sdk
         android:minSdkVersion="14"
-        
         android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -48,23 +46,19 @@
                     android:mimeType="application/x-bittorrent"
                     android:scheme="http" />
             </intent-filter>
-            <intent-filter>
+            <intent-filter android:priority="1">
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data
                     android:host="*"
-                    android:pathPattern=".*\\.torrent"
-                    android:scheme="http" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data
-                    android:pathPattern=".*\\.torrent"
-                    android:scheme="file" />
+                    android:mimeType="*/*"
+                    android:pathPattern=".*\\.torrent" />
+                <data android:scheme="file" />
+                <data android:scheme="http" />
+                <data android:scheme="https" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -78,12 +72,11 @@
         <activity
             android:name="com.lgallardo.qbittorrentclientpro.SettingsActivity"
             android:label="@string/title_activity_settings" >
-        </activity> 
-        
-                <activity
+        </activity>
+        <activity
             android:name="com.lgallardo.qbittorrentclientpro.OptionsActivity"
             android:label="Options" >
-        </activity>     
+        </activity>
     </application>
 
 </manifest>
