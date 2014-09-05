@@ -14,11 +14,12 @@
         android:key="Account"
         android:title="Account" >
         <ListPreference
+            android:defaultValue="1"
             android:entries="@array/qBittorrentServers"
             android:entryValues="@array/qBittorrentServersValues"
-            android:key="prefSyncFrequency"
+            android:key="currentServer"
             android:summary="qBitttorent Server "
-            android:title="Choose current server" />
+            android:title="Choose qBittorrent server" />
 
         <EditTextPreference
             android:defaultValue="192.168.1.1"

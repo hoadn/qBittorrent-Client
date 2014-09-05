@@ -12,16 +12,27 @@ package com.lgallardo.qbittorrentclientpro;
 
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
+import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
 public class SettingsActivity extends PreferenceActivity implements android.content.SharedPreferences.OnSharedPreferenceChangeListener {
+
+	private ListPreference currentServer;
+	private EditTextPreference hostname;
+	private CheckBoxPreference https;
+	private EditTextPreference port;
+	private EditTextPreference username;
+	private EditTextPreference password;
+	private CheckBoxPreference old_version;
+	private String currentServerValue;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,109 +40,136 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
 
 		addPreferencesFromResource(R.xml.preferences);
 
-		// Read preferences 
-		
-		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplication());
-		Editor editor = sharedPrefs.edit();
-		
-		String qBittorrentServer = sharedPrefs.getString("prefSyncFrequency", "-1");
-		
-		boolean https = sharedPrefs.getBoolean("http", false);
-		
-		Log.i("Preference - prefSyncFrequency", qBittorrentServer);
-		
+		// Get preferences from screen
+		currentServer = (ListPreference) findPreference("currentServer");
+		hostname = (EditTextPreference) findPreference("hostname");
+		https = (CheckBoxPreference) findPreference("https");
+		port = (EditTextPreference) findPreference("port");
+		username = (EditTextPreference) findPreference("username");
+		password = (EditTextPreference) findPreference("password");
+		old_version = (CheckBoxPreference) findPreference("old_version");
 
+		// Get values for server
+		 getQBittorrentServerValues(currentServer.getValue());
 
-		
-	    Preference pref = findPreference("prefSyncFrequency");        
-	    pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-	        @Override
-	        public boolean onPreferenceChange(Preference preference, Object newValue) {
-	            // do whatever you want with new value
+		Preference pref = findPreference("currentServer");
+		pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+			@Override
+			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				// do whatever you want with new value
 
-	            // true to update the state of the Preference with the new value
-	            // in case you want to disallow the change return false
-	        	
-	        	Log.i("Preference - key", preference.getKey());
-	        	Log.i("Preference - value", newValue.toString());
-	        	
-	        	preference.setSummary(preference.getKey());
-	        	CheckBoxPreference pref2 = (CheckBoxPreference) findPreference("https");
-	        	
-	        	pref2.setChecked(true);
-	        	
-	    		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplication());
-	    		Editor editor = sharedPrefs.edit();
-	    		
-	    		
-	    		// Read preferences 
-	    		
-
-	
-        	
-	            return true;
-	        }
-	    });
+				// Read and load preferences
+				saveQBittorrentServerValues();
+				getQBittorrentServerValues(newValue.toString());
+//				Log.i("Preferences", "Preferences loaded");
+//				Log.i("Preferences", "currentServerValue: " + currentServer.getValue());
+				return true;
+			}
+		});
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-//		getMenuInflater().inflate(R.menu.setting, menu);
+		// getMenuInflater().inflate(R.menu.setting, menu);
 		return true;
 	}
-	
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 		// TODO Auto-generated method stub
-		
-		ListPreference lp = (ListPreference) findPreference("prefSyncFrequency");
-		
-		
-		// Save options locally
-		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-		Editor editor = sharedPrefs.edit();
 
-		// Save key-values
-//		editor.putString("global_max_num_connections", global_max_num_connections);
-//		editor.putString("max_num_conn_per_torrent", max_num_conn_per_torrent);
-//		editor.putString("max_num_upslots_per_torrent", max_num_upslots_per_torrent);
-//		editor.putString("global_upload", global_upload);
-//		editor.putString("global_download", global_download);
-//		editor.putString("alt_upload", alt_upload);
-//		editor.putString("alt_download", alt_download);
-//		editor.putBoolean("torrent_queueing", torrent_queueing);
-//		editor.putString("max_act_downloads", max_act_downloads);
-//		editor.putString("max_act_uploads", max_act_uploads);
-//		editor.putString("max_act_torrents", max_act_torrents);
-
-		// Commit changes
-//		editor.commit();
-//		
-//		
-//		
-//		if(lp != null){
-//			
-//			Log.i("Preference", lp.getValue());
-//		}
-//		else{
-//			Log.i("Preference", "Dunno");
-//		}
-//			
+		// Update values on Screen
+		refreshScreenValues();
 	}
-	
+
 	@Override
 	public void onResume() {
-	    super.onResume();
-	    getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+		super.onResume();
+		getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 
 	}
 
 	@Override
 	public void onPause() {
-	    getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
-	    super.onPause();
+		getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+
+		saveQBittorrentServerValues();
+		super.onPause();
+	}
+
+	public void getQBittorrentServerValues(String value) {
+
+		SharedPreferences sharedPrefs = getPreferenceManager().getSharedPreferences();
+
+		currentServer.setSummary(currentServer.getEntry());
+		hostname.setText(sharedPrefs.getString("hostname" + value, ""));
+		hostname.setSummary(sharedPrefs.getString("hostname" + value, ""));
+
+		https.setChecked(sharedPrefs.getBoolean("https" + value, false));
+
+		port.setText(sharedPrefs.getString("port" + value, ""));
+		port.setSummary(sharedPrefs.getString("port" + value, ""));
+
+		username.setText(sharedPrefs.getString("username" + value, ""));
+		username.setSummary(sharedPrefs.getString("username" + value, ""));
+
+		password.setText(sharedPrefs.getString("password" + value, ""));
+		old_version.setChecked(sharedPrefs.getBoolean("old_version" + value, false));
+
+	}
+	
+	public void refreshScreenValues() {
+
+		currentServer.setSummary(currentServer.getEntry());
+		hostname.setSummary(hostname.getText());
+		port.setSummary(port.getText());
+		username.setSummary(username.getText());
+
+	}
+
+	public void saveQBittorrentServerValues() {
+
+		currentServerValue = currentServer.getValue();
+
+		Log.i("Preferences", "Saving Preferences");
+		Log.i("Preferences", "currentServerValue: " + currentServer.getValue());
+
+		// Save options locally
+		SharedPreferences sharedPrefs = getPreferenceManager().getSharedPreferences();
+
+		// SharedPreferences sharedPrefs =
+		// PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		Editor editor = sharedPrefs.edit();
+
+		if (hostname.getText().toString() != null && hostname.getText().toString() != "") {
+
+			editor.putString("hostname" + currentServerValue, hostname.getText().toString());
+			Log.i("Preferences", "Saving hostname" + currentServer.getValue());
+		} 
+		
+		editor.putBoolean("https" + currentServerValue, https.isChecked());
+
+		if (port.getText().toString() != null && port.getText().toString() != "") {
+
+			editor.putString("port" + currentServerValue, port.getText().toString());
+		}
+
+		if (username.getText().toString() != null && username.getText().toString() != "") {
+
+			editor.putString("username" + currentServerValue, username.getText().toString());
+		}
+
+		if (password.getText().toString() != null && password.getText().toString() != "") {
+
+			editor.putString("password" + currentServerValue, password.getText().toString());
+		}
+
+		editor.putBoolean("old_version" + currentServerValue, old_version.isChecked());
+
+		// Commit changes
+		editor.commit();
+
 	}
 
 }

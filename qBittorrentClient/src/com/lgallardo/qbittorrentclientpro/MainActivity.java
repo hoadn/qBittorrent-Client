@@ -674,7 +674,7 @@ public class MainActivity extends FragmentActivity {
 
 		if (requestCode == SETTINGS_CODE) {
 
-			// Get options and save them as shared preferences
+			// Get options from server and save them as shared preferences locally
 			qBittorrentOptions qso = new qBittorrentOptions();
 			qso.execute(new String[] { "json/preferences", "getSettings" });
 
@@ -1291,8 +1291,8 @@ public class MainActivity extends FragmentActivity {
 							downloaded = torrents[i].getTotalDownloaded();
 							downloaded = downloaded.substring(0, downloaded.indexOf("(") - 1);
 
-							torrents[i].setInfo(downloaded + " | " + Character.toString('\u2193') + " " + json.getString(TAG_DLSPEED) + " | "
-									+ Character.toString('\u2191') + " " + json.getString(TAG_UPSPEED) + " | " + torrents[i].getEta()) ;
+							torrents[i].setInfo(downloaded + " " + Character.toString('\u2193') + " " + json.getString(TAG_DLSPEED) + " "
+									+ Character.toString('\u2191') + " " + json.getString(TAG_UPSPEED) + " " + torrents[i].getEta()) ;
 
 						}
 
