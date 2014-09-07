@@ -23,7 +23,7 @@
     <string name="connection_error">Error de conexión</string>
     <string name="ok">Ok</string>
     <string name="cancel">Cancelar</string>
-    <string name="connecting">Refrescando</string>
+    <string name="connecting">Actualizando</string>
     <string name="title_activity_torrent_actions">Acción</string>
     <string name="dm_deleteTorrent">Presionando OK eliminará el torrent</string>
     <string name="dt_deleteTorrent">Eliminar torrent</string>

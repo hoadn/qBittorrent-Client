@@ -11,7 +11,7 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.lgallardo.qbittorrentclientpro"
-    android:versionCode="20"
+    android:versionCode="200"
     android:versionName="2.0" >
 
     <uses-sdk
