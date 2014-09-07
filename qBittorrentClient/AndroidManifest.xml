@@ -11,8 +11,8 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.lgallardo.qbittorrentclientpro"
-    android:versionCode="191"
-    android:versionName="1.9.1" >
+    android:versionCode="20"
+    android:versionName="2.0" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -35,32 +35,95 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
+		<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:mimeType="application/x-bittorrent" />
-                <data
-                    android:mimeType="application/x-bittorrent"
-                    android:scheme="http" />
-            </intent-filter>
-            <intent-filter android:priority="1">
-                <action android:name="android.intent.action.VIEW" />
+				<data
+					android:host="*"
+					android:mimeType="application/x-bittorrent"
+					android:scheme="http" />
+			</intent-filter>
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
 
-                <data
-                    android:host="*"
-                    android:mimeType="*/*"
-                    android:pathPattern=".*\\.torrent" />
-                <data android:scheme="file" />
-                <data android:scheme="http" />
-                <data android:scheme="https" />
-            </intent-filter>
-            <intent-filter>
+				<data
+					android:host="*"
+					android:pathPattern=".*\\.torrent"
+					android:scheme="http" />
+			</intent-filter>
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
+
+				<data
+					android:host="*"
+					android:mimeType="application/x-bittorrent"
+					android:scheme="https" />
+			</intent-filter>
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
+
+				<data
+					android:host="*"
+					android:pathPattern=".*\\.torrent"
+					android:scheme="https" />
+			</intent-filter>
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
+
+				<data
+					android:host="*"
+					android:mimeType="application/x-bittorrent"
+					android:scheme="file" />
+			</intent-filter>
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
+
+				<data
+					android:host="*"
+					android:pathPattern=".*\\.torrent"
+					android:scheme="file" />
+			</intent-filter>
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
+
+				<data
+					android:host="*"
+					android:mimeType="application/x-bittorrent"
+					android:scheme="content" />
+			</intent-filter>
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
+
+				<data
+					android:host="*"
+					android:pathPattern=".*\\.torrent"
+					android:scheme="content" />
+			</intent-filter>
+	            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />

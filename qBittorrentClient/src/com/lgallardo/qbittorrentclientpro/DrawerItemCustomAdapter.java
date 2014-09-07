@@ -37,7 +37,6 @@ public class DrawerItemCustomAdapter extends ArrayAdapter<ObjectDrawerItem> {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		Log.i("Adapter", "getView reached");
 		
 		View listItem =  convertView;
 
@@ -46,15 +45,9 @@ public class DrawerItemCustomAdapter extends ArrayAdapter<ObjectDrawerItem> {
 
 		ImageView imageViewIcon = (ImageView) listItem.findViewById(R.id.imageViewIcon);
 		TextView textViewName = (TextView) listItem.findViewById(R.id.textViewName);
-		
-//		Log.i("Adapter", "ImageView and TextView reached");
-
 
 		ObjectDrawerItem folder = data[position];
 		
-//		Log.i("Adapter", "Icon:"+folder.icon);
-//		Log.i("Adapter", "Name:"+folder.name);
-
 		imageViewIcon.setImageResource(folder.icon);
 		textViewName.setText(folder.name);
 

@@ -7,16 +7,30 @@
     <string name="action_add">Añadir</string>
     <string name="action_pause">Pausar</string>
     <string name="action_resume">Reanudar</string>
+    <string name="action_resume_all">Reanudar todos</string>
+    <string name="action_pause_all">Pausar todos</string>
+    
+    
+    <string name="action_delete_drive">Eliminar datos</string>
+    <string name="action_increase_priority">Aumentar prioridad</string>    
+    <string name="action_decrease_priority">Disminuir prioridad</string>    
+    
+        <string name="action_download_rate_limit">Configurar límite de descarga</string>    
+    <string name="action_upload_rate_limit">Configurar limite de carga</string>    
+        <string name="action_delete">Eliminar</string>
+    
+    
     <string name="connection_error">Error de conexión</string>
     <string name="ok">Ok</string>
     <string name="cancel">Cancelar</string>
-    <string name="connecting">Refrescar</string>
+    <string name="connecting">Refrescando</string>
     <string name="title_activity_torrent_actions">Acción</string>
     <string name="dm_deleteTorrent">Presionando OK eliminará el torrent</string>
     <string name="dt_deleteTorrent">Eliminar torrent</string>
     <string name="dm_deleteDriveTorrent">Presionando OK eliminará el torrent y sus datos del disco duro</string>
     <string name="dt_deleteDriveTorrent">Eliminar el torrent y sus datos</string>
     <string name="torrentAdded">Torrent enviado!</string>
+    <string name="torrentFileAdded">Archivo torrent enviado!</string>
     <string name="torrentStarted">Torrent iniciado!</string>
     <string name="torrentPaused">Torrent detenido!</string>
     <string name="AllTorrentsPaused">Todos los torrents se detuvieron!</string>
@@ -45,9 +59,9 @@
         <item>Configuración</item>
     </string-array>
 
-    <string name="about_help1">Para empezar a utilizar el cliente, establezca la configuración seleccionando \'Configuración\' en el menú desplegable</string>
+    <string name="about_help1">Para empezar a utilizar el cliente, proporcione los datos de conexión  seleccionando \'Configuración\' en el menú desplegable</string>
     <string name="about_help2">Pulse el botón de actualización en el menú para obtener nuevos resultados, o elija una opción del menú de navegación para obtener la lista de torrents desde el servidor.</string>
-    <string name="about_motto">Gestiona todo tu torrente de su cliente qBittorent Android usando</string>
+    <string name="about_motto">Gestiona todos tus torrents desde Android usando qBittorrent Client Pro</string>
     <string name="icon">icono</string>
     <string name="no_results">No hay resultados</string>
     <string name="tablet_help">Utilice el menú de navegación para elegir una opción</string>
@@ -70,5 +84,24 @@
     <string name="torrent_details_time_elapsed">Tiempo transcurrido:</string>
     <string name="torrent_details_num_connections">Num. Conexiones:</string>
     <string name="torrent_details_share_ratio">Ratio:</string>
+    <string name="settings_account">Cuentas</string>
+    <string name="settings_qbittorrent_currentServer_title">Elije servidor qBittorrent</string>
+    <string name="settings_qbittorrent_currentServer_summary">Servidor qBitttorent</string>
+    <string name="settings_qbittorrent_hostname_title">Host de conexión</string>
+    <string name="settings_qbittorrent_hostname_summary">Hostname o IP</string>
+    <string name="settings_qbittorrent_hostname_dialog_title">Hostname o IP?</string>
+    <string name="settings_qbittorrent_https_title">Habilitar https</string>
+    <string name="settings_qbittorrent_https_summary">Connectar usando https</string>
+    <string name="settings_qbittorrent_port_title">Puerto dde conexión</string>
+    <string name="settings_qbittorrent_port_summary">Puerto (80, 8080, etc)</string>
+    <string name="settings_qbittorrent_port_dialog_title">Puerto dde conexión?</string>
+    <string name="settings_qbittorrent_username_title">Usuario</string>
+    <string name="settings_qbittorrent_username_summary">Indique usuario</string>
+    <string name="settings_qbittorrent_username_dialog_title">Usuario?</string>
+    <string name="settings_qbittorrent_password_title">Contraseña</string>
+    <string name="settings_qbittorrent_password_summary">Indique contraseña</string>
+    <string name="settings_qbittorrent_password_dialog_title">Contraseña?</string>
+    <string name="settings_qbittorrent_version_title">qBittorrent 2.x</string>
+    <string name="settings_qbittorrent_version_summary">Usar servidor qBittorrent anterior</string>
 
 </resources>

@@ -103,18 +103,18 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
 		SharedPreferences sharedPrefs = getPreferenceManager().getSharedPreferences();
 
 		currentServer.setSummary(currentServer.getEntry());
-		hostname.setText(sharedPrefs.getString("hostname" + value, ""));
-		hostname.setSummary(sharedPrefs.getString("hostname" + value, ""));
+		hostname.setText(sharedPrefs.getString("hostname" + value, "192.168.2.1"));
+		hostname.setSummary(sharedPrefs.getString("hostname" + value, "192.168.2.1"));
 
 		https.setChecked(sharedPrefs.getBoolean("https" + value, false));
 
-		port.setText(sharedPrefs.getString("port" + value, ""));
-		port.setSummary(sharedPrefs.getString("port" + value, ""));
+		port.setText(sharedPrefs.getString("port" + value, "8080"));
+		port.setSummary(sharedPrefs.getString("port" + value, "8080"));
 
-		username.setText(sharedPrefs.getString("username" + value, ""));
-		username.setSummary(sharedPrefs.getString("username" + value, ""));
+		username.setText(sharedPrefs.getString("username" + value, "admin"));
+		username.setSummary(sharedPrefs.getString("username" + value, "admin"));
 
-		password.setText(sharedPrefs.getString("password" + value, ""));
+		password.setText(sharedPrefs.getString("password" + value, "adminadmin"));
 		old_version.setChecked(sharedPrefs.getBoolean("old_version" + value, false));
 
 	}
@@ -131,9 +131,6 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
 	public void saveQBittorrentServerValues() {
 
 		currentServerValue = currentServer.getValue();
-
-		Log.i("Preferences", "Saving Preferences");
-		Log.i("Preferences", "currentServerValue: " + currentServer.getValue());
 
 		// Save options locally
 		SharedPreferences sharedPrefs = getPreferenceManager().getSharedPreferences();

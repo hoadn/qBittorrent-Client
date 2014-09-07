@@ -10,6 +10,12 @@
  ******************************************************************************/
 package com.lgallardo.qbittorrentclientpro;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
@@ -26,8 +32,10 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -72,7 +80,7 @@ public class MainActivity extends FragmentActivity {
 	protected static final String TAG_RATIO = "ratio";
 	protected static final String TAG_PRIORITY = "priority";
 	protected static final String TAG_ETA = "eta";
-	
+
 	protected static final String TAG_SAVE_PATH = "save_path";
 	protected static final String TAG_CREATION_DATE = "creation_date";
 	protected static final String TAG_COMMENT = "comment";
@@ -228,7 +236,23 @@ public class MainActivity extends FragmentActivity {
 		String urlTorrent = intent.getDataString();
 
 		if (urlTorrent != null && urlTorrent.length() != 0) {
-			addTorrent(intent.getDataString());
+
+			// File
+			Log.i("intent started", urlTorrent.substring(0, 4));
+
+			if (urlTorrent.substring(0, 4).equals("file")) {
+				// File
+				Log.i("FILE:", urlTorrent);
+
+				addTorrentFile(Uri.parse(urlTorrent).getPath());
+			} else {
+
+				// URL
+				addTorrent(intent.getDataString());
+
+				// File
+				Log.i("WEB", urlTorrent);
+			}
 		}
 
 		// Fragments
@@ -635,14 +659,14 @@ public class MainActivity extends FragmentActivity {
 
 		case R.id.action_upload_rate_limit:
 
-			Log.i("upload_rate_limit", "upload_rate_limit");
+			// Log.i("upload_rate_limit", "upload_rate_limit");
 
 			tf = this.getTorrentDetailsFragment();
 
 			if (tf != null) {
 				position = tf.position;
 				hash = MainActivity.lines[position].getHash();
-				Log.i("upload_rate_limit", "hash: " + hash);
+				// Log.i("upload_rate_limit", "hash: " + hash);
 				uploadRateLimitDialog(hash);
 				// if (findViewById(R.id.one_frame) != null) {
 				// getFragmentManager().popBackStack();
@@ -674,7 +698,8 @@ public class MainActivity extends FragmentActivity {
 
 		if (requestCode == SETTINGS_CODE) {
 
-			// Get options from server and save them as shared preferences locally
+			// Get options from server and save them as shared preferences
+			// locally
 			qBittorrentOptions qso = new qBittorrentOptions();
 			qso.execute(new String[] { "json/preferences", "getSettings" });
 
@@ -822,6 +847,12 @@ public class MainActivity extends FragmentActivity {
 		qtc.execute(new String[] { "addTorrent", url });
 	}
 
+	public void addTorrentFile(String url) {
+		// Execute the task in background
+		qBittorrentCommand qtc = new qBittorrentCommand();
+		qtc.execute(new String[] { "addTorrentFile", url });
+	}
+
 	public void pauseAllTorrents() {
 		// Execute the task in background
 		qBittorrentCommand qtc = new qBittorrentCommand();
@@ -934,21 +965,21 @@ public class MainActivity extends FragmentActivity {
 
 		if (uploadRateLimit != null && !uploadRateLimit.equals("")) {
 
-			Log.i("upload_rate_limit", "global_upload: " + global_upload);
-			Log.i("upload_rate_limit", "uploadRateLimit: " + uploadRateLimit);
+			// Log.i("upload_rate_limit", "global_upload: " + global_upload);
+			// Log.i("upload_rate_limit", "uploadRateLimit: " +
+			// uploadRateLimit);
 
 			if (global_upload != null) {
 
 				limit = (Integer.parseInt(uploadRateLimit) > Integer.parseInt(global_upload) && Integer.parseInt(global_upload) != 0) ? Integer
 						.parseInt(global_upload) : Integer.parseInt(uploadRateLimit);
 
-				Log.i("upload_rate_limit", hash + "&limit=" + limit * 1024);
+				// Log.i("upload_rate_limit", hash + "&limit=" + limit * 1024);
 
 				qBittorrentCommand qtc = new qBittorrentCommand();
 				qtc.execute(new String[] { "setUploadRateLimit", hash + "&" + limit * 1024 });
 
 			} else {
-				// TODO: Dialog with error message
 				genericOkDialog(R.string.error, R.string.global_value_error);
 
 			}
@@ -962,20 +993,22 @@ public class MainActivity extends FragmentActivity {
 
 		if (downloadRateLimit != null && !downloadRateLimit.equals("")) {
 
-			Log.i("download_rate_limit", "global_download: " + global_download);
-			Log.i("download_rate_limit", "downloadRateLimit: " + downloadRateLimit);
+			// Log.i("download_rate_limit", "global_download: " +
+			// global_download);
+			// Log.i("download_rate_limit", "downloadRateLimit: " +
+			// downloadRateLimit);
 
 			if (global_download != null) {
 
 				limit = (Integer.parseInt(downloadRateLimit) > Integer.parseInt(global_download)) ? Integer.parseInt(global_download) : Integer
 						.parseInt(downloadRateLimit);
 
-				Log.i("download_rate_limit", hash + "&limit=" + limit * 1024);
+				// Log.i("download_rate_limit", hash + "&limit=" + limit *
+				// 1024);
 
 				qBittorrentCommand qtc = new qBittorrentCommand();
 				qtc.execute(new String[] { "setDownloadRateLimit", hash + "&" + limit * 1024 });
 			} else {
-				// TODO: Dialog with error message
 				genericOkDialog(R.string.error, R.string.global_value_error);
 			}
 		}
@@ -1132,6 +1165,10 @@ public class MainActivity extends FragmentActivity {
 				messageId = R.string.torrentAdded;
 			}
 
+			if ("addTorrentFile".equals(result)) {
+				messageId = R.string.torrentFileAdded;
+			}
+
 			if ("pauseAll".equals(result)) {
 				messageId = R.string.AllTorrentsPaused;
 			}
@@ -1170,44 +1207,44 @@ public class MainActivity extends FragmentActivity {
 
 			switch (drawerList.getCheckedItemPosition()) {
 			case 0:
-				Log.i("qBittorrentCommand", "case 0");
+				// Log.i("qBittorrentCommand", "case 0");
 				refreshWithDelay("all", 3);
 				break;
 			case 1:
-				Log.i("qBittorrentCommand", "case 1");
+				// Log.i("qBittorrentCommand", "case 1");
 				refreshWithDelay("downloading", 3);
 				break;
 			case 2:
-				Log.i("qBittorrentCommand", "case 2");
+				// Log.i("qBittorrentCommand", "case 2");
 				refreshWithDelay("completed", 3);
 				break;
 			case 3:
-				Log.i("qBittorrentCommand", "case 3");
+				// Log.i("qBittorrentCommand", "case 3");
 				refreshWithDelay("paused", 3);
 				break;
 			case 4:
-				Log.i("qBittorrentCommand", "case 4");
+				// Log.i("qBittorrentCommand", "case 4");
 				refreshWithDelay("active", 3);
 				break;
 			case 5:
-				Log.i("qBittorrentCommand", "case 5");
+				// Log.i("qBittorrentCommand", "case 5");
 				refreshWithDelay("inactive", 3);
 				break;
 			case 6:
-				Log.i("qBittorrentCommand", "case 6");
+				// Log.i("qBittorrentCommand", "case 6");
 				// Select "All" torrents list
 				selectItem(0);
 				break;
 			case 7:
-				Log.i("qBittorrentCommand", "case 7");
+				// Log.i("qBittorrentCommand", "case 7");
 				break;
 			default:
-				Log.i("qBittorrentCommand", "default");
+				// Log.i("qBittorrentCommand", "default");
 				refreshWithDelay("all", 3);
 				break;
 			}
 
-			Log.i("refresh_done", "refresh_perfomed");
+			// Log.i("refresh_done", "refresh_perfomed");
 
 		}
 	}
@@ -1292,7 +1329,7 @@ public class MainActivity extends FragmentActivity {
 							downloaded = downloaded.substring(0, downloaded.indexOf("(") - 1);
 
 							torrents[i].setInfo(downloaded + " " + Character.toString('\u2193') + " " + json.getString(TAG_DLSPEED) + " "
-									+ Character.toString('\u2191') + " " + json.getString(TAG_UPSPEED) + " " + torrents[i].getEta()) ;
+									+ Character.toString('\u2191') + " " + json.getString(TAG_UPSPEED) + " " + torrents[i].getEta());
 
 						}
 

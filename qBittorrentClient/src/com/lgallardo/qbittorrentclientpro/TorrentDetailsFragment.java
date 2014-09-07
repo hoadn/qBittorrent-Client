@@ -60,7 +60,7 @@ public class TorrentDetailsFragment extends Fragment {
 
 		View rootView = inflater.inflate(R.layout.torrent_details, container, false);
 
-		Log.i("TorrentDetails", "Position =>>> " + position);
+		// Log.i("TorrentDetails", "Position =>>> " + position);
 
 		try {
 			if (MainActivity.lines != null && position != -1) {
@@ -193,7 +193,7 @@ public class TorrentDetailsFragment extends Fragment {
 	// @Override
 	public void onListItemClick(ListView parent, View v, int position, long id) {
 
-		Log.i("FragmentLIst", "Item touched");
+//		Log.i("FragmentLIst", "Item touched");
 	}
 
 	// @Override

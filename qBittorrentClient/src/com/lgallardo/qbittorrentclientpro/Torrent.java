@@ -139,9 +139,6 @@ class Torrent {
 	public String getEta() {
 		
 		// If apply, return infinity symbol
-		
-		Log.i("Torrent - torrent", ""+Character.codePointAt(eta, 0));
-		
 		if(eta != null && Character.codePointAt(eta, 0) == 226){
 			return Character.toString('\u221E');
 		}
