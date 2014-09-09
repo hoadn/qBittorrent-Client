@@ -103,8 +103,8 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
 		SharedPreferences sharedPrefs = getPreferenceManager().getSharedPreferences();
 
 		currentServer.setSummary(currentServer.getEntry());
-		hostname.setText(sharedPrefs.getString("hostname" + value, "192.168.2.1"));
-		hostname.setSummary(sharedPrefs.getString("hostname" + value, "192.168.2.1"));
+		hostname.setText(sharedPrefs.getString("hostname" + value, "192.168.1.1"));
+		hostname.setSummary(sharedPrefs.getString("hostname" + value, "192.168.1.1"));
 
 		https.setChecked(sharedPrefs.getBoolean("https" + value, false));
 
