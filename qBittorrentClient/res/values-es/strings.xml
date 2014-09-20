@@ -84,8 +84,8 @@
     <string name="torrent_details_time_elapsed">Tiempo transcurrido:</string>
     <string name="torrent_details_num_connections">Num. Conexiones:</string>
     <string name="torrent_details_share_ratio">Ratio:</string>
-    <string name="settings_account">Cuentas</string>
-    <string name="settings_qbittorrent_currentServer_title">Elije servidor qBittorrent</string>
+    <string name="settings_qbittorrent_account_category">Cuentas</string>
+    <string name="settings_qbittorrent_currentServer_title">Elige servidor qBittorrent</string>
     <string name="settings_qbittorrent_currentServer_summary">Servidor qBitttorent</string>
     <string name="settings_qbittorrent_hostname_title">Host de conexión</string>
     <string name="settings_qbittorrent_hostname_summary">Hostname o IP</string>
@@ -103,5 +103,11 @@
     <string name="settings_qbittorrent_password_dialog_title">Contraseña?</string>
     <string name="settings_qbittorrent_version_title">qBittorrent 2.x</string>
     <string name="settings_qbittorrent_version_summary">Usar servidor qBittorrent anterior</string>
+    
+    <string name="settings_qbittorrent_autorefresh_category">Refrescado automático</string>
+    <string name="settings_qbittorrent_autorefresh_title">¿Refrescar automáticamente?</string>
+    <string name="settings_qbittorrent_autorefresh_summary">Actualizar listado de torrents </string>
+    <string name="settings_qbittorrent_refresh_period_title">Refrescar cada...</string>
+    
 
 </resources>

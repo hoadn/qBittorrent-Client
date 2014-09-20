@@ -12,7 +12,7 @@
 
     <PreferenceCategory
         android:key="Account"
-        android:title="@string/settings_account" >
+        android:title="@string/settings_qbittorrent_account_category" >
         <ListPreference
             android:defaultValue="1"
             android:entries="@array/qBittorrentServers"
@@ -60,6 +60,23 @@
             android:key="old_version"
             android:summary="@string/settings_qbittorrent_version_summary"
             android:title="@string/settings_qbittorrent_version_title" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="Autorefresh"
+        android:title="@string/settings_qbittorrent_autorefresh_category" >
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="auto_refresh"
+            android:title="@string/settings_qbittorrent_autorefresh_title"
+            android:summary="@string/settings_qbittorrent_autorefresh_summary" />
+        <ListPreference
+            android:dependency="auto_refresh"
+            android:defaultValue="60000"
+            android:entries="@array/autorefresh"
+            android:entryValues="@array/autorefreshValues"
+            android:key="refresh_period"
+            android:summary="@string/settings_qbittorrent_refresh_period_title"
+            android:title="@string/settings_qbittorrent_refresh_period_title" />
     </PreferenceCategory>
 
 </PreferenceScreen>

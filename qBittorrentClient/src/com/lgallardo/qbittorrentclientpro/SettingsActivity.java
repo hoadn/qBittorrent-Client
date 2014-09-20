@@ -34,6 +34,9 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
 	private CheckBoxPreference old_version;
 	private String currentServerValue;
 
+	private CheckBoxPreference auto_refresh;
+	private ListPreference refresh_period;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -49,8 +52,11 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
 		password = (EditTextPreference) findPreference("password");
 		old_version = (CheckBoxPreference) findPreference("old_version");
 
+		auto_refresh = (CheckBoxPreference) findPreference("auto_refresh");
+		refresh_period = (ListPreference) findPreference("refresh_period");
+
 		// Get values for server
-		 getQBittorrentServerValues(currentServer.getValue());
+		getQBittorrentServerValues(currentServer.getValue());
 
 		Preference pref = findPreference("currentServer");
 		pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -61,8 +67,9 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
 				// Read and load preferences
 				saveQBittorrentServerValues();
 				getQBittorrentServerValues(newValue.toString());
-//				Log.i("Preferences", "Preferences loaded");
-//				Log.i("Preferences", "currentServerValue: " + currentServer.getValue());
+				// Log.i("Preferences", "Preferences loaded");
+				// Log.i("Preferences", "currentServerValue: " +
+				// currentServer.getValue());
 				return true;
 			}
 		});
@@ -116,15 +123,22 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
 
 		password.setText(sharedPrefs.getString("password" + value, "adminadmin"));
 		old_version.setChecked(sharedPrefs.getBoolean("old_version" + value, false));
+		
+		
+		Log.i("auto-refresh", "Refresg value: "+ refresh_period.getEntry());
+
+		refresh_period.setSummary(refresh_period.getEntry());
+		
 
 	}
-	
+
 	public void refreshScreenValues() {
 
 		currentServer.setSummary(currentServer.getEntry());
 		hostname.setSummary(hostname.getText());
 		port.setSummary(port.getText());
 		username.setSummary(username.getText());
+		refresh_period.setSummary(refresh_period.getEntry());
 
 	}
 
@@ -143,8 +157,8 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
 
 			editor.putString("hostname" + currentServerValue, hostname.getText().toString());
 			Log.i("Preferences", "Saving hostname" + currentServer.getValue());
-		} 
-		
+		}
+
 		editor.putBoolean("https" + currentServerValue, https.isChecked());
 
 		if (port.getText().toString() != null && port.getText().toString() != "") {
