@@ -1404,7 +1404,7 @@ public class MainActivity extends FragmentActivity {
 							downloaded = downloaded.substring(0, downloaded.indexOf("(") - 1);
 
 							torrents[i].setInfo(downloaded + " " + Character.toString('\u2193') + " " + json.getString(TAG_DLSPEED) + " "
-									+ Character.toString('\u2191') + " " + json.getString(TAG_UPSPEED) + " " + torrents[i].getEta());
+									+ Character.toString('\u2191') + " " + json.getString(TAG_UPSPEED) + " "  + Character.toString('\u2022') +  " " + json.getString(TAG_RATIO) + " "  + Character.toString('\u2022') +  " " + torrents[i].getEta());
 
 						}
 
