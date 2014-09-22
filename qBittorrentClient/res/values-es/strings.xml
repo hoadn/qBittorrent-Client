@@ -103,11 +103,14 @@
     <string name="settings_qbittorrent_password_dialog_title">Contraseña?</string>
     <string name="settings_qbittorrent_version_title">qBittorrent 2.x</string>
     <string name="settings_qbittorrent_version_summary">Usar servidor qBittorrent anterior</string>
-    
     <string name="settings_qbittorrent_autorefresh_category">Refrescado automático</string>
     <string name="settings_qbittorrent_autorefresh_title">¿Refrescar automáticamente?</string>
     <string name="settings_qbittorrent_autorefresh_summary">Actualizar listado de torrents </string>
     <string name="settings_qbittorrent_refresh_period_title">Refrescar cada...</string>
+    
+    <string name="options_qbittorrent_connections_limits_category">LÍMTES DE CONEXIÓN</string>
+        <string name="options_qbittorrent_global_max_connections_title">Conexiones max globales</string>
+    <string name="options_qbittorrent_global_max_connections_dialog_title">Numero máximo de conexiones globales?</string>
     
 
 </resources>

@@ -13,12 +13,12 @@
 
     <PreferenceCategory
         android:key="Connections Limits"
-        android:title="Connections Limits" >
+        android:title="@string/options_qbittorrent_connections_limits_category" >
         <EditTextPreference
-            android:dialogTitle="Global maximum number of connections"
+            android:dialogTitle="@string/options_qbittorrent_global_max_connections_dialog_title"
             android:inputType="number"
             android:key="global_max_num_connections"
-            android:title="Global max connections" />
+            android:title="@string/options_qbittorrent_global_max_connections_title" />
         <EditTextPreference
             android:dialogTitle="Maximum number of connections per torrent"
             android:inputType="number"

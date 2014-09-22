@@ -116,12 +116,14 @@
     <string name="settings_qbittorrent_password_dialog_title">Password?</string>
     <string name="settings_qbittorrent_version_title">qBittorrent 2.x</string>
     <string name="settings_qbittorrent_version_summary">Use old qBittorrent server version</string>
-    
     <string name="settings_qbittorrent_autorefresh_category">Auto Refresh</string>
     <string name="settings_qbittorrent_autorefresh_title">Refresh automatically?</string>
     <string name="settings_qbittorrent_autorefresh_summary">Update torrent list</string>    
     <string name="settings_qbittorrent_refresh_period_title">Refresh every...</string>
-
+    
+    <string name="options_qbittorrent_connections_limits_category">CONNECTIONS LIMITS</string>
+    <string name="options_qbittorrent_global_max_connections_title">Global max connections</string>
+    <string name="options_qbittorrent_global_max_connections_dialog_title">Global maximum number of connections?</string>
     
 
 </resources>
