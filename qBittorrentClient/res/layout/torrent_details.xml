@@ -283,7 +283,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Path" />
+                android:text="" />
         </LinearLayout>
 
         <LinearLayout
@@ -302,8 +302,8 @@
                 android:id="@+id/torrentCreationDate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Date" />
+                android:layout_weight="1" 
+                android:text=""/>
         </LinearLayout>
 
         <LinearLayout
@@ -323,7 +323,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Comment" />
+                android:text="" />
         </LinearLayout>
 
         <LinearLayout
@@ -343,7 +343,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Upload rate limit" />
+                android:text="" />
         </LinearLayout>
 
         <LinearLayout
@@ -356,14 +356,15 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Download Rate Limit" />
+                android:text="@string/torrent_details_download_rate_limit" />
 
             <TextView
                 android:id="@+id/torrentDownloadRateLimit"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Download rate limit" />
+                android:text="" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -382,8 +383,8 @@
                 android:id="@+id/torrentTotalWasted"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Total wasted" />
+                android:layout_weight="1" 
+                android:text=""/>
         </LinearLayout>
 
         <LinearLayout
@@ -403,7 +404,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Total uploaded" />
+                android:text="" />
         </LinearLayout>
 
         <LinearLayout
@@ -423,7 +424,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Total Downloaded" />
+                android:text="" />
         </LinearLayout>
 
         <LinearLayout
@@ -443,7 +444,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Time Elapsed" />
+                android:text="" />
         </LinearLayout>
 
         <LinearLayout
@@ -463,7 +464,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Num. Connec." />
+                android:text="" />
         </LinearLayout>
 
         <LinearLayout
@@ -483,7 +484,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/torrent_details_share_ratio" />
+                android:text="" />
         </LinearLayout>
     </LinearLayout>
 
