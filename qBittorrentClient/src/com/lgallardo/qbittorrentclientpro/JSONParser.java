@@ -109,11 +109,11 @@ public class JSONParser {
 
 		// Set the timeout in milliseconds until a connection is established.
 		// The default value is zero, that means the timeout is not used.
-		int timeoutConnection = 3000;
+		int timeoutConnection = 5000;
 
 		// Set the default socket timeout (SO_TIMEOUT)
 		// in milliseconds which is the timeout for waiting for data.
-		int timeoutSocket = 5000;
+		int timeoutSocket = 8000;
 
 		// Set http parameters
 		HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
@@ -192,11 +192,11 @@ public class JSONParser {
 
 		// Set the timeout in milliseconds until a connection is established.
 		// The default value is zero, that means the timeout is not used.
-		int timeoutConnection = 3000;
+		int timeoutConnection = 5000;
 
 		// Set the default socket timeout (SO_TIMEOUT)
 		// in milliseconds which is the timeout for waiting for data.
-		int timeoutSocket = 5000;
+		int timeoutSocket = 8000;
 
 		// Set http parameters
 		HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
