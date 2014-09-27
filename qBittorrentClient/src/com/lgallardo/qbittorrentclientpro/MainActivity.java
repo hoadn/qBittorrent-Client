@@ -115,6 +115,7 @@ public class MainActivity extends FragmentActivity {
 
 	// Preferences properties
 	protected static String hostname;
+	protected static String subfolder;
 	protected static int port;
 	protected static String protocol;
 	protected static String username;
@@ -1161,6 +1162,8 @@ public class MainActivity extends FragmentActivity {
 
 		// Get values from preferences
 		hostname = sharedPrefs.getString("hostname", "NULL");
+		subfolder = sharedPrefs.getString("subfolder", "");
+		
 		protocol = sharedPrefs.getString("protocol", "NULL");
 
 		// If user leave the field empty, set 8080 port
@@ -1228,7 +1231,7 @@ public class MainActivity extends FragmentActivity {
 			getSettings();
 
 			// Creating new JSON Parser
-			JSONParser jParser = new JSONParser(hostname, protocol, port, username, password);
+			JSONParser jParser = new JSONParser(hostname, subfolder, protocol, port, username, password);
 
 			jParser.postCommand(params[0], params[1]);
 
@@ -1374,7 +1377,7 @@ public class MainActivity extends FragmentActivity {
 
 			try {
 				// Creating new JSON Parser
-				jParser = new JSONParser(hostname, protocol, port, username, password);
+				jParser = new JSONParser(hostname, subfolder, protocol, port, username, password);
 
 				JSONArray jArray = jParser.getJSONArrayFromUrl(params[0]);
 
@@ -1698,7 +1701,7 @@ public class MainActivity extends FragmentActivity {
 			getSettings();
 
 			// Creating new JSON Parser
-			JSONParser jParser = new JSONParser(hostname, protocol, port, username, password);
+			JSONParser jParser = new JSONParser(hostname, subfolder, protocol, port, username, password);
 
 			//
 			JSONObject json = jParser.getJSONFromUrl(params[0]);

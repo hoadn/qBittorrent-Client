@@ -12,13 +12,10 @@ package com.lgallardo.qbittorrentclientpro;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.net.URI;
 import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,7 +38,8 @@ import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.entity.ContentType;
-import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.message.BasicNameValuePair;
@@ -50,21 +48,11 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
-import org.apache.http.entity.FileEntity;
-import org.apache.http.entity.mime.HttpMultipartMode;
-import org.apache.http.entity.mime.MultipartEntity;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.entity.mime.content.FileBody;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.net.Uri;
-import android.os.Environment;
 import android.util.Log;
-
-import android.content.Context;
-import java.io.FileInputStream;
 
 ;
 
@@ -74,6 +62,7 @@ public class JSONParser {
 	private JSONArray jArray = null;
 	private String json = "";
 	private String hostname;
+	private String subfolder;
 	private int port;
 	private String protocol;
 	private String username;
@@ -83,16 +72,17 @@ public class JSONParser {
 
 	// constructor
 	public JSONParser() {
-		this("", "", 0, "", "");
+		this("", "", "", 0, "", "");
 	}
 
-	public JSONParser(String hostname, int port, String username, String password) {
-		this(hostname, "http", port, username, password);
+	public JSONParser(String hostname, String subfolder, int port, String username, String password) {
+		this(hostname, subfolder, "http", port, username, password);
 	}
 
-	public JSONParser(String hostname, String protocol, int port, String username, String password) {
+	public JSONParser(String hostname, String subfolder, String protocol, int port, String username, String password) {
 
 		this.hostname = hostname;
+		this.subfolder = subfolder;
 		this.protocol = protocol;
 		this.port = port;
 		this.username = username;
@@ -101,6 +91,12 @@ public class JSONParser {
 	}
 
 	public JSONObject getJSONFromUrl(String url) {
+
+		// if server is publish in a subfolder, fix url
+		url = subfolder + "/" + url;
+
+		Log.i("JSON", "hostname: " + hostname);
+		Log.i("JSON", "url: " + url);
 
 		HttpResponse httpResponse;
 		DefaultHttpClient httpclient;
@@ -184,6 +180,12 @@ public class JSONParser {
 	}
 
 	public JSONArray getJSONArrayFromUrl(String url) {
+
+		// if server is publish in a subfolder, fix url
+		url = subfolder + "/" + url;
+
+		Log.i("JSON", "hostname" + hostname);
+		Log.i("JSON", "url: " + url);
 
 		HttpResponse httpResponse;
 		DefaultHttpClient httpclient;
@@ -355,6 +357,9 @@ public class JSONParser {
 			Log.i("download_rate_limit", "limit: " + limit);
 		}
 
+		// if server is publish in a subfolder, fix url
+		url = subfolder + "/" + url;
+
 		// Making HTTP request
 		HttpHost targetHost = new HttpHost(this.hostname, this.port, this.protocol);
 
@@ -399,32 +404,32 @@ public class JSONParser {
 
 				Log.i("addTorrentFile", "Sending file: " + hash);
 				httpget.setHeader("Content-Type", urlContentType);
-				
 
 				MultipartEntityBuilder builder = MultipartEntityBuilder.create();
 				builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
 
 				// Add boundary
 				builder.setBoundary(boundary);
-				
+
 				// Add text expected by qBittorrent server
-//				builder.addTextBody("text", "Content-Disposition: form-data; name=\"torrents\"; filename=\"" + hash + "\"\n"
-//						+ "Content-Type: application/x-bittorrent\n\n");
+				// builder.addTextBody("text",
+				// "Content-Disposition: form-data; name=\"torrents\"; filename=\""
+				// + hash + "\"\n"
+				// + "Content-Type: application/x-bittorrent\n\n");
 
 				// Add torrent file as binary
 				File file = new File(hash);
-//				FileBody fileBody = new FileBody(file);
-//				builder.addPart("file", fileBody);
-				
+				// FileBody fileBody = new FileBody(file);
+				// builder.addPart("file", fileBody);
+
 				builder.addBinaryBody("upfile", file, ContentType.DEFAULT_BINARY, hash);
 
 				// Build entity
 				HttpEntity entity = builder.build();
-				
+
 				// Set entity to http post
 				httpget.setEntity(entity);
-				
-				
+
 			}
 
 			// Log.i("qbittorrent", "2");
