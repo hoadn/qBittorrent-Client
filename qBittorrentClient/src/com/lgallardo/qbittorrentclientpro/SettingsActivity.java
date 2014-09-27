@@ -161,7 +161,7 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
 			editor.putString("hostname" + currentServerValue, hostname.getText().toString());
 		}
 
-		if (subfolder.getText().toString() != null && subfolder.getText().toString() != "") {
+		if (subfolder.getText().toString() != null) {
 			editor.putString("subfolder" + currentServerValue, subfolder.getText().toString());
 		}
 

@@ -93,7 +93,9 @@ public class JSONParser {
 	public JSONObject getJSONFromUrl(String url) {
 
 		// if server is publish in a subfolder, fix url
-		url = subfolder + "/" + url;
+		if (subfolder != null && subfolder != "") {
+			url = subfolder + "/" + url;
+		}
 
 		Log.i("JSON", "hostname: " + hostname);
 		Log.i("JSON", "url: " + url);
@@ -182,7 +184,9 @@ public class JSONParser {
 	public JSONArray getJSONArrayFromUrl(String url) {
 
 		// if server is publish in a subfolder, fix url
-		url = subfolder + "/" + url;
+		if (subfolder != null && subfolder != "") {
+			url = subfolder + "/" + url;
+		}
 
 		Log.i("JSON", "hostname" + hostname);
 		Log.i("JSON", "url: " + url);
@@ -358,7 +362,9 @@ public class JSONParser {
 		}
 
 		// if server is publish in a subfolder, fix url
-		url = subfolder + "/" + url;
+		if (subfolder != null && subfolder != "") {
+			url = subfolder + "/" + url;
+		}
 
 		// Making HTTP request
 		HttpHost targetHost = new HttpHost(this.hostname, this.port, this.protocol);
