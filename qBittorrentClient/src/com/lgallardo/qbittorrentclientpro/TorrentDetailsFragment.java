@@ -62,7 +62,7 @@ public class TorrentDetailsFragment extends Fragment {
 
 		// Log.i("TorrentDetails", "Position =>>> " + position);
 
-		savePath = "x en la visa";
+		savePath = "";
 		creationDate = "";
 		comment = "";
 		uploadRateLimit = "";
@@ -223,7 +223,7 @@ public class TorrentDetailsFragment extends Fragment {
 				//
 				// Log.i("TorrentFragment", "hash: " + hash);
 
-				JSONParser jParser = new JSONParser(MainActivity.hostname, MainActivity.protocol, MainActivity.port, MainActivity.username, MainActivity.password);
+				JSONParser jParser = new JSONParser(MainActivity.hostname, MainActivity.subfolder, MainActivity.protocol, MainActivity.port, MainActivity.username, MainActivity.password);
 
 				json2 = jParser.getJSONFromUrl(url + hash);
 
