@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.lgallardo.qbittorrentclientpro.R.array;
-
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.FragmentManager;
@@ -328,10 +326,7 @@ public class MainActivity extends FragmentActivity {
 		// Activity is visble
 		activityIsVisible = true;
 
-		// First refresh
-		refresh();
-
-		// Autorefresh
+//		// Autorefresh
 
 		handler = new Handler();
 		handler.postDelayed(m_Runnable, refresh_period);
@@ -342,7 +337,7 @@ public class MainActivity extends FragmentActivity {
 	public void onResume() {
 		super.onResume();
 		activityIsVisible = true;
-		
+
 		refresh();
 	}
 
@@ -1163,7 +1158,7 @@ public class MainActivity extends FragmentActivity {
 		// Get values from preferences
 		hostname = sharedPrefs.getString("hostname", "NULL");
 		subfolder = sharedPrefs.getString("subfolder", "");
-		
+
 		protocol = sharedPrefs.getString("protocol", "NULL");
 
 		// If user leave the field empty, set 8080 port
@@ -1241,8 +1236,9 @@ public class MainActivity extends FragmentActivity {
 
 		@Override
 		protected void onPostExecute(String result) {
-			
-			// This delay is needed for resume action. Other actions have a fewer delay (1 second). 
+
+			// This delay is needed for resume action. Other actions have a
+			// fewer delay (1 second).
 			int delay = 1;
 
 			int messageId = R.string.connection_error;
@@ -1253,7 +1249,7 @@ public class MainActivity extends FragmentActivity {
 
 			if ("start".equals(result)) {
 				messageId = R.string.torrentStarted;
-				
+
 				// Needed to refresh after a resume and see the change
 				delay = 3;
 			}
@@ -1284,7 +1280,7 @@ public class MainActivity extends FragmentActivity {
 
 			if ("resumeAll".equals(result)) {
 				messageId = R.string.AllTorrentsResumed;
-				
+
 				// Needed to refresh after a "resume all" and see the changes
 				delay = 3;
 
