@@ -27,7 +27,7 @@
     <string name="torrentAdded">Torrent enviado!</string>
     <string name="torrentFileAdded">Archivo torrent enviado!</string>
     <string name="torrentStarted">Torrent iniciado!</string>
-    <string name="torrentPaused">Torrent detenido!</string>
+    <string name="torrentPaused">Torrent pausado!</string>
     <string name="AllTorrentsPaused">Todos los torrents fueron pausados!</string>
     <string name="AllTorrentsResumed">Todos los torrents fueron reanudados!</string>
     <string name="torrentDeleled">Torrent borrado!</string>
@@ -37,7 +37,7 @@
     <string name="drawer_open">Abrir menú de navegación</string>
     <string name="drawer_close">Cierre el menú de navegación</string>
     <string name="getQBittorrentPrefefrences">Obteniendo opciones ...</string>
-    <string name="setQBittorrentPrefefrences">Opciones guardan</string>
+    <string name="setQBittorrentPrefefrences">Guardando opciones</string>
     <string name="setUploadRateLimit">Límite de subida cambiado</string>
     <string name="setDownloadRateLimit">Límite de bajada cambiado</string>
     <string name="error">Error</string>
@@ -54,8 +54,8 @@
         <item>Configuración</item>
     </string-array>
 
-    <string name="about_help1">Para empezar a utilizar el cliente, proporcione los datos de conexión  seleccionando \'Configuración\' en el menú desplegable</string>
-    <string name="about_help2">Pulse el botón de actualización en el menú para obtener nuevos resultados, o elija una opción del menú de navegación para obtener la lista de torrents desde el servidor.</string>
+    <string name="about_help1">Para empezar a utilizar el cliente, proporciona los datos de conexión  seleccionando \'Configuración\' en el menú desplegable</string>
+    <string name="about_help2">Pulsa el botón de actualización en el menú para obtener nuevos resultados, o elige una opción del menú de navegación para obtener la lista de torrents desde el servidor.</string>
     <string name="about_motto">Gestiona todos tus torrents desde Android usando qBittorrent Client Pro</string>
     <string name="icon">icono</string>
     <string name="no_results">No hay resultados</string>
