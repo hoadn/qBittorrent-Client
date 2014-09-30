@@ -14,7 +14,7 @@
     <string-array name="autorefresh">
         <item name="1">30 segundos</item>
         <item name="2">1 minuto</item>
-        <item name="3">2 minutes</item>
+        <item name="3">2 minutos</item>
         <item name="4">5 minutos</item>
         <item name="5">10 minutos</item>
         <item name="6">15 minutos</item>

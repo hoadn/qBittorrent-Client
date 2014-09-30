@@ -86,10 +86,10 @@
     <string name="settings_qbittorrent_subfolder_summary">Hostname o IP</string>
     <string name="settings_qbittorrent_subfolder_dialog_title">Hostname o IP?</string>
     <string name="settings_qbittorrent_subfolder_title">Subcarpeta</string>
-    <string name="settings_qbittorrent_hostname_dialog_title">Subcarpeta? Deje en blanco si no hay subcarpeta</string>
+    <string name="settings_qbittorrent_hostname_dialog_title">Subcarpeta? Si tienes duda, déjalo en blanco!</string>
     <string name="settings_qbittorrent_https_title">Habilitar https</string>
     <string name="settings_qbittorrent_https_summary">Connectar usando https</string>
-    <string name="settings_qbittorrent_port_title">Puerto dde conexión</string>
+    <string name="settings_qbittorrent_port_title">Puerto de conexión</string>
     <string name="settings_qbittorrent_port_summary">Puerto (80, 8080, etc)</string>
     <string name="settings_qbittorrent_port_dialog_title">Puerto dde conexión?</string>
     <string name="settings_qbittorrent_username_title">Usuario</string>
