@@ -157,12 +157,6 @@ class Torrent {
 	 */
 	public String getEta() {
 		
-		// If apply, return infinity symbol
-		if(eta != null && Character.codePointAt(eta, 0) == 226){
-			return Character.toString('\u221E');
-		}
-		
-		
 		return eta;
 	}
 
@@ -232,20 +226,10 @@ class Torrent {
 	
 	public String getUploadLimit() {
 		
-		// If apply, return infinity symbol
-		if(uploadLimit != null && Character.codePointAt(uploadLimit, 0) == 226){
-			return Character.toString('\u221E');
-		}
-
 		return uploadLimit;
 	}
 
 	public String getDownloadLimit() {
-		
-		// If apply, return infinity symbol
-		if(downloadLimit != null && Character.codePointAt(downloadLimit, 0) == 226){
-			return Character.toString('\u221E');
-		}
 		
 		return downloadLimit;
 	}

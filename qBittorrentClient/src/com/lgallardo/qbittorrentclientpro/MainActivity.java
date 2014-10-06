@@ -1409,16 +1409,6 @@ public class MainActivity extends FragmentActivity {
 
 						// Get torrent generic properties
 
-						// JSONObject json2 = jParser.getJSONFrsomUrl(params[3]
-						// + hash);
-
-						// // If no data, throw exception
-						// if (json2.length() == 0) {
-						//
-						// throw (new Exception());
-						//
-						// }
-						//
 						try {
 							// Calculate total downloaded
 							Double sizeScalar = Double.parseDouble(size.substring(0, size.indexOf(" ")));
@@ -1433,30 +1423,6 @@ public class MainActivity extends FragmentActivity {
 						torrents[i].setInfo(torrents[i].getDownloaded() + " " + Character.toString('\u2193') + " " + torrents[i].getDownloadSpeed() + " "
 								+ Character.toString('\u2191') + " " + torrents[i].getUploadSpeed() + " " + Character.toString('\u2022') + " "
 								+ torrents[i].getRatio() + " " + Character.toString('\u2022') + " " + torrents[i].getEta());
-
-						// Log.i("JSON", "param[3]: " + params[3] + hash);
-						// Log.i("JSON", "length: " + json2.length());
-
-						// for (int j = 0; j < json2.length(); j++) {
-
-						// torrents[i].setSavePath(json2.getString(TAG_SAVE_PATH));
-						// torrents[i].setCreationDate(json2.getString(TAG_CREATION_DATE));
-						// torrents[i].setComment(json2.getString(TAG_COMMENT));
-						// torrents[i].setTotalWasted(json2.getString(TAG_TOTAL_WASTED));
-						// torrents[i].setTotalUploaded(json2.getString(TAG_TOTAL_UPLOADED));
-						// torrents[i].setTotalDownloaded(json2.getString(TAG_TOTAL_DOWNLOADED));
-						// torrents[i].setTimeElapsed(json2.getString(TAG_TIME_ELAPSED));
-						// torrents[i].setNbConnections(json2.getString(TAG_NB_CONNECTIONS));
-						// torrents[i].setShareRatio(json2.getString(TAG_SHARE_RATIO));
-						// torrents[i].setUploadLimit(json2.getString(TAG_UPLOAD_LIMIT));
-						// torrents[i].setDownloadLimit(json2.getString(TAG_DOWNLOAD_LIMIT));
-
-						// Info
-						// downloaded = torrents[i].getTotalDownloaded();
-						// downloaded = downloaded.substring(0,
-						// downloaded.indexOf("(") - 1);
-						//
-						// }
 
 					}
 				}
@@ -1569,9 +1535,6 @@ public class MainActivity extends FragmentActivity {
 
 						fragmentTransaction.commit();
 
-						// Log.i("Refresh", "ItemList?: " + (firstFragment
-						// instanceof ItemstFragment));
-
 						ListView lv = firstFragment.getListView();
 
 						lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
@@ -1579,8 +1542,6 @@ public class MainActivity extends FragmentActivity {
 						// Also update the second fragment (if it comes from the
 						// drawer)
 						if (params[2].equals("clear") && lv.getCount() > 0) {
-
-							// Log.i("Refresh >", "Clear init");
 
 							// Scroll to the first position
 							lv.smoothScrollToPosition(0);
