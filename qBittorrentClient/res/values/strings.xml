@@ -7,11 +7,12 @@
   http://www.gnu.org/licenses/gpl.html
   
   Contributors:
-      Luis M. Gallardo D. - initial implementation
+      Luis M. Gallardo D.
 -->
 <resources>
 
     <string name="app_name">qBittorrent Client Pro</string>
+    <string name="app_shortname">Client Pro</string>
     <string name="action_settings">Settings</string>
     <string name="action_refresh">Refresh</string>
     <string name="action_add">Add</string>
@@ -26,7 +27,7 @@
     <string name="action_download_rate_limit">Download rate limit</string>
     <string name="action_upload_rate_limit">Upload rate limit</string>
     <string name="connection_error">Network connection failed</string>
-    <string name="ok">Okay</string>
+    <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
     <string name="connecting">Refreshing</string>
     <string name="title_activity_torrent_actions">Action</string>
@@ -146,5 +147,7 @@
     <string name="options_qbittorrent_torrent_queueing_max_active_uploads_dialog_title">Maximum active uploads?</string>
     <string name="options_qbittorrent_torrent_queueing_max_active_torrents_title">Maximum active torrents</string>
     <string name="options_qbittorrent_torrent_queueing_max_active_torrents_dialog_title">Maximum active torrents?</string>
+    <string name="search_title">Search</string>
+    <string name="search_hint">Search...</string>
 
 </resources>
