@@ -326,7 +326,7 @@ public class MainActivity extends FragmentActivity {
 		// Activity is visble
 		activityIsVisible = true;
 
-//		// Autorefresh
+		// // Autorefresh
 
 		handler = new Handler();
 		handler.postDelayed(m_Runnable, refresh_period);
@@ -338,7 +338,8 @@ public class MainActivity extends FragmentActivity {
 		super.onResume();
 		activityIsVisible = true;
 
-		refresh();
+		// Refresh current list
+		refreshCurrent();
 	}
 
 	@Override
