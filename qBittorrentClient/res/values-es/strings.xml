@@ -103,10 +103,10 @@
     <string name="settings_qbittorrent_currentServer_title">Elige servidor qBittorrent</string>
     <string name="settings_qbittorrent_currentServer_summary">Servidor qBitttorent</string>
     <string name="settings_qbittorrent_hostname_title">Host de conexión</string>
-    <string name="settings_qbittorrent_subfolder_summary">Hostname o IP</string>
-    <string name="settings_qbittorrent_subfolder_dialog_title">Hostname o IP?</string>
+    <string name="settings_qbittorrent_hostname_summary">Hostname o IP</string>
+    <string name="settings_qbittorrent_hostname_dialog_title">Hostname o IP?</string>
     <string name="settings_qbittorrent_subfolder_title">Subcarpeta</string>
-    <string name="settings_qbittorrent_hostname_dialog_title">Subcarpeta? Si tienes duda, déjalo en blanco!</string>
+    <string name="settings_qbittorrent_subfolder_dialog_title">Subcarpeta? Si tienes dudas déjalo en blanco!</string>
     <string name="settings_qbittorrent_https_title">Habilitar https</string>
     <string name="settings_qbittorrent_https_summary">Connectar usando https</string>
     <string name="settings_qbittorrent_port_title">Puerto de conexión</string>
