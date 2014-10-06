@@ -54,6 +54,12 @@ public class TorrentDetailsFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+		// Restore last position from savedInstanceState
+		if (savedInstanceState != null) {
+			// Restore last state for checked position.
+			position = savedInstanceState.getInt("itemPosition", 0);
+		}
+
 		// Tell the host activity that your fragment has menu options that it
 		// wants to add/replace/delete using the onCreateOptionsMenu method.
 		setHasOptionsMenu(true);
@@ -223,7 +229,8 @@ public class TorrentDetailsFragment extends Fragment {
 				//
 				Log.i("TorrentFragment", "MainActivity.subfolder: " + MainActivity.subfolder);
 
-				JSONParser jParser = new JSONParser(MainActivity.hostname, MainActivity.subfolder, MainActivity.protocol, MainActivity.port, MainActivity.username, MainActivity.password);
+				JSONParser jParser = new JSONParser(MainActivity.hostname, MainActivity.subfolder, MainActivity.protocol, MainActivity.port,
+						MainActivity.username, MainActivity.password);
 
 				json2 = jParser.getJSONFromUrl(url + hash);
 
@@ -315,6 +322,9 @@ public class TorrentDetailsFragment extends Fragment {
 			nbConnectionsTextView.setText(nbConnections);
 			shareRatioTextView.setText(shareRatio);
 
+			if (json2 == null) {
+				Toast.makeText(getActivity(), R.string.torrent_details_cant_general_ino, Toast.LENGTH_SHORT).show();
+			}
 
 		}
 

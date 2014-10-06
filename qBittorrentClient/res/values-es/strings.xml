@@ -79,6 +79,7 @@
     <string name="torrent_details_time_elapsed">Tiempo transcurrido:</string>
     <string name="torrent_details_num_connections">Num. Conexiones:</string>
     <string name="torrent_details_share_ratio">Ratio:</string>
+    <string name="torrent_details_cant_general_ino">No pude obtener la información general</string>
     <string name="settings_qbittorrent_account_category">Cuentas</string>
     <string name="settings_qbittorrent_currentServer_title">Elige servidor qBittorrent</string>
     <string name="settings_qbittorrent_currentServer_summary">Servidor qBitttorent</string>

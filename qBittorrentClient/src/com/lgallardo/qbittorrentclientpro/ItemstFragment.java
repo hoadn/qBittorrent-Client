@@ -6,7 +6,7 @@
  * http://www.gnu.org/licenses/gpl.html
  * 
  * Contributors:
- *     Luis M. Gallardo D. - initial implementation
+ *     Luis M. Gallardo D.
  ******************************************************************************/
 package com.lgallardo.qbittorrentclientpro;
 
@@ -45,15 +45,13 @@ public class ItemstFragment extends ListFragment {
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		// Tell the host activity that your fragment has menu options that it
 		// wants to add/replace/delete using the onCreateOptionsMenu method.
 		setHasOptionsMenu(true);
 
-		View rootView = inflater.inflate(R.layout.activity_main_original,
-				container, false);
+		View rootView = inflater.inflate(R.layout.activity_main_original, container, false);
 
 		return rootView;
 	}
@@ -71,23 +69,18 @@ public class ItemstFragment extends ListFragment {
 
 		int count = lv.getCount();
 
-		if (count == 1
-				&& lv.getItemAtPosition(0).equals(MainActivity.NO_RESULTS)) {
+		if (count == 1 && lv.getItemAtPosition(0).equals(MainActivity.NO_RESULTS)) {
 
 			return;
 		}
 
-//		Log.i("ItemsFragment", "Position => "+ position);
-		
 		detailFragment = new TorrentDetailsFragment();
 
 		detailFragment.setPosition(position);
 
 		if (detailFragment != null) {
 			FragmentManager fragmentManager = getFragmentManager();
-			fragmentManager.beginTransaction()
-					.replace(this.getSecondFragmentContainer(), detailFragment)
-					.addToBackStack("secondFragment").commit();
+			fragmentManager.beginTransaction().replace(this.getSecondFragmentContainer(), detailFragment).addToBackStack("secondFragment").commit();
 		}
 
 	}
@@ -122,15 +115,14 @@ public class ItemstFragment extends ListFragment {
 			if (menu.findItem(R.id.action_delete_drive) != null) {
 				menu.findItem(R.id.action_delete_drive).setVisible(false);
 			}
-			
+
 			if (menu.findItem(R.id.action_upload_rate_limit) != null) {
 				menu.findItem(R.id.action_upload_rate_limit).setVisible(false);
 			}
-			
+
 			if (menu.findItem(R.id.action_download_rate_limit) != null) {
 				menu.findItem(R.id.action_download_rate_limit).setVisible(false);
 			}
-			
 
 		}
 	}
