@@ -124,6 +124,8 @@ public class MainActivity extends FragmentActivity {
 	protected static boolean https;
 	protected static boolean auto_refresh;
 	protected static int refresh_period;
+	protected static int connection_timeout;
+	protected static int data_timeout;
 
 	// Option
 	protected static String global_max_num_connections;
@@ -1219,8 +1221,13 @@ public class MainActivity extends FragmentActivity {
 			protocol = "http";
 		}
 
+		// Get refresg info
 		auto_refresh = sharedPrefs.getBoolean("auto_refresh", true);
 		refresh_period = Integer.parseInt(sharedPrefs.getString("refresh_period", "120000"));
+
+		// Get connection and data timeouts
+		connection_timeout = Integer.parseInt(sharedPrefs.getString("connection_timeout", "5"));
+		data_timeout = Integer.parseInt(sharedPrefs.getString("data_timeout", "8"));
 
 	}
 
@@ -1264,7 +1271,7 @@ public class MainActivity extends FragmentActivity {
 			getSettings();
 
 			// Creating new JSON Parser
-			JSONParser jParser = new JSONParser(hostname, subfolder, protocol, port, username, password);
+			JSONParser jParser = new JSONParser(hostname, subfolder, protocol, port, username, password, connection_timeout, data_timeout);
 
 			jParser.postCommand(params[0], params[1]);
 
@@ -1411,7 +1418,7 @@ public class MainActivity extends FragmentActivity {
 
 			try {
 				// Creating new JSON Parser
-				jParser = new JSONParser(hostname, subfolder, protocol, port, username, password);
+				jParser = new JSONParser(hostname, subfolder, protocol, port, username, password, connection_timeout, data_timeout);
 
 				JSONArray jArray = jParser.getJSONArrayFromUrl(params[0]);
 
@@ -1681,7 +1688,7 @@ public class MainActivity extends FragmentActivity {
 					// TODO: handle exception
 					Log.e("ADAPTER", e.toString());
 				}
-				
+
 				// Clear serch field
 
 				searchField = "";
@@ -1700,7 +1707,7 @@ public class MainActivity extends FragmentActivity {
 			getSettings();
 
 			// Creating new JSON Parser
-			JSONParser jParser = new JSONParser(hostname, subfolder, protocol, port, username, password);
+			JSONParser jParser = new JSONParser(hostname, subfolder, protocol, port, username, password, connection_timeout, data_timeout);
 
 			//
 			JSONObject json = jParser.getJSONFromUrl(params[0]);

@@ -231,7 +231,7 @@ public class TorrentDetailsFragment extends Fragment {
 				Log.i("TorrentFragment", "MainActivity.subfolder: " + MainActivity.subfolder);
 
 				JSONParser jParser = new JSONParser(MainActivity.hostname, MainActivity.subfolder, MainActivity.protocol, MainActivity.port,
-						MainActivity.username, MainActivity.password);
+						MainActivity.username, MainActivity.password, MainActivity.connection_timeout, MainActivity.data_timeout);
 
 				json2 = jParser.getJSONFromUrl(url + hash);
 
