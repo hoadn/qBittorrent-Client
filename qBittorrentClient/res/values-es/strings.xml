@@ -129,7 +129,7 @@
     <string name="settings_qbittorrent_connection_timeout_summary">Tiempo en segundos hasta que una conexión es establecida</string>
     <string name="settings_qbittorrent_connection_timeout_dialog_title">Tiempo de conexión en segundos?</string>
     <string name="settings_qbittorrent_data_timeout_title">Tiempo de espera de datos</string>
-    <string name="settings_qbittorrent_data_timeout_summary">Tiempo en segundos de espera de respuesta de datos</string>
+    <string name="settings_qbittorrent_data_timeout_summary">Tiempo de espera en segundos por respuesta de datos</string>
     <string name="settings_qbittorrent_data_timeout_dialog_title">Tiempo de espera de datos en segundos?</string>
     <string name="options_qbittorrent_connections_limits_category">Límites de Conexión</string>
     <string name="options_qbittorrent_global_max_connections_title">Conexiones max globales</string>
