@@ -124,6 +124,13 @@
     <string name="settings_qbittorrent_autorefresh_title">Refresh automatically?</string>
     <string name="settings_qbittorrent_autorefresh_summary">Update torrent list</string>
     <string name="settings_qbittorrent_refresh_period_title">Refresh every...</string>
+    <string name="settings_qbittorrent_timeouts_category">Timeouts</string>
+    <string name="settings_qbittorrent_connection_timeout_title">Connection timeout</string>
+    <string name="settings_qbittorrent_connection_timeout_summary">Timeout in seconds until a connection is established</string>
+    <string name="settings_qbittorrent_connection_timeout_dialog_title">Connection timeout?</string>
+    <string name="settings_qbittorrent_data_timeout_title">Data timeout</string>
+    <string name="settings_qbittorrent_data_timeout_summary">Timeout for waiting for data</string>
+    <string name="settings_qbittorrent_data_timeout_dialog_title">Data timeout?</string>
     <string name="options_qbittorrent_connections_limits_category">Connections Limits</string>
     <string name="options_qbittorrent_global_max_connections_title">Global max connections</string>
     <string name="options_qbittorrent_global_max_connections_dialog_title">Global maximum number of connections?</string>
