@@ -77,7 +77,7 @@
     <string name="about_help2">Pulsa el botón de actualización en el menú para obtener nuevos resultados, o elige una opción del menú de navegación para obtener la lista de torrents desde el servidor.</string>
     <string name="about_motto">Gestiona todos tus torrents desde Android usando qBittorrent Client Pro</string>
     <string name="icon">icono</string>
-    <string name="no_results">No hay resultados</string>
+    <string name="no_results">No se encontraron torrents</string>
     <string name="tablet_help">Utilice el menú de navegación para elegir una opción</string>
     <string name="torrent_details_general_info">Información general</string>
     <string name="torrent_details_save_path">Ruta:</string>
