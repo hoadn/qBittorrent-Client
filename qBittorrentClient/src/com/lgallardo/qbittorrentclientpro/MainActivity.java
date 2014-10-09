@@ -1688,6 +1688,7 @@ public class MainActivity extends FragmentActivity {
 
 						}
 
+						fragmentTransaction.show(firstFragment);
 						fragmentTransaction.commit();
 
 					}
