@@ -333,16 +333,14 @@ public class TorrentDetailsFragment extends Fragment {
 			nbConnectionsTextView.setText(nbConnections);
 			shareRatioTextView.setText(shareRatio);
 
-			// try {
-			// if (json2 == null) {
-			// Toast.makeText(getActivity(),
-			// R.string.torrent_details_cant_general_ino,
-			// Toast.LENGTH_SHORT).show();
-			// }
-			// } catch (Exception e) {
-			// // TODO Auto-generated catch block
-			//
-			// }
+			try {
+				if (json2 == null) {
+					Toast.makeText(getActivity(), R.string.torrent_details_cant_general_ino, Toast.LENGTH_SHORT).show();
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+
+			}
 
 		}
 
