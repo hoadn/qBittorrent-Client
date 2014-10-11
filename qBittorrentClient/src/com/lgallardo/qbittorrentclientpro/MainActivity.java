@@ -235,7 +235,7 @@ public class MainActivity extends FragmentActivity {
 			public void onDrawerOpened(View drawerView) {
 				super.onDrawerOpened(drawerView);
 				// getActionBar().setTitle(drawerTitle);
-				setTitle(R.string.app_shortname);
+				// setTitle(R.string.app_shortname);
 			}
 		};
 
@@ -826,19 +826,16 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+		// Set the drawer menu's item to All
+		drawerList.setItemChecked(0, true);
+		setTitle(navigationDrawerItemTitles[0]);
+
 		if (requestCode == SETTINGS_CODE) {
 
 			// Get options from server and save them as shared preferences
 			// locally
 			qBittorrentOptions qso = new qBittorrentOptions();
 			qso.execute(new String[] { "json/preferences", "getSettings" });
-
-			// Select "All" torrents list
-			// selectItem(0);
-
-			drawerList.setItemChecked(0, true);
-			// drawerList.setSelection(0);
-			setTitle(navigationDrawerItemTitles[0]);
 
 			// Now it can be refreshed
 			canrefresh = true;
@@ -1483,7 +1480,7 @@ public class MainActivity extends FragmentActivity {
 					// Log.i("qbTask", "Torrents: " + torrents.length);
 
 				} else {
-					// Log.i("qbTask", "jArray is null");
+					Log.i("qbTask", "jArray is null");
 
 				}
 			} catch (Exception e) {
@@ -1514,7 +1511,7 @@ public class MainActivity extends FragmentActivity {
 
 				ArrayList<Torrent> torrentsFiltered = new ArrayList<Torrent>();
 
-				// Log.i("qbTask", "Results (torrents): " + result.length);
+				Log.i("qbTask", "Results (torrents): " + result.length);
 
 				for (int i = 0; i < result.length; i++) {
 
@@ -1564,10 +1561,8 @@ public class MainActivity extends FragmentActivity {
 				MainActivity.names = new String[torrentsFiltered.size()];
 				MainActivity.lines = new Torrent[torrentsFiltered.size()];
 
-				// Log.i("qbTask", "MainActivity.names: " +
-				// MainActivity.names.length);
-				// Log.i("qbTask", "MainActivity.lines: " +
-				// MainActivity.names.length);
+				Log.i("qbTask", "MainActivity.names: " + MainActivity.names.length);
+				Log.i("qbTask", "MainActivity.lines: " + MainActivity.names.length);
 
 				try {
 
@@ -1605,7 +1600,11 @@ public class MainActivity extends FragmentActivity {
 
 						} else {
 							firstFragment.setSecondFragmentContainer(R.id.one_frame);
-							fragmentTransaction.replace(R.id.one_frame, firstFragment);
+
+							if (getFragmentManager().findFragmentByTag("firstFragment") == null) {
+
+								fragmentTransaction.replace(R.id.one_frame, firstFragment, "firstFragment");
+							}
 						}
 
 						fragmentTransaction.commit();
@@ -1632,7 +1631,7 @@ public class MainActivity extends FragmentActivity {
 								fragmentManager = getFragmentManager();
 
 								for (int i = 0; i < getFragmentManager().getBackStackEntryCount(); ++i) {
-									getFragmentManager().popBackStack("secondFragment", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+									fragmentManager.popBackStack("secondFragment", FragmentManager.POP_BACK_STACK_INCLUSIVE);
 								}
 
 								// Replace with the about fragment
@@ -1647,8 +1646,10 @@ public class MainActivity extends FragmentActivity {
 									fragmentManager.popBackStack();
 								}
 
-								// Replace with the about fragment
-								fragmentManager.beginTransaction().replace(R.id.one_frame, firstFragment, "firstFragment").commit();
+								if (fragmentManager.findFragmentByTag("firstFragment") == null) {
+									// Replace with the about fragment
+									fragmentManager.beginTransaction().replace(R.id.one_frame, firstFragment, "firstFragment").commit();
+								}
 							}
 
 						}
@@ -1678,8 +1679,10 @@ public class MainActivity extends FragmentActivity {
 
 									fragmentManager = getFragmentManager();
 
-									fragmentManager.beginTransaction().replace(R.id.one_frame, firstFragment, "firstFragment").commit();
+									if (fragmentManager.findFragmentByTag("firstFragment") == null) {
 
+										fragmentManager.beginTransaction().replace(R.id.one_frame, firstFragment, "firstFragment").commit();
+									}
 								}
 							}
 
@@ -1702,8 +1705,9 @@ public class MainActivity extends FragmentActivity {
 
 						} else {
 							firstFragment.setSecondFragmentContainer(R.id.one_frame);
-							fragmentTransaction.replace(R.id.one_frame, firstFragment);
-
+							if (getFragmentManager().findFragmentByTag("firstFragment") == null) {
+								fragmentTransaction.replace(R.id.one_frame, firstFragment, "firstFragment");
+							}
 						}
 
 						fragmentTransaction.show(firstFragment);
