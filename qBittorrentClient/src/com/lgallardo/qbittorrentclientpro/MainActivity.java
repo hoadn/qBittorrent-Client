@@ -178,11 +178,16 @@ public class MainActivity extends FragmentActivity {
 	// Searching field
 	private String searchField = "";
 
+	protected ProgressBar progressBar;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_main);
+
+		// Get progress bar
+		progressBar = (ProgressBar) findViewById(R.id.progressBarConnecting);
 
 		// Set App title
 		setTitle(R.string.app_shortname);
@@ -486,6 +491,11 @@ public class MainActivity extends FragmentActivity {
 
 		if (networkInfo != null && networkInfo.isConnected() && !networkInfo.isFailover()) {
 
+			// Show progressBar
+			if (progressBar != null) {
+				progressBar.setVisibility(View.VISIBLE);
+			}
+			
 			// Execute the task in background
 			qBittorrentTask qtt = new qBittorrentTask();
 
@@ -1657,10 +1667,17 @@ public class MainActivity extends FragmentActivity {
 				}
 
 				// Clear serch field
-
 				searchField = "";
-
+				
 			}
+			
+			
+			// Hide progressBar
+			if (progressBar != null) {
+				progressBar.setVisibility(View.INVISIBLE);
+			}
+
+
 		}
 	}
 
