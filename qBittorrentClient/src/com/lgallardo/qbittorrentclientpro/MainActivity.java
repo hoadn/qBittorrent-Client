@@ -495,7 +495,7 @@ public class MainActivity extends FragmentActivity {
 			if (progressBar != null) {
 				progressBar.setVisibility(View.VISIBLE);
 			}
-			
+
 			// Execute the task in background
 			qBittorrentTask qtt = new qBittorrentTask();
 
@@ -1227,11 +1227,25 @@ public class MainActivity extends FragmentActivity {
 
 		// Get refresg info
 		auto_refresh = sharedPrefs.getBoolean("auto_refresh", true);
-		refresh_period = Integer.parseInt(sharedPrefs.getString("refresh_period", "120000"));
+
+		try {
+			refresh_period = Integer.parseInt(sharedPrefs.getString("refresh_period", "120000"));
+		} catch (NumberFormatException e) {
+			refresh_period = 120000;
+		}
 
 		// Get connection and data timeouts
-		connection_timeout = Integer.parseInt(sharedPrefs.getString("connection_timeout", "5"));
-		data_timeout = Integer.parseInt(sharedPrefs.getString("data_timeout", "8"));
+		try {
+			connection_timeout = Integer.parseInt(sharedPrefs.getString("connection_timeout", "5"));
+		} catch (NumberFormatException e) {
+			connection_timeout = 5;
+		}
+
+		try {
+			data_timeout = Integer.parseInt(sharedPrefs.getString("data_timeout", "8"));
+		} catch (NumberFormatException e) {
+			data_timeout = 8;
+		}
 
 	}
 
@@ -1668,15 +1682,13 @@ public class MainActivity extends FragmentActivity {
 
 				// Clear serch field
 				searchField = "";
-				
+
 			}
-			
-			
+
 			// Hide progressBar
 			if (progressBar != null) {
 				progressBar.setVisibility(View.INVISIBLE);
 			}
-
 
 		}
 	}
