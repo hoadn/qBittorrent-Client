@@ -180,6 +180,10 @@ public class TorrentDetailsFragment extends Fragment {
 			Log.e("TorrentDetailsFragment - onCreateView", e.toString());
 		}
 
+		// Show progressBar
+		if (MainActivity.progressBar != null) {
+			MainActivity.progressBar.setVisibility(View.VISIBLE);
+		}
 		// Execute the task in background
 		qBittorrentGeneralInfoTask qgit = new qBittorrentGeneralInfoTask();
 
@@ -229,7 +233,8 @@ public class TorrentDetailsFragment extends Fragment {
 
 				// Log.i("TorrentFragment", "url: " + url);
 				//
-				Log.i("TorrentFragment", "MainActivity.subfolder: " + MainActivity.subfolder);
+				// Log.i("TorrentFragment", "MainActivity.subfolder: " +
+				// MainActivity.subfolder);
 
 				JSONParser jParser = new JSONParser(MainActivity.hostname, MainActivity.subfolder, MainActivity.protocol, MainActivity.port,
 						MainActivity.username, MainActivity.password, MainActivity.connection_timeout, MainActivity.data_timeout);
@@ -340,6 +345,11 @@ public class TorrentDetailsFragment extends Fragment {
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 
+			}
+
+			// Hide progressBar
+			if (MainActivity.progressBar != null) {
+				MainActivity.progressBar.setVisibility(View.INVISIBLE);
 			}
 
 		}

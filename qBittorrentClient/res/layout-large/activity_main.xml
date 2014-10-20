@@ -14,33 +14,46 @@
     android:layout_height="match_parent"
     android:background="@android:color/white" >
 
-    <ProgressBar
-        android:id="@+id/progressBarConnecting"
-        style="?android:attr/progressBarStyleHorizontal"
+    <RelativeLayout
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:indeterminate="true"
-        android:visibility="visible" />
-
-    <LinearLayout
-        android:id="@+id/fragment_container"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:baselineAligned="false"
         android:orientation="horizontal" >
 
-        <FrameLayout
-            android:id="@+id/list_frame"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
+        <ProgressBar
+            android:id="@+id/progressBarConnecting"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="visible" />
 
-        <FrameLayout
-            android:id="@+id/content_frame"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="fill_parent"
             android:layout_height="match_parent"
-            android:layout_weight="2" />
-    </LinearLayout>
+            android:layout_below="@+id/progressBarConnecting"
+            android:baselineAligned="false"
+            android:orientation="horizontal" >
+
+            <FrameLayout
+                android:id="@+id/list_frame"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="fill_parent"
+                android:background="@android:color/darker_gray" 	/>
+
+            <FrameLayout
+                android:id="@+id/content_frame"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2" />
+        </LinearLayout>
+    </RelativeLayout>
 
     <ListView
         android:id="@+id/left_drawer"
