@@ -227,37 +227,16 @@ public class TorrentDetailsFragment extends Fragment {
 
 		protected View[] doInBackground(View... rootViews) {
 			// Get torrent's extra info
-			url = "/json/propertiesGeneral/";
+			url = "json/propertiesGeneral/";
 
 			try {
 
-				// Log.i("TorrentFragment", "url: " + url);
-				//
-				// Log.i("TorrentFragment", "MainActivity.subfolder: " +
-				// MainActivity.subfolder);
 
 				JSONParser jParser = new JSONParser(MainActivity.hostname, MainActivity.subfolder, MainActivity.protocol, MainActivity.port,
 						MainActivity.username, MainActivity.password, MainActivity.connection_timeout, MainActivity.data_timeout);
 
-				// Log.i("Details","hostname: "+MainActivity.hostname);
-				// Log.i("Details","protocol: "+MainActivity.protocol);
-				// Log.i("Details","username: "+MainActivity.username);
-				// Log.i("Details","password: "+MainActivity.password);
-				// Log.i("Details","connection_timeout: "+MainActivity.connection_timeout);
-				// Log.i("Details","data_timeout: "+MainActivity.data_timeout);
-				// Log.i("Details","url: "+url);
-				// Log.i("Details","hash: "+hash);
 
 				json2 = jParser.getJSONFromUrl(url + hash);
-
-				// // If no data, throw exception
-				// if (json2 == null || json2.length() == 0) {
-				//
-				// Log.i("TorrentFragment", "JSON Empty");
-				// // throw (new Exception());
-				// json2 = null;
-				//
-				// }
 
 				MainActivity.lines[position].setSavePath(json2.getString(MainActivity.TAG_SAVE_PATH));
 				MainActivity.lines[position].setCreationDate(json2.getString(MainActivity.TAG_CREATION_DATE));
