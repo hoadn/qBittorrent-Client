@@ -11,6 +11,7 @@
 package com.lgallardo.qbittorrentclientpro;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.view.*;
 import android.os.*;
 
@@ -30,6 +31,7 @@ public class AboutFragment extends Fragment {
 
 		return rootView;
 	}
+	
 
 	// @Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

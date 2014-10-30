@@ -17,6 +17,7 @@ import org.json.JSONObject;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.SearchManager;
@@ -27,6 +28,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.NetworkInfo.DetailedState;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -162,6 +164,7 @@ public class MainActivity extends FragmentActivity {
 	private ItemstFragment firstFragment;
 	private AboutFragment secondFragment;
 	private HelpFragment helpTabletFragment;
+	private AboutFragment aboutFragment;
 
 	private boolean okay = false;
 
@@ -311,12 +314,20 @@ public class MainActivity extends FragmentActivity {
 			// beginning
 			secondFragment = new AboutFragment();
 
+			// If we're being restored from a previous state,
+			// then we don't need to do anything and should return or else
+			// we could end up with overlapping fragments.
+			if (savedInstanceState != null) {
+
+				return;
+			}
+
 			// Add the fragment to the 'list_frame' FrameLayout
 			FragmentManager fragmentManager = getFragmentManager();
 			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-			fragmentTransaction.add(R.id.list_frame, helpTabletFragment);
-			fragmentTransaction.add(R.id.content_frame, secondFragment);
+			fragmentTransaction.add(R.id.list_frame, helpTabletFragment, "firstFragment");
+			fragmentTransaction.add(R.id.content_frame, secondFragment, "secondFragment");
 			// .addToBackStack("secondFragment");
 
 			fragmentTransaction.commit();
@@ -332,19 +343,24 @@ public class MainActivity extends FragmentActivity {
 			if (firstFragment == null) {
 				firstFragment = new ItemstFragment();
 			}
+			firstFragment.setSecondFragmentContainer(R.id.one_frame);
 
-			// This i the about fragment, holding a default message at the
+			// This is the about fragment, holding a default message at the
 			// beginning
-
 			secondFragment = new AboutFragment();
 
-			firstFragment.setSecondFragmentContainer(R.id.one_frame);
+			// If we're being restored from a previous state,
+			// then we don't need to do anything and should return or else
+			// we could end up with overlapping fragments.
+			if (savedInstanceState != null) {
+				return;
+			}
 
 			// Add the fragment to the 'list_frame' FrameLayout
 			FragmentManager fragmentManager = getFragmentManager();
 			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-			fragmentTransaction.add(R.id.one_frame, secondFragment);
+			fragmentTransaction.add(R.id.one_frame, secondFragment, "firstFragment");
 
 			fragmentTransaction.commit();
 		}
@@ -372,6 +388,7 @@ public class MainActivity extends FragmentActivity {
 	public void onPause() {
 		super.onPause();
 		activityIsVisible = false;
+
 	}
 
 	@Override
@@ -379,6 +396,7 @@ public class MainActivity extends FragmentActivity {
 		super.onSaveInstanceState(outState);
 		outState.putInt("itemPosition", itemPosition);
 	}
+
 
 	// Auto-refresh runnable
 	private final Runnable m_Runnable = new Runnable() {
@@ -1601,7 +1619,7 @@ public class MainActivity extends FragmentActivity {
 					// myadapter.notifyDataSetChanged();
 
 					// Create the about fragment
-					AboutFragment aboutFragment = new AboutFragment();
+					aboutFragment = new AboutFragment();
 
 					// Add the fragment to the 'list_frame' FrameLayout
 					FragmentManager fragmentManager = getFragmentManager();
@@ -1635,7 +1653,7 @@ public class MainActivity extends FragmentActivity {
 
 							// Set first and only fragment
 							fragmentTransaction.replace(R.id.one_frame, firstFragment, "firstFragment");
-							
+
 							// Destroy About fragment
 							fragmentTransaction.remove(secondFragment);
 
@@ -1660,7 +1678,7 @@ public class MainActivity extends FragmentActivity {
 						} else {
 							firstFragment.setSecondFragmentContainer(R.id.one_frame);
 							fragmentTransaction.replace(R.id.one_frame, firstFragment, "firstFragment");
-							
+
 							// Destroy About fragment
 							fragmentTransaction.remove(secondFragment);
 

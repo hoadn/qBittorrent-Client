@@ -57,7 +57,7 @@ public class ItemstFragment extends ListFragment {
 
 		return rootView;
 	}
-
+    
 	// @Override
 	public void onListItemClick(ListView parent, View v, int position, long id) {
 
