@@ -46,7 +46,7 @@ public class ItemstFragment extends ListFragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		
+
 		super.onCreateView(inflater, container, savedInstanceState);
 
 		// Tell the host activity that your fragment has menu options that it
@@ -57,7 +57,12 @@ public class ItemstFragment extends ListFragment {
 
 		return rootView;
 	}
-    
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+	}
+
 	// @Override
 	public void onListItemClick(ListView parent, View v, int position, long id) {
 

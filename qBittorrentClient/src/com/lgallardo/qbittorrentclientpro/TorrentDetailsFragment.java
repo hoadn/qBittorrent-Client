@@ -53,7 +53,7 @@ public class TorrentDetailsFragment extends Fragment {
 	public int getPosition() {
 		return this.position;
 	}
-
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -61,6 +61,7 @@ public class TorrentDetailsFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
 
 		// Tell the host activity that your fragment has menu options that it
 		// wants to add/replace/delete using the onCreateOptionsMenu method.
@@ -84,7 +85,43 @@ public class TorrentDetailsFragment extends Fragment {
 
 		try {
 
-			if (savedInstanceState == null) {
+			if (savedInstanceState != null) {
+
+				// Get saved values
+
+				name = savedInstanceState.getString("torrentDetailName", "");
+				size = savedInstanceState.getString("torrentDetailSize", "");
+				hash = savedInstanceState.getString("torrentDetailHash", "");
+				ratio = savedInstanceState.getString("torrentDetailRatio", "");
+				state = savedInstanceState.getString("torrentDetailState", "");
+				leechs = savedInstanceState.getString("torrentDetailLeechs", "");
+				seeds = savedInstanceState.getString("torrentDetailSeeds", "");
+				progress = savedInstanceState.getString("torrentDetailProgress", "");
+				priority = savedInstanceState.getString("torrentDetailPriority", "");
+				eta = savedInstanceState.getString("torrentDetailEta", "");
+				uploadSpeed = savedInstanceState.getString("torrentDetailUploadSpeed", "");
+				downloadSpeed = savedInstanceState.getString("torrentDetailDownloadSpeed", "");
+				downloaded = savedInstanceState.getString("torrentDetailDownloaded", "");
+
+				int index = progress.indexOf(".");
+
+				if (index == -1) {
+					index = progress.indexOf(",");
+
+					if (index == -1) {
+						index = progress.length();
+					}
+				}
+
+				percentage = progress.substring(0, index);
+
+				// Log.i("savedInstanceState", "The state is: " +state);
+				// Log.i("savedInstanceState", "The percentage is: "
+				// +percentage);
+
+				// return rootView;
+
+			} else {
 
 				// Get values from current activity
 				name = MainActivity.lines[position].getFile();
@@ -195,6 +232,24 @@ public class TorrentDetailsFragment extends Fragment {
 		return rootView;
 	}
 
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putString("torrentDetailName", name);
+		outState.putString("torrentDetailSize", size);
+		outState.putString("torrentDetailHash", hash);
+		outState.putString("torrentDetailRatio", ratio);
+		outState.putString("torrentDetailState", state);
+		outState.putString("torrentDetailLeechs", leechs);
+		outState.putString("torrentDetailSeeds", seeds);
+		outState.putString("torrentDetailProgress", progress);
+		outState.putString("torrentDetailPriority", priority);
+		outState.putString("torrentDetailEta", eta);
+		outState.putString("torrentDetailUploadSpeed", uploadSpeed);
+		outState.putString("torrentDetailDownloadSpeed", downloadSpeed);
+		outState.putString("torrentDetailDownloaded", downloaded);
+
+	}
 
 	// @Override
 	public void onListItemClick(ListView parent, View v, int position, long id) {
@@ -253,6 +308,20 @@ public class TorrentDetailsFragment extends Fragment {
 				MainActivity.lines[position].setDownloadLimit(json2.getString(MainActivity.TAG_DOWNLOAD_LIMIT));
 
 			} catch (Exception e) {
+
+				// MainActivity.lines[position].setSavePath(" ");
+				// MainActivity.lines[position].setCreationDate(" ");
+				// MainActivity.lines[position].setComment(" ");
+				// MainActivity.lines[position].setTotalWasted(" ");
+				// MainActivity.lines[position].setTotalUploaded(" ");
+				// MainActivity.lines[position].setTotalDownloaded(" ");
+				// MainActivity.lines[position].setTimeElapsed(" ");
+				// MainActivity.lines[position].setNbConnections(" ");
+				// MainActivity.lines[position].setShareRatio(" ");
+				// MainActivity.lines[position].setUploadLimit(" ");
+				// MainActivity.lines[position].setDownloadLimit(" ");
+
+				Log.e("TorrentFragment:", e.toString());
 
 			}
 

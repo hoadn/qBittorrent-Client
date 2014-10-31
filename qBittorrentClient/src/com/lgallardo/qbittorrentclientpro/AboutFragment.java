@@ -31,7 +31,11 @@ public class AboutFragment extends Fragment {
 
 		return rootView;
 	}
-	
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+	}
 
 	// @Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

@@ -369,6 +369,7 @@ public class MainActivity extends FragmentActivity {
 		activityIsVisible = true;
 
 		// // Autorefresh
+		refreshCurrent();
 
 		handler = new Handler();
 		handler.postDelayed(m_Runnable, refresh_period);
@@ -379,36 +380,29 @@ public class MainActivity extends FragmentActivity {
 	public void onResume() {
 		super.onResume();
 		activityIsVisible = true;
-		
-		// Show progressBar
-		if (progressBar != null) {
-			progressBar.setVisibility(View.VISIBLE);
-		}
 
-		
-		if (findViewById(R.id.one_frame) != null) {
-			try {
-
-				FragmentManager fm = getFragmentManager();
-				FragmentTransaction fragmentTransaction = fm.beginTransaction();
-
-				if (fm.findFragmentById(R.id.one_frame) instanceof TorrentDetailsFragment) {
-					// back button stack
-					fm.popBackStack();
-				}
-				// Create the about fragment
-				aboutFragment = new AboutFragment();
-
-				fragmentTransaction.replace(R.id.one_frame, aboutFragment, "firstFragment");
-
-				fragmentTransaction.commit();
-
-			} catch (Exception e) {
-			}
-		}
-
-		// Refresh current list
-		refreshCurrent();
+//		try {
+//
+//			FragmentManager fm = getFragmentManager();
+//			FragmentTransaction fragmentTransaction = fm.beginTransaction();
+//
+//			if (fm.findFragmentById(R.id.one_frame) instanceof TorrentDetailsFragment) {
+//				// back button stack
+//				fm.popBackStack();
+//
+//				// Create the about fragment
+//				aboutFragment = new AboutFragment();
+//
+//				fragmentTransaction.replace(R.id.one_frame, aboutFragment, "firstFragment");
+//
+//				fragmentTransaction.commit();
+//
+//				// Refresh current list
+//				refreshCurrent();
+//			}
+//
+//		} catch (Exception e) {
+//		}
 
 	}
 
@@ -421,7 +415,7 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-//		outState.putInt("itemPosition", itemPosition);
+		outState.putInt("itemPosition", itemPosition);
 	}
 
 	// Auto-refresh runnable
