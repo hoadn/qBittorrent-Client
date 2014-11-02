@@ -65,15 +65,15 @@
         <item>Paramètres</item>
     </string-array>
 
-    <!--<string name="about_help1">To start using the client, set your qBittorrent server\'s settings and account by selecting \'Settings\' from the drawer menu</string>
-    <string name="about_help2">Press the refresh button on the menu to get new results, or choose an option from the drawer menu to get the torrent list from the server.</string>-->
+    <string name="about_help1">Pour commencer à utiliser le client, définissez les paramètres de votre serveur qBittorent et compte en sélectionnant "Paramètres" dans le menu de gauche.</string>
+    <string name="about_help2">Appuyez sur le bouton de rafraîchissement dans le menu pour obtenir de nouveaux résultats, ou choisissez une option dans le menu de gauche pour obtenir la liste de torrent à partir du serveur.</string>
     <string name="about_motto">Gérer vos torrents avec Android en utilisant qBittorrent Client</string>
     <string name="icon">icône</string>
     <string name="no_results">Pas de résultat</string>
     <!--<string name="tablet_help">Use the drawer menu to choose an option</string>-->
     <string name="torrent_details_size">Taille</string>
     <string name="torrent_details_general_info">Infromations générales</string>
-    <string name="torrent_details_save_path">Chemin de sauvegarde :</string>
+    <string name="torrent_details_save_path">Chemin:</string>
     <string name="torrent_details_ratio">Ratio :</string>
     <!--<string name="torrent_details_eta">Eta:</string>-->
     <string name="torrent_details_priority">Priorité :</string>

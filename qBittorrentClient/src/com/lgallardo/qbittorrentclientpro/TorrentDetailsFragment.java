@@ -10,12 +10,9 @@
  ******************************************************************************/
 package com.lgallardo.qbittorrentclientpro;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.content.res.Resources.NotFoundException;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
