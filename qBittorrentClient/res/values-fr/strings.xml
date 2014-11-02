@@ -7,7 +7,7 @@
   https://www.gnu.org/licenses/gpl.html
   
   Contributors:
-      Luis M. Gallardo D. - initial implementation
+      Luis M. Gallardo D.
       Spanti Nicola (RyDroid) - beginning of the french translation
 -->
 <resources>
@@ -44,13 +44,11 @@
     <string name="torrentDeleled">Torrent supprimé !</string>
     <string name="torrentDeletedDrive">Torrent et ses données supprimés !</string>
     <string name="increasePrioTorrent">Priority augmentée!</string>
-    <string name="decreasePrioTorrent">Priority réduite !</string>
-    <!--<string name="drawer_open">Open navigation drawer</string>
-    <string name="drawer_close">Close navigation drawer</string>
-    <string name="getQBittorrentPrefefrences">Getting options...</string>-->
+    <string name="decreasePrioTorrent">Priority réduite !</string> 
+    <string name="getQBittorrentPrefefrences">Obtenir les options...</string>
     <string name="setQBittorrentPrefefrences">Options sauvegardées</string>
-    <!--<string name="setUploadRateLimit">Upload rate limit set</string>
-    <string name="setDownloadRateLimit">Download rate limit set</string>-->
+    <string name="setUploadRateLimit">Upload limite de vitesse terminé</string>
+    <string name="setDownloadRateLimit">Limite de vitesse de téléchargement terminées</string>
     <string name="error">Erreur</string>
     <!--<string name="global_value_error">Global value cannot be retrieved. Please check your connection settings!</string>-->
 
@@ -70,17 +68,17 @@
     <string name="about_motto">Gérer vos torrents avec Android en utilisant qBittorrent Client</string>
     <string name="icon">icône</string>
     <string name="no_results">Pas de résultat</string>
-    <!--<string name="tablet_help">Use the drawer menu to choose an option</string>-->
+    <string name="tablet_help">Utilisez le menu de gauche pour choisir une option</string>
     <string name="torrent_details_size">Taille</string>
     <string name="torrent_details_general_info">Infromations générales</string>
     <string name="torrent_details_save_path">Chemin:</string>
     <string name="torrent_details_ratio">Ratio :</string>
-    <!--<string name="torrent_details_eta">Eta:</string>-->
+    <string name="torrent_details_eta">Eta:</string>
     <string name="torrent_details_priority">Priorité :</string>
     <string name="torrent_details_downloadSpeed">Vitesse de download :</string>
     <string name="torrent_details_uploadSpeed">Vitesse d\'upload :</string>
-    <!--<string name="torrent_details_leechs">Leechs:</string>
-    <string name="torrent_details_seeds">Seeds:</string>-->
+    <string name="torrent_details_leechs">Leechs:</string>
+    <string name="torrent_details_seeds">Seeds:</string>
     <string name="torrent_details_state">État :</string>
     <string name="torrent_details_progres">Progrès :</string>
     <string name="torrent_details_torrent_hash">Hash du torrent:</string>
