@@ -266,21 +266,12 @@ public class MainActivity extends FragmentActivity {
 
 		if (urlTorrent != null && urlTorrent.length() != 0) {
 
-			// File
-			Log.i("intent started", urlTorrent.substring(0, 4));
-
 			if (urlTorrent.substring(0, 4).equals("file")) {
 				// File
-				Log.i("FILE:", urlTorrent);
-
 				addTorrentFile(Uri.parse(urlTorrent).getPath());
 			} else {
-
 				// URL
 				addTorrent(intent.getDataString());
-
-				// File
-				Log.i("WEB", urlTorrent);
 			}
 		}
 
@@ -379,28 +370,30 @@ public class MainActivity extends FragmentActivity {
 		super.onResume();
 		activityIsVisible = true;
 
-//		try {
-//
-//			FragmentManager fm = getFragmentManager();
-//			FragmentTransaction fragmentTransaction = fm.beginTransaction();
-//
-//			if (fm.findFragmentById(R.id.one_frame) instanceof TorrentDetailsFragment) {
-//				// back button stack
-//				fm.popBackStack();
-//
-//				// Create the about fragment
-//				aboutFragment = new AboutFragment();
-//
-//				fragmentTransaction.replace(R.id.one_frame, aboutFragment, "firstFragment");
-//
-//				fragmentTransaction.commit();
-//
-//				// Refresh current list
-//				refreshCurrent();
-//			}
-//
-//		} catch (Exception e) {
-//		}
+		// try {
+		//
+		// FragmentManager fm = getFragmentManager();
+		// FragmentTransaction fragmentTransaction = fm.beginTransaction();
+		//
+		// if (fm.findFragmentById(R.id.one_frame) instanceof
+		// TorrentDetailsFragment) {
+		// // back button stack
+		// fm.popBackStack();
+		//
+		// // Create the about fragment
+		// aboutFragment = new AboutFragment();
+		//
+		// fragmentTransaction.replace(R.id.one_frame, aboutFragment,
+		// "firstFragment");
+		//
+		// fragmentTransaction.commit();
+		//
+		// // Refresh current list
+		// refreshCurrent();
+		// }
+		//
+		// } catch (Exception e) {
+		// }
 
 	}
 
@@ -447,30 +440,32 @@ public class MainActivity extends FragmentActivity {
 	};// runnable
 
 	public void refreshCurrent() {
-		switch (drawerList.getCheckedItemPosition()) {
-		case 0:
-			refresh("all");
-			break;
-		case 1:
-			refresh("downloading");
-			break;
-		case 2:
-			refresh("completed");
-			break;
-		case 3:
-			refresh("paused");
-			break;
-		case 4:
-			refresh("active");
-			break;
-		case 5:
-			refresh("inactive");
-			break;
-		default:
-			refresh();
-			break;
-		}
+		if (!hostname.equals("")) {
 
+			switch (drawerList.getCheckedItemPosition()) {
+			case 0:
+				refresh("all");
+				break;
+			case 1:
+				refresh("downloading");
+				break;
+			case 2:
+				refresh("completed");
+				break;
+			case 3:
+				refresh("paused");
+				break;
+			case 4:
+				refresh("active");
+				break;
+			case 5:
+				refresh("inactive");
+				break;
+			default:
+				refresh();
+				break;
+			}
+		}
 	}
 
 	// Drawer's method
@@ -527,20 +522,32 @@ public class MainActivity extends FragmentActivity {
 
 		if (networkInfo != null && networkInfo.isConnected() && !networkInfo.isFailover()) {
 
-			// Show progressBar
-			if (progressBar != null) {
-				progressBar.setVisibility(View.VISIBLE);
-			}
+			if (hostname.equals("")) {
+				// Hide progressBar
+				if (progressBar != null) {
+					progressBar.setVisibility(View.INVISIBLE);
+				}
 
-			// Execute the task in background
-			qBittorrentTask qtt = new qBittorrentTask();
+				//
+				genericOkDialog(R.string.info, R.string.about_help1);
 
-			qtt.execute(params);
+			} else {
 
-			// If activity is visible
-			if (activityIsVisible) {
-				// Connecting message
-				Toast.makeText(this, R.string.connecting, Toast.LENGTH_SHORT).show();
+				// Show progressBar
+				if (progressBar != null) {
+					progressBar.setVisibility(View.VISIBLE);
+				}
+
+				// Execute the task in background
+				qBittorrentTask qtt = new qBittorrentTask();
+
+				qtt.execute(params);
+
+				// If activity is visible
+				if (activityIsVisible) {
+					// Connecting message
+					Toast.makeText(this, R.string.connecting, Toast.LENGTH_SHORT).show();
+				}
 			}
 
 		} else {
@@ -563,6 +570,9 @@ public class MainActivity extends FragmentActivity {
 		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 			// Use the query to search your data somehow
 			searchField = intent.getStringExtra(SearchManager.QUERY);
+
+			// Search results
+			refreshCurrent();
 		}
 	}
 
@@ -870,6 +880,9 @@ public class MainActivity extends FragmentActivity {
 			// locally
 			qBittorrentOptions qso = new qBittorrentOptions();
 			qso.execute(new String[] { "json/preferences", "getSettings" });
+
+			// Select "All" torrents list
+			selectItem(0);
 
 			// Now it can be refreshed
 			canrefresh = true;
@@ -1236,7 +1249,7 @@ public class MainActivity extends FragmentActivity {
 		builderPrefs.append("\n" + sharedPrefs.getString("language", "NULL"));
 
 		// Get values from preferences
-		hostname = sharedPrefs.getString("hostname", "NULL");
+		hostname = sharedPrefs.getString("hostname", "");
 		subfolder = sharedPrefs.getString("subfolder", "");
 
 		protocol = sharedPrefs.getString("protocol", "NULL");

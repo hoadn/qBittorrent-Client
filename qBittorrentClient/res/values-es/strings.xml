@@ -52,6 +52,7 @@
     <string name="setUploadRateLimit">Límite de subida cambiado</string>
     <string name="setDownloadRateLimit">Límite de bajada cambiado</string>
     <string name="error">Error</string>
+    <string name="info">Atención</string>
     <string name="global_value_error">Un valor global no puede ser recuperado. Por favor, revise la configuración de conexión!</string>
     <string name="navigation_drawer_all">Todos</string>
     <string name="navigation_drawer_downloading">Descargando</string>
@@ -105,6 +106,7 @@
     <string name="settings_qbittorrent_hostname_title">Host de conexión</string>
     <string name="settings_qbittorrent_hostname_summary">Hostname o IP</string>
     <string name="settings_qbittorrent_hostname_dialog_title">Hostname o IP?</string>
+    <string name="settings_qbittorrent_hostname_hint">Ejemplo: 192.168.1.1</string>
     <string name="settings_qbittorrent_subfolder_title">Subcarpeta</string>
     <string name="settings_qbittorrent_subfolder_dialog_title">Subcarpeta? Si tienes dudas déjalo en blanco!</string>
     <string name="settings_qbittorrent_https_title">Habilitar https</string>
