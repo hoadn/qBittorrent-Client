@@ -10,6 +10,9 @@
  ******************************************************************************/
 package com.lgallardo.qbittorrentclientpro;
 
+import java.net.URI;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
@@ -261,19 +264,7 @@ public class MainActivity extends FragmentActivity {
 
 		// If it were awaked from an intent-filter,
 		// get intent from the intent filter and Add URL torrent
-		Intent intent = getIntent();
-		String urlTorrent = intent.getDataString();
-
-		if (urlTorrent != null && urlTorrent.length() != 0) {
-
-			if (urlTorrent.substring(0, 4).equals("file")) {
-				// File
-				addTorrentFile(Uri.parse(urlTorrent).getPath());
-			} else {
-				// URL
-				addTorrent(intent.getDataString());
-			}
-		}
+		addTorrentByIntent(getIntent());
 
 		// Fragments
 
@@ -308,7 +299,7 @@ public class MainActivity extends FragmentActivity {
 			// we could end up with overlapping fragments.
 			if (savedInstanceState != null) {
 
-				return;
+				// return;
 			}
 
 			// Add the fragment to the 'list_frame' FrameLayout
@@ -574,6 +565,40 @@ public class MainActivity extends FragmentActivity {
 			// Search results
 			refreshCurrent();
 		}
+
+		if (Intent.ACTION_VIEW.equals(intent.getAction())) {
+
+			// Add torrent (file, url or magnet)
+			addTorrentByIntent(intent);
+
+		}
+
+	}
+	
+	private void addTorrentByIntent(Intent intent){
+		
+		String urlTorrent = intent.getDataString();
+
+		if (urlTorrent != null && urlTorrent.length() != 0) {
+
+			if (urlTorrent.substring(0, 4).equals("file")) {
+
+				// File
+				addTorrentFile(Uri.parse(urlTorrent).getPath());
+				
+			} else {
+
+				// Web
+				addTorrent(Uri.decode(urlTorrent));
+			}
+
+			// // Activity is visble
+			activityIsVisible = true;
+			//
+			// // // Autorefresh
+			refreshCurrent();
+		}
+		
 	}
 
 	@Override
