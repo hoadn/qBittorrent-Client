@@ -13,8 +13,8 @@
   <string name="action_delete_drive">Supprimer les données</string>
   <string name="action_increase_priority">Augmenter la priorité</string>
   <string name="action_decrease_priority">Réduire la priorité</string>
-  <string name="action_download_rate_limit">Download rate limit</string>
-  <string name="action_upload_rate_limit">Upload rate limit</string>
+  <string name="action_download_rate_limit">Limite de vitesse de téléchargement</string>
+  <string name="action_upload_rate_limit">Limite de taux de charge</string>
   <string name="connection_error">La connexion au réseau a échoué</string>
   <string name="ok">OK</string>
   <string name="cancel">Annuler</string>
@@ -24,7 +24,7 @@
   <string name="dt_deleteTorrent">Supprimer le torrent</string>
   <string name="dm_deleteDriveTorrent">Appuyer sur OK va supprimer le torrent et ses données du disque</string>
   <string name="dt_deleteDriveTorrent">Supprimer le torrent et ses données</string>
-  <string name="torrentAdded">Torrent envoyé !</string>
+  <string name="torrentAdded">Torrent envoyé!</string>
   <string name="torrentFileAdded">Fichier du torrent envoyé!</string>
   <string name="torrentStarted">Torrent démarré!</string>
   <string name="torrentPaused">Torrent suspendu!</string>
@@ -33,7 +33,7 @@
   <string name="torrentDeleled">Torrent supprimé!</string>
   <string name="torrentDeletedDrive">Torrent et ses données supprimés!</string>
   <string name="increasePrioTorrent">Priority augmentée!</string>
-  <string name="decreasePrioTorrent">Priority réduite !</string>
+  <string name="decreasePrioTorrent">Priority réduite!</string>
   <string name="drawer_open">Ouvrez le tiroir de navigation</string>
   <string name="drawer_close">Fermer navigation tiroir</string>
   <string name="getQBittorrentPrefefrences">Obtenir les options...</string>
@@ -69,16 +69,16 @@
   <string name="no_results">Pas de résultat</string>
   <string name="tablet_help">Utilisez le menu de tiroir pour choisir une option</string>
   <string name="torrent_details_general_info">Infromations générales</string>
-  <string name="torrent_details_save_path">Chemin de sauvegarde :</string>
-  <string name="torrent_details_ratio">Ratio :</string>
-  <string name="torrent_details_priority">Priorité :</string>
+  <string name="torrent_details_save_path">Chemin:</string>
+  <string name="torrent_details_ratio">Ratio:</string>
+  <string name="torrent_details_priority">Priorité:</string>
   <string name="torrent_details_leechs">Leechs</string>
   <string name="torrent_details_seeds">Seeds:</string>
-  <string name="torrent_details_state">État :</string>
-  <string name="torrent_details_progres">Progrès :</string>
+  <string name="torrent_details_state">État:</string>
+  <string name="torrent_details_progres">Progrès:</string>
   <string name="torrent_details_torrent_hash">Hash du torrent:</string>
-  <string name="torrent_details_created_date">Date de création :</string>
-  <string name="torrent_details_comment">Commentaire :</string>
+  <string name="torrent_details_created_date">Date de création:</string>
+  <string name="torrent_details_comment">Commentaire:</string>
   <string name="torrent_details_upload_rate_limit">Charge limite de vitesse:</string>
   <string name="torrent_details_download_rate_limit">Télécharger limite de vitesse:</string>
   <string name="torrent_details_total_wasted">Totale perdu:</string>
@@ -143,7 +143,7 @@
   <string name="options_qbittorrent_torrent_queueing_max_active_uploads_title">Maximum de char actifs</string>
   <string name="options_qbittorrent_torrent_queueing_max_active_uploads_dialog_title">Maximum de char actifs?</string>
   <string name="options_qbittorrent_torrent_queueing_max_active_torrents_title">Maximum de torrents actifs</string>
-  <string name="options_qbittorrent_torrent_queueing_max_active_torrents_dialog_title">Maximum de torrents actifs ?</string>
+  <string name="options_qbittorrent_torrent_queueing_max_active_torrents_dialog_title">Maximum de torrents actifs?</string>
   <string name="search_title">Rechercher</string>
   <string name="search_hint">Rechercher...</string>
 </resources>
