@@ -158,5 +158,7 @@
     <string name="options_qbittorrent_torrent_queueing_max_active_torrents_dialog_title">Maximum active torrents?</string>
     <string name="search_title">Search</string>
     <string name="search_hint">Search...</string>
+    <string name="dialog_add_url">Add URL here</string>
+    
 
 </resources>
