@@ -570,6 +570,12 @@ public class MainActivity extends FragmentActivity {
 
 			// Add torrent (file, url or magnet)
 			addTorrentByIntent(intent);
+			
+			// // Activity is visble
+			activityIsVisible = true;
+			//
+			// // // Autorefresh
+			refreshCurrent();
 
 		}
 
@@ -592,11 +598,11 @@ public class MainActivity extends FragmentActivity {
 				addTorrent(Uri.decode(urlTorrent));
 			}
 
-			// // Activity is visble
-			activityIsVisible = true;
-			//
-			// // // Autorefresh
-			refreshCurrent();
+//			// // Activity is visble
+//			activityIsVisible = true;
+//			//
+//			// // // Autorefresh
+//			refreshCurrent();
 		}
 		
 	}
