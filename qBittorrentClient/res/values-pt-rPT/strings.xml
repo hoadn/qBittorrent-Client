@@ -64,7 +64,7 @@
   </string-array>
   <string name="about_help1">Para começar a usar o cliente, defina as configurações e a conta do seu servidor qBittorrent, selecionando \"Configurações\" no menu esquerdo da gaveta</string>
   <string name="about_help2">Pressione o botão de atualização no menu para obter novos resultados, ou escolha uma opção no menu de gaveta para obter a lista de torrents do servidor.</string>
-  <string name="about_motto">Gerenciar todos os seus torrents de Android usando qBittorrent Client PRO</string>
+  <string name="about_motto">Gerenciar todos os seus torrents de Android usando qBittorrent Client Pro</string>
   <string name="icon">icones</string>
   <string name="no_results">Torrents não encontrados</string>
   <string name="tablet_help">Utilize o menu de gaveta para escolher uma opção</string>
