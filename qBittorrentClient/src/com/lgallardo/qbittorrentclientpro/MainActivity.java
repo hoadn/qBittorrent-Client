@@ -20,6 +20,7 @@ import org.json.JSONObject;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.SearchManager;
@@ -184,6 +185,9 @@ public class MainActivity extends FragmentActivity {
 
 	protected static ProgressBar progressBar;
 
+	// myAdapter myadapter
+	myAdapter myadapter;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -333,6 +337,17 @@ public class MainActivity extends FragmentActivity {
 			// then we don't need to do anything and should return or else
 			// we could end up with overlapping fragments.
 			if (savedInstanceState != null) {
+
+				// Handle Item list empty due to Fragment stack
+
+				FragmentManager fm = getFragmentManager();
+
+				if (fm.getBackStackEntryCount() == 1 && fm.findFragmentById(R.id.one_frame) instanceof TorrentDetailsFragment) {
+
+					refreshCurrent();
+
+				}
+
 				return;
 			}
 
@@ -361,30 +376,38 @@ public class MainActivity extends FragmentActivity {
 		super.onResume();
 		activityIsVisible = true;
 
-		// try {
-		//
-		// FragmentManager fm = getFragmentManager();
-		// FragmentTransaction fragmentTransaction = fm.beginTransaction();
-		//
-		// if (fm.findFragmentById(R.id.one_frame) instanceof
-		// TorrentDetailsFragment) {
-		// // back button stack
-		// fm.popBackStack();
-		//
-		// // Create the about fragment
-		// aboutFragment = new AboutFragment();
-		//
-		// fragmentTransaction.replace(R.id.one_frame, aboutFragment,
-		// "firstFragment");
-		//
-		// fragmentTransaction.commit();
-		//
-		// // Refresh current list
-		// refreshCurrent();
-		// }
-		//
-		// } catch (Exception e) {
-		// }
+		// Handle Item list empty due to Fragment stack
+		try {
+
+			FragmentManager fm = getFragmentManager();
+			FragmentTransaction fragmentTransaction = fm.beginTransaction();
+
+			Log.i("onResume", "Count: " + fm.getBackStackEntryCount());
+
+			if (fm.getBackStackEntryCount() == 0 && fm.findFragmentById(R.id.one_frame) instanceof ItemstFragment) {
+
+				Log.i("onResume", "ItemstFragment detected");
+
+				ItemstFragment fragment = (ItemstFragment) fm.findFragmentById(R.id.one_frame);
+
+				if (fragment.getListView().getCount() == 0) {
+
+					// Create the about fragment
+					aboutFragment = new AboutFragment();
+
+					fragmentTransaction.replace(R.id.one_frame, aboutFragment, "firstFragment");
+
+					fragmentTransaction.commit();
+
+					// Refresh current list
+					refreshCurrent();
+				}
+
+			}
+
+		} catch (Exception e) {
+
+		}
 
 	}
 
@@ -486,8 +509,7 @@ public class MainActivity extends FragmentActivity {
 		if (getFragmentManager().getBackStackEntryCount() == 0) {
 			this.finish();
 		} else {
-			// Log.i("onBackPressed", "getBackStackEntryCount: " +
-			// getFragmentManager().getBackStackEntryCount());
+
 			getFragmentManager().popBackStack();
 		}
 	}
@@ -570,7 +592,7 @@ public class MainActivity extends FragmentActivity {
 
 			// Add torrent (file, url or magnet)
 			addTorrentByIntent(intent);
-			
+
 			// // Activity is visble
 			activityIsVisible = true;
 			//
@@ -580,9 +602,9 @@ public class MainActivity extends FragmentActivity {
 		}
 
 	}
-	
-	private void addTorrentByIntent(Intent intent){
-		
+
+	private void addTorrentByIntent(Intent intent) {
+
 		String urlTorrent = intent.getDataString();
 
 		if (urlTorrent != null && urlTorrent.length() != 0) {
@@ -591,20 +613,20 @@ public class MainActivity extends FragmentActivity {
 
 				// File
 				addTorrentFile(Uri.parse(urlTorrent).getPath());
-				
+
 			} else {
 
 				// Web
 				addTorrent(Uri.decode(urlTorrent));
 			}
 
-//			// // Activity is visble
-//			activityIsVisible = true;
-//			//
-//			// // // Autorefresh
-//			refreshCurrent();
+			// // // Activity is visble
+			// activityIsVisible = true;
+			// //
+			// // // // Autorefresh
+			// refreshCurrent();
 		}
-		
+
 	}
 
 	@Override
@@ -1675,7 +1697,7 @@ public class MainActivity extends FragmentActivity {
 					// firstFragment = new ItemstFragment();
 
 					// Log.i("Refresh >", "About to set Adapter");
-					myAdapter myadapter = new myAdapter(MainActivity.this, names, lines);
+					myadapter = new myAdapter(MainActivity.this, names, lines);
 					firstFragment.setListAdapter(myadapter);
 
 					// myadapter.notifyDataSetChanged();
