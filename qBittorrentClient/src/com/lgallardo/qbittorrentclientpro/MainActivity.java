@@ -398,6 +398,9 @@ public class MainActivity extends FragmentActivity {
 					fragmentTransaction.replace(R.id.one_frame, aboutFragment, "firstFragment");
 
 					fragmentTransaction.commit();
+					
+					// Se titile
+					setTitle(navigationDrawerItemTitles[drawerList.getCheckedItemPosition()]);
 
 					// Refresh current list
 					refreshCurrent();
