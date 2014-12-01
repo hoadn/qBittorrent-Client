@@ -10,9 +10,6 @@
  ******************************************************************************/
 package com.lgallardo.qbittorrentclientpro;
 
-import java.net.URI;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
@@ -20,7 +17,6 @@ import org.json.JSONObject;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.SearchManager;
@@ -340,12 +336,15 @@ public class MainActivity extends FragmentActivity {
 
 				// Handle Item list empty due to Fragment stack
 
-				FragmentManager fm = getFragmentManager();
+				try {
+					FragmentManager fm = getFragmentManager();
 
-				if (fm.getBackStackEntryCount() == 1 && fm.findFragmentById(R.id.one_frame) instanceof TorrentDetailsFragment) {
+					if (fm.getBackStackEntryCount() == 1 && fm.findFragmentById(R.id.one_frame) instanceof TorrentDetailsFragment) {
 
-					refreshCurrent();
+						refreshCurrent();
 
+					}
+				} catch (Exception e) {
 				}
 
 				return;
@@ -398,7 +397,7 @@ public class MainActivity extends FragmentActivity {
 					fragmentTransaction.replace(R.id.one_frame, aboutFragment, "firstFragment");
 
 					fragmentTransaction.commit();
-					
+
 					// Se titile
 					setTitle(navigationDrawerItemTitles[drawerList.getCheckedItemPosition()]);
 
@@ -746,111 +745,117 @@ public class MainActivity extends FragmentActivity {
 
 			okay = false;
 
-			builder = new AlertDialog.Builder(this);
+			if (!isFinishing()) {
 
-			// Message
-			builder.setMessage(R.string.dm_deleteTorrent).setTitle(R.string.dt_deleteTorrent);
+				builder = new AlertDialog.Builder(this);
 
-			// Cancel
-			builder.setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int id) {
-					// User cancelled the dialog
+				// Message
+				builder.setMessage(R.string.dm_deleteTorrent).setTitle(R.string.dt_deleteTorrent);
 
-					okay = false;
-					// Log.i("Okay?", "FALSE");
-				}
-			});
+				// Cancel
+				builder.setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						// User cancelled the dialog
 
-			// Ok
-			builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int id) {
-					// User accepted the dialog
+						okay = false;
+						// Log.i("Okay?", "FALSE");
+					}
+				});
 
-					TorrentDetailsFragment tf = null;
-					int position;
-					String hash;
+				// Ok
+				builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						// User accepted the dialog
 
-					if (findViewById(R.id.fragment_container) != null) {
-						tf = (TorrentDetailsFragment) getFragmentManager().findFragmentById(R.id.content_frame);
-					} else {
+						TorrentDetailsFragment tf = null;
+						int position;
+						String hash;
 
-						if (getFragmentManager().findFragmentById(R.id.one_frame) instanceof TorrentDetailsFragment) {
+						if (findViewById(R.id.fragment_container) != null) {
+							tf = (TorrentDetailsFragment) getFragmentManager().findFragmentById(R.id.content_frame);
+						} else {
 
-							tf = (TorrentDetailsFragment) getFragmentManager().findFragmentById(R.id.one_frame);
+							if (getFragmentManager().findFragmentById(R.id.one_frame) instanceof TorrentDetailsFragment) {
+
+								tf = (TorrentDetailsFragment) getFragmentManager().findFragmentById(R.id.one_frame);
+							}
+
+						}
+
+						if (tf != null) {
+							position = tf.position;
+							hash = MainActivity.lines[position].getHash();
+							deleteTorrent(hash);
+							if (findViewById(R.id.one_frame) != null) {
+								getFragmentManager().popBackStack();
+							}
 						}
 
 					}
+				});
 
-					if (tf != null) {
-						position = tf.position;
-						hash = MainActivity.lines[position].getHash();
-						deleteTorrent(hash);
-						if (findViewById(R.id.one_frame) != null) {
-							getFragmentManager().popBackStack();
-						}
-					}
+				// Create dialog
+				dialog = builder.create();
 
-				}
-			});
-
-			// Create dialog
-			dialog = builder.create();
-
-			// Show dialog
-			dialog.show();
+				// Show dialog
+				dialog.show();
+			}
 
 			return true;
 		case R.id.action_delete_drive:
 
-			builder = new AlertDialog.Builder(this);
+			if (!isFinishing()) {
+				builder = new AlertDialog.Builder(this);
 
-			// Message
-			builder.setMessage(R.string.dm_deleteDriveTorrent).setTitle(R.string.dt_deleteDriveTorrent);
+				// Message
+				builder.setMessage(R.string.dm_deleteDriveTorrent).setTitle(R.string.dt_deleteDriveTorrent);
 
-			// Cancel
-			builder.setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int id) {
-					// User canceled the dialog
-				}
-			});
+				// Cancel
+				builder.setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						// User canceled the dialog
+					}
+				});
 
-			// Ok
-			builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int id) {
-					// User accepted the dialog
+				// Ok
+				builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						// User accepted the dialog
 
-					TorrentDetailsFragment tf = null;
-					int position;
-					String hash;
+						TorrentDetailsFragment tf = null;
+						int position;
+						String hash;
 
-					if (findViewById(R.id.fragment_container) != null) {
-						tf = (TorrentDetailsFragment) getFragmentManager().findFragmentById(R.id.content_frame);
-					} else {
+						if (findViewById(R.id.fragment_container) != null) {
+							tf = (TorrentDetailsFragment) getFragmentManager().findFragmentById(R.id.content_frame);
+						} else {
 
-						if (getFragmentManager().findFragmentById(R.id.one_frame) instanceof TorrentDetailsFragment) {
+							if (getFragmentManager().findFragmentById(R.id.one_frame) instanceof TorrentDetailsFragment) {
 
-							tf = (TorrentDetailsFragment) getFragmentManager().findFragmentById(R.id.one_frame);
+								tf = (TorrentDetailsFragment) getFragmentManager().findFragmentById(R.id.one_frame);
+							}
+
+						}
+
+						if (tf != null) {
+							position = tf.position;
+							hash = MainActivity.lines[position].getHash();
+							deleteDriveTorrent(hash);
+							if (findViewById(R.id.one_frame) != null) {
+								getFragmentManager().popBackStack();
+							}
 						}
 
 					}
+				});
 
-					if (tf != null) {
-						position = tf.position;
-						hash = MainActivity.lines[position].getHash();
-						deleteDriveTorrent(hash);
-						if (findViewById(R.id.one_frame) != null) {
-							getFragmentManager().popBackStack();
-						}
-					}
+				// Create dialog
+				dialog = builder.create();
 
-				}
-			});
+				// Show dialog
+				dialog.show();
 
-			// Create dialog
-			dialog = builder.create();
-
-			// Show dialog
-			dialog.show();
+			}
 
 			return true;
 		case R.id.action_increase_prio:
@@ -1013,32 +1018,34 @@ public class MainActivity extends FragmentActivity {
 		// URL input
 		final EditText urlInput = (EditText) addTorrentView.findViewById(R.id.url);
 
-		// Dialog
-		AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+		if (!isFinishing()) {
+			// Dialog
+			AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 
-		// Set add_torrent.xml to AlertDialog builder
-		builder.setView(addTorrentView);
+			// Set add_torrent.xml to AlertDialog builder
+			builder.setView(addTorrentView);
 
-		// Cancel
-		builder.setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id) {
-				// User cancelled the dialog
-			}
-		});
+			// Cancel
+			builder.setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					// User cancelled the dialog
+				}
+			});
 
-		// Ok
-		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id) {
-				// User accepted the dialog
-				addTorrent(urlInput.getText().toString());
-			}
-		});
+			// Ok
+			builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					// User accepted the dialog
+					addTorrent(urlInput.getText().toString());
+				}
+			});
 
-		// Create dialog
-		AlertDialog dialog = builder.create();
+			// Create dialog
+			AlertDialog dialog = builder.create();
 
-		// Show dialog
-		dialog.show();
+			// Show dialog
+			dialog.show();
+		}
 
 	}
 
@@ -1137,32 +1144,34 @@ public class MainActivity extends FragmentActivity {
 		// URL input
 		final EditText uploadRateLimit = (EditText) view.findViewById(R.id.upload_rate_limit);
 
-		// Dialog
-		AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+		if (!isFinishing()) {
+			// Dialog
+			AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 
-		// Set add_torrent.xml to AlertDialog builder
-		builder.setView(view);
+			// Set add_torrent.xml to AlertDialog builder
+			builder.setView(view);
 
-		// Cancel
-		builder.setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id) {
-				// User cancelled the dialog
-			}
-		});
+			// Cancel
+			builder.setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					// User cancelled the dialog
+				}
+			});
 
-		// Ok
-		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id) {
-				// User accepted the dialog
-				setUploadRateLimit(hash, uploadRateLimit.getText().toString());
-			}
-		});
+			// Ok
+			builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					// User accepted the dialog
+					setUploadRateLimit(hash, uploadRateLimit.getText().toString());
+				}
+			});
 
-		// Create dialog
-		AlertDialog dialog = builder.create();
+			// Create dialog
+			AlertDialog dialog = builder.create();
 
-		// Show dialog
-		dialog.show();
+			// Show dialog
+			dialog.show();
+		}
 	}
 
 	public void downloadRateLimitDialog(final String hash) {
@@ -1174,32 +1183,34 @@ public class MainActivity extends FragmentActivity {
 		// URL input
 		final EditText downloadRateLimit = (EditText) view.findViewById(R.id.download_rate_limit);
 
-		// Dialog
-		AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+		if (!isFinishing()) {
+			// Dialog
+			AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 
-		// Set add_torrent.xml to AlertDialog builder
-		builder.setView(view);
+			// Set add_torrent.xml to AlertDialog builder
+			builder.setView(view);
 
-		// Cancel
-		builder.setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id) {
-				// User cancelled the dialog
-			}
-		});
+			// Cancel
+			builder.setNeutralButton(R.string.cancel, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					// User cancelled the dialog
+				}
+			});
 
-		// Ok
-		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id) {
-				// User accepted the dialog
-				setDownloadRateLimit(hash, downloadRateLimit.getText().toString());
-			}
-		});
+			// Ok
+			builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					// User accepted the dialog
+					setDownloadRateLimit(hash, downloadRateLimit.getText().toString());
+				}
+			});
 
-		// Create dialog
-		AlertDialog dialog = builder.create();
+			// Create dialog
+			AlertDialog dialog = builder.create();
 
-		// Show dialog
-		dialog.show();
+			// Show dialog
+			dialog.show();
+		}
 	}
 
 	public void setUploadRateLimit(String hash, String uploadRateLimit) {
@@ -1259,24 +1270,27 @@ public class MainActivity extends FragmentActivity {
 
 	public void genericOkDialog(int title, int message) {
 
-		Builder builder = new AlertDialog.Builder(this);
+		if (!isFinishing()) {
 
-		// Message
-		builder.setMessage(message).setTitle(title);
+			Builder builder = new AlertDialog.Builder(this);
 
-		// Ok
-		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+			// Message
+			builder.setMessage(message).setTitle(title);
 
-			public void onClick(DialogInterface dialog, int id) {
-				// User accepted the dialog
-			}
-		});
+			// Ok
+			builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 
-		// Create dialog
-		AlertDialog dialog = builder.create();
+				public void onClick(DialogInterface dialog, int id) {
+					// User accepted the dialog
+				}
+			});
 
-		// Show dialog
-		dialog.show();
+			// Create dialog
+			AlertDialog dialog = builder.create();
+
+			// Show dialog
+			dialog.show();
+		}
 
 	}
 
