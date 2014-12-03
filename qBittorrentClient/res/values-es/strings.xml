@@ -52,6 +52,8 @@
     <string name="setUploadRateLimit">Límite de subida cambiado</string>
     <string name="setDownloadRateLimit">Límite de bajada cambiado</string>
     <string name="error">Error</string>
+    <string name="error401">Acceso no autorizado. Compruebe la configuración de la cuenta para evitar ser baneado!</string>
+    <string name="error403">Su dirección IP ha sido baneada después de demasiados intentos de autenticación fallidos</string>
     <string name="info">Atención</string>
     <string name="global_value_error">Un valor global no puede ser recuperado. Por favor, revise la configuración de conexión!</string>
     <string name="navigation_drawer_all">Todos</string>

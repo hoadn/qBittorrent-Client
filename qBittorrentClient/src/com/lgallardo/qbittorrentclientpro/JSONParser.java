@@ -94,7 +94,7 @@ public class JSONParser {
 
 	}
 
-	public JSONObject getJSONFromUrl(String url) {
+	public JSONObject getJSONFromUrl(String url) throws JSONParserStatusCodeException {
 
 		// if server is publish in a subfolder, fix url
 		if (subfolder != null && subfolder != "") {
@@ -143,6 +143,15 @@ public class JSONParser {
 
 			httpResponse = httpclient.execute(targetHost, httpget);
 
+			StatusLine statusLine = httpResponse.getStatusLine();
+
+			int mStatusCode = statusLine.getStatusCode();
+			Log.i("Status", "CODE: " + mStatusCode);
+
+			if (mStatusCode != 200) {
+				throw new JSONParserStatusCodeException(mStatusCode);
+			}
+
 			HttpEntity httpEntity = httpResponse.getEntity();
 			is = httpEntity.getContent();
 			// Log.i("parser", is.toString());
@@ -170,6 +179,8 @@ public class JSONParser {
 		} catch (IOException e) {
 			Log.e("JSON", "IOException: " + e.toString());
 			e.printStackTrace();
+		} catch(JSONParserStatusCodeException e){
+			throw new JSONParserStatusCodeException(e.getCode());
 		} catch (Exception e) {
 			Log.e("JSON", "Generic: " + e.toString());
 		}
@@ -185,7 +196,7 @@ public class JSONParser {
 		return jObj;
 	}
 
-	public JSONArray getJSONArrayFromUrl(String url) {
+	public JSONArray getJSONArrayFromUrl(String url) throws JSONParserStatusCodeException {
 
 		// if server is publish in a subfolder, fix url
 		if (subfolder != null && subfolder != "") {
@@ -233,8 +244,13 @@ public class JSONParser {
 			httpResponse = httpclient.execute(targetHost, httpget);
 
 			StatusLine statusLine = httpResponse.getStatusLine();
+
 			int mStatusCode = statusLine.getStatusCode();
-			// Log.i("Status", "CODE: " + mStatusCode);
+			Log.i("Status", "CODE: " + mStatusCode);
+
+			if (mStatusCode != 200) {
+				throw new JSONParserStatusCodeException(mStatusCode);
+			}
 
 			HttpEntity httpEntity = httpResponse.getEntity();
 			is = httpEntity.getContent();
@@ -260,6 +276,8 @@ public class JSONParser {
 		} catch (IOException e) {
 			Log.e("JSON", "IO: " + e.toString());
 			e.printStackTrace();
+		} catch (JSONParserStatusCodeException e) {
+			throw new JSONParserStatusCodeException(e.getCode());
 		} catch (Exception e) {
 			Log.e("JSON", "Generic: " + e.toString());
 		}
@@ -276,7 +294,7 @@ public class JSONParser {
 		return jArray;
 	}
 
-	public void postCommand(String command, String hash) {
+	public void postCommand(String command, String hash) throws JSONParserStatusCodeException {
 
 		String key = "hash";
 
@@ -446,6 +464,15 @@ public class JSONParser {
 
 			httpResponse = httpclient.execute(targetHost, httpget);
 
+			StatusLine statusLine = httpResponse.getStatusLine();
+
+			int mStatusCode = statusLine.getStatusCode();
+			Log.i("Status", "CODE: " + mStatusCode);
+
+			if (mStatusCode != 200) {
+				throw new JSONParserStatusCodeException(mStatusCode);
+			}
+
 			// Log.i("qbittorrent", "3");
 
 			HttpEntity httpEntity = httpResponse.getEntity();
@@ -474,6 +501,8 @@ public class JSONParser {
 		} catch (IOException e) {
 			Log.e("qbittorrent", "IO: " + e.toString());
 			e.printStackTrace();
+		} catch (JSONParserStatusCodeException e) {
+			throw new JSONParserStatusCodeException(e.getCode());
 		} catch (Exception e) {
 			Log.e("qbittorrent", "Generic: " + e.toString());
 		}
@@ -513,4 +542,5 @@ public class JSONParser {
 			return new DefaultHttpClient();
 		}
 	}
+
 }

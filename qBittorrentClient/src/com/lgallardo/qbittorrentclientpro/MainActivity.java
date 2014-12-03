@@ -184,6 +184,9 @@ public class MainActivity extends FragmentActivity {
 	// myAdapter myadapter
 	myAdapter myadapter;
 
+	// Http status code
+	public int httpStatusCode = 0;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -1410,7 +1413,16 @@ public class MainActivity extends FragmentActivity {
 			// Creating new JSON Parser
 			JSONParser jParser = new JSONParser(hostname, subfolder, protocol, port, username, password, connection_timeout, data_timeout);
 
-			jParser.postCommand(params[0], params[1]);
+			try {
+
+				jParser.postCommand(params[0], params[1]);
+
+			} catch (JSONParserStatusCodeException e) {
+
+				httpStatusCode = e.getCode();
+				Log.e("JSONParserStatusCodeException", e.toString());
+
+			}
 
 			return params[0];
 
@@ -1418,6 +1430,19 @@ public class MainActivity extends FragmentActivity {
 
 		@Override
 		protected void onPostExecute(String result) {
+
+			if (httpStatusCode == 401) {
+				Toast.makeText(getApplicationContext(), R.string.error401, Toast.LENGTH_LONG).show();
+				httpStatusCode = 0;
+				return;
+
+			}
+
+			if (httpStatusCode == 403) {
+				Toast.makeText(getApplicationContext(), R.string.error403, Toast.LENGTH_SHORT).show();
+				httpStatusCode = 0;
+				return;
+			}
 
 			// This delay is needed for resume action. Other actions have a
 			// fewer delay (1 second).
@@ -1614,6 +1639,11 @@ public class MainActivity extends FragmentActivity {
 					Log.i("qbTask", "jArray is null");
 
 				}
+			} catch (JSONParserStatusCodeException e) {
+				httpStatusCode = e.getCode();
+				torrents = null;
+				Log.e("JSONParserStatusCodeException", e.toString());
+
 			} catch (Exception e) {
 				torrents = null;
 				Log.e("MAIN:", e.toString());
@@ -1629,6 +1659,19 @@ public class MainActivity extends FragmentActivity {
 			if (result == null) {
 
 				Toast.makeText(getApplicationContext(), R.string.connection_error, Toast.LENGTH_SHORT).show();
+
+				if (httpStatusCode == 401) {
+
+					Toast.makeText(getApplicationContext(), R.string.error401, Toast.LENGTH_LONG).show();
+					httpStatusCode = 0;
+
+				}
+
+				if (httpStatusCode == 403) {
+					Toast.makeText(getApplicationContext(), R.string.error403, Toast.LENGTH_SHORT).show();
+					httpStatusCode = 0;
+
+				}
 
 				// Set App title
 				setTitle(R.string.app_shortname);
@@ -1835,8 +1878,16 @@ public class MainActivity extends FragmentActivity {
 			// Creating new JSON Parser
 			JSONParser jParser = new JSONParser(hostname, subfolder, protocol, port, username, password, connection_timeout, data_timeout);
 
-			//
-			JSONObject json = jParser.getJSONFromUrl(params[0]);
+			// Get the Json object
+			JSONObject json = null;
+			try {
+				json = jParser.getJSONFromUrl(params[0]);
+
+			} catch (JSONParserStatusCodeException e) {
+
+				httpStatusCode = e.getCode();
+				Log.e("JSONParserStatusCodeException", e.toString());
+			}
 
 			if (json != null) {
 
@@ -1892,6 +1943,17 @@ public class MainActivity extends FragmentActivity {
 			if (result == null) {
 
 				Toast.makeText(getApplicationContext(), R.string.connection_error, Toast.LENGTH_SHORT).show();
+
+				if (httpStatusCode == 401) {
+					Toast.makeText(getApplicationContext(), R.string.error401, Toast.LENGTH_LONG).show();
+					httpStatusCode = 0;
+
+				}
+
+				if (httpStatusCode == 403) {
+					Toast.makeText(getApplicationContext(), R.string.error403, Toast.LENGTH_SHORT).show();
+					httpStatusCode = 0;
+				}
 
 			} else {
 
