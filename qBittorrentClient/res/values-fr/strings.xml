@@ -42,6 +42,7 @@
     <string name="setUploadRateLimit">Upload limite de vitesse terminé</string>
     <string name="setDownloadRateLimit">Limite de vitesse de téléchargement terminées</string>
     <string name="error">Erreur</string>
+    <string name="error1">L\'adresse de l\'hôte ou IP ne peut pas être atteint. Se il vous plaît vérifier vos paramètres!</string>
     <string name="error401">Accès non autorisé. Vérifiez vos paramètres de compte pour éviter les interdictions!</string>
     <string name="error403">Votre adresse IP a été interdit après de trop nombreuses tentatives d\'authentification infructueuses</string>
     <string name="info">Avertissement</string>

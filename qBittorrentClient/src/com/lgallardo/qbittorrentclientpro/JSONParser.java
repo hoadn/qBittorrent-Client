@@ -54,7 +54,6 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
-;
 
 public class JSONParser {
 	static InputStream is = null;
@@ -69,6 +68,8 @@ public class JSONParser {
 	private String password;
 	private int connection_timeout;
 	private int data_timeout;
+	
+	private static final int TIMEOUT_ERROR = 1;
 
 	static boolean nohome = false;
 
@@ -178,8 +179,9 @@ public class JSONParser {
 			Log.e("JSON", "ClientProtocolException: " + e.toString());
 		} catch (IOException e) {
 			Log.e("JSON", "IOException: " + e.toString());
-			e.printStackTrace();
-		} catch(JSONParserStatusCodeException e){
+			// e.printStackTrace();
+			throw new JSONParserStatusCodeException(TIMEOUT_ERROR);
+		} catch (JSONParserStatusCodeException e) {
 			throw new JSONParserStatusCodeException(e.getCode());
 		} catch (Exception e) {
 			Log.e("JSON", "Generic: " + e.toString());
@@ -275,7 +277,8 @@ public class JSONParser {
 			Log.e("JSON", "Client: " + e.toString());
 		} catch (IOException e) {
 			Log.e("JSON", "IO: " + e.toString());
-			e.printStackTrace();
+			// e.printStackTrace();
+			throw new JSONParserStatusCodeException(TIMEOUT_ERROR);
 		} catch (JSONParserStatusCodeException e) {
 			throw new JSONParserStatusCodeException(e.getCode());
 		} catch (Exception e) {
@@ -500,7 +503,8 @@ public class JSONParser {
 			Log.e("qbittorrent", "Client: " + e.toString());
 		} catch (IOException e) {
 			Log.e("qbittorrent", "IO: " + e.toString());
-			e.printStackTrace();
+			// e.printStackTrace();
+			throw new JSONParserStatusCodeException(TIMEOUT_ERROR);
 		} catch (JSONParserStatusCodeException e) {
 			throw new JSONParserStatusCodeException(e.getCode());
 		} catch (Exception e) {

@@ -42,6 +42,7 @@
     <string name="setUploadRateLimit">Limite di velocità di carico è stato fissato</string>
     <string name="setDownloadRateLimit">Limite di download tasso è stato fissato</string>
     <string name="error">Errore</string>
+    <string name="error1">L\'indirizzo host o IP non può essere raggiunto. Verifica le impostazioni!</string>
     <string name="error401">Accesso non autorizzato. Controllare le impostazioni dell\'account di evitare i divieti!</string>
     <string name="error403">Il tuo indirizzo IP è stato vietato dopo troppi tentativi di autenticazione falliti</string>
     <string name="info">Avvertimento</string>

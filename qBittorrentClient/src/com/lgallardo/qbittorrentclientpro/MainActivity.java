@@ -1431,6 +1431,12 @@ public class MainActivity extends FragmentActivity {
 		@Override
 		protected void onPostExecute(String result) {
 
+			if (httpStatusCode == 1) {
+				Toast.makeText(getApplicationContext(), R.string.error1, Toast.LENGTH_SHORT).show();
+				httpStatusCode = 0;
+				return;
+			}
+
 			if (httpStatusCode == 401) {
 				Toast.makeText(getApplicationContext(), R.string.error401, Toast.LENGTH_LONG).show();
 				httpStatusCode = 0;
@@ -1665,18 +1671,23 @@ public class MainActivity extends FragmentActivity {
 
 				Toast.makeText(getApplicationContext(), R.string.connection_error, Toast.LENGTH_SHORT).show();
 
-				if (httpStatusCode == 401) {
+				if (httpStatusCode == 1) {
+					Toast.makeText(getApplicationContext(), R.string.error1, Toast.LENGTH_SHORT).show();
+					httpStatusCode = 0;
+				}
 
+				
+				if (httpStatusCode == 401) {
 					Toast.makeText(getApplicationContext(), R.string.error401, Toast.LENGTH_LONG).show();
 					httpStatusCode = 0;
-
 				}
 
 				if (httpStatusCode == 403) {
 					Toast.makeText(getApplicationContext(), R.string.error403, Toast.LENGTH_SHORT).show();
 					httpStatusCode = 0;
-
 				}
+				
+				
 
 				// Set App title
 				setTitle(R.string.app_shortname);
@@ -1948,6 +1959,11 @@ public class MainActivity extends FragmentActivity {
 			if (result == null) {
 
 				Toast.makeText(getApplicationContext(), R.string.connection_error, Toast.LENGTH_SHORT).show();
+
+				if (httpStatusCode == 1) {
+					Toast.makeText(getApplicationContext(), R.string.error1, Toast.LENGTH_SHORT).show();
+					httpStatusCode = 0;
+				}
 
 				if (httpStatusCode == 401) {
 					Toast.makeText(getApplicationContext(), R.string.error401, Toast.LENGTH_LONG).show();
