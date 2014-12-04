@@ -1597,7 +1597,7 @@ public class MainActivity extends FragmentActivity {
 						JSONObject json = jArray.getJSONObject(i);
 
 						name = json.getString(TAG_NAME);
-						size = json.getString(TAG_SIZE);
+						size = json.getString(TAG_SIZE).replace(",", ".");
 						progress = String.format("%.2f", json.getDouble(TAG_PROGRESS) * 100) + "%";
 						info = "";
 						state = json.getString(TAG_STATE);
@@ -1621,9 +1621,14 @@ public class MainActivity extends FragmentActivity {
 							Double sizeScalar = Double.parseDouble(size.substring(0, size.indexOf(" ")));
 							String sizeUnit = size.substring(size.indexOf(" "), size.length());
 
-							torrents[i].setDownloaded(String.format("%.2f", sizeScalar * json.getDouble(TAG_PROGRESS)) + sizeUnit);
+							torrents[i].setDownloaded(String.format("%.1f", sizeScalar * json.getDouble(TAG_PROGRESS)).replace(",", ".") + sizeUnit);
+
+							// Log.i("setDownloaded", name + ": " + sizeScalar *
+							// json.getDouble(TAG_PROGRESS));
+
 						} catch (Exception e) {
 							torrents[i].setDownloaded(size);
+							// Log.i("setDownloadedException", e.toString());
 						}
 
 						// Info
