@@ -102,9 +102,6 @@ public class JSONParser {
 			url = subfolder + "/" + url;
 		}
 
-		Log.i("JSON", "hostname: " + hostname);
-		Log.i("JSON", "url: " + url);
-
 		HttpResponse httpResponse;
 		DefaultHttpClient httpclient;
 
@@ -147,7 +144,6 @@ public class JSONParser {
 			StatusLine statusLine = httpResponse.getStatusLine();
 
 			int mStatusCode = statusLine.getStatusCode();
-			Log.i("Status", "CODE: " + mStatusCode);
 
 			if (mStatusCode != 200) {
 				throw new JSONParserStatusCodeException(mStatusCode);
@@ -155,7 +151,6 @@ public class JSONParser {
 
 			HttpEntity httpEntity = httpResponse.getEntity();
 			is = httpEntity.getContent();
-			// Log.i("parser", is.toString());
 
 			// Build JSON
 			BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"), 8);
@@ -205,9 +200,6 @@ public class JSONParser {
 			url = subfolder + "/" + url;
 		}
 
-		Log.i("JSON", "hostname" + hostname);
-		Log.i("JSON", "url: " + url);
-
 		HttpResponse httpResponse;
 		DefaultHttpClient httpclient;
 
@@ -248,7 +240,6 @@ public class JSONParser {
 			StatusLine statusLine = httpResponse.getStatusLine();
 
 			int mStatusCode = statusLine.getStatusCode();
-			Log.i("Status", "CODE: " + mStatusCode);
 
 			if (mStatusCode != 200) {
 				throw new JSONParserStatusCodeException(mStatusCode);
@@ -256,7 +247,6 @@ public class JSONParser {
 
 			HttpEntity httpEntity = httpResponse.getEntity();
 			is = httpEntity.getContent();
-			// Log.i("parser", is.toString());
 
 			// Build JSON
 
@@ -289,7 +279,7 @@ public class JSONParser {
 			// When HttpClient instance is no longer needed,
 			// shut down the connection manager to ensure
 			// immediate deallocation of all system resources
-			// Log.i("qbittorrent", "finaly - goodbye!");
+
 			httpclient.getConnectionManager().shutdown();
 		}
 
@@ -362,8 +352,6 @@ public class JSONParser {
 		if ("setQBittorrentPrefefrences".equals(command)) {
 			url = "command/setPreferences";
 			key = "json";
-			// Log.i("setQBittorrentPrefefrences",
-			// "setQBittorrentPrefefrences");
 		}
 
 		if ("setUploadRateLimit".equals(command)) {
@@ -372,8 +360,6 @@ public class JSONParser {
 			String[] tmpString = hash.split("&");
 			hash = tmpString[0];
 			limit = tmpString[1];
-
-			Log.i("upload_rate_limit", "limit: " + limit);
 		}
 
 		if ("setDownloadRateLimit".equals(command)) {
@@ -382,8 +368,6 @@ public class JSONParser {
 			String[] tmpString = hash.split("&");
 			hash = tmpString[0];
 			limit = tmpString[1];
-
-			Log.i("download_rate_limit", "limit: " + limit);
 		}
 
 		// if server is publish in a subfolder, fix url
@@ -407,8 +391,6 @@ public class JSONParser {
 
 			HttpPost httpget = new HttpPost(url);
 
-			// Log.i("qbittorrent", "1");
-
 			// In order to pass the has we must set the pair name value
 
 			BasicNameValuePair bnvp = new BasicNameValuePair(key, hash);
@@ -427,13 +409,11 @@ public class JSONParser {
 			// Set content type and urls
 			if ("addTorrent".equals(command) || "increasePrio".equals(command) || "decreasePrio".equals(command)) {
 				httpget.setHeader("Content-Type", urlContentType);
-				// Log.i("qbittorrent", "urlContentType");
 			}
 
 			// Set content type and urls
 			if ("addTorrentFile".equals(command)) {
 
-				Log.i("addTorrentFile", "Sending file: " + hash);
 				httpget.setHeader("Content-Type", urlContentType);
 
 				MultipartEntityBuilder builder = MultipartEntityBuilder.create();
@@ -463,38 +443,19 @@ public class JSONParser {
 
 			}
 
-			// Log.i("qbittorrent", "2");
-
 			httpResponse = httpclient.execute(targetHost, httpget);
 
 			StatusLine statusLine = httpResponse.getStatusLine();
 
 			int mStatusCode = statusLine.getStatusCode();
-			Log.i("Status", "CODE: " + mStatusCode);
 
 			if (mStatusCode != 200) {
 				throw new JSONParserStatusCodeException(mStatusCode);
 			}
 
-			// Log.i("qbittorrent", "3");
-
 			HttpEntity httpEntity = httpResponse.getEntity();
 
-			// Log.i("qbittorrent", "4");
-
 			is = httpEntity.getContent();
-
-			// Log.i("qbittorrent", "5");
-			//
-			// Log.i("parser", is.toString());
-			//
-			// Log.i("qbittorrent", "url:" + url);
-			// Log.i("qbittorrent", "hostname:" + this.hostname);
-			// Log.i("qbittorrent", "port:" + this.port);
-			// Log.i("qbittorrent", "protocol:" + this.protocol);
-			// Log.i("qbittorrent", "username:" + this.username);
-			// Log.i("qbittorrent", "password:" + this.password);
-			// Log.i("qbittorrent", "hash:" + hash);
 
 		}
 
@@ -515,7 +476,6 @@ public class JSONParser {
 			// When HttpClient instance is no longer needed,
 			// shut down the connection manager to ensure
 			// immediate deallocation of all system resources
-			// Log.i("qbittorrent", "finaly - goodbye!");
 			httpclient.getConnectionManager().shutdown();
 		}
 

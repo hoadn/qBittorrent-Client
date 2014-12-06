@@ -66,8 +66,6 @@ public class TorrentDetailsFragment extends Fragment {
 
 		View rootView = inflater.inflate(R.layout.torrent_details, container, false);
 
-		// Log.i("TorrentDetails", "Position =>>> " + position);
-
 		savePath = "";
 		creationDate = "";
 		comment = "";
@@ -111,10 +109,6 @@ public class TorrentDetailsFragment extends Fragment {
 				}
 
 				percentage = progress.substring(0, index);
-
-				// Log.i("savedInstanceState", "The state is: " +state);
-				// Log.i("savedInstanceState", "The percentage is: "
-				// +percentage);
 
 				// return rootView;
 
@@ -251,7 +245,6 @@ public class TorrentDetailsFragment extends Fragment {
 	// @Override
 	public void onListItemClick(ListView parent, View v, int position, long id) {
 
-		// Log.i("FragmentLIst", "Item touched");
 	}
 
 	// @Override
@@ -346,8 +339,6 @@ public class TorrentDetailsFragment extends Fragment {
 				timeElapsedTextView = (TextView) rootView.findViewById(R.id.torrentTimeElapsed);
 				nbConnectionsTextView = (TextView) rootView.findViewById(R.id.torrentNbConnections);
 				shareRatioTextView = (TextView) rootView.findViewById(R.id.torrentShareRatio);
-
-				Log.i("TorrentFragment - onPostExecute", "position: " + position);
 
 				savePath = MainActivity.lines[position].getSavePath();
 				creationDate = MainActivity.lines[position].getCreationDate();
