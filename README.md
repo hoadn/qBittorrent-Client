@@ -15,11 +15,11 @@ This is the repository for Android's qBittorrent Client <br>
 </ul>
 
 <h2>Phone's view</h2>
-<img src="https://farm4.staticflickr.com/3859/14604852432_10fed2d4e9.jpg">&nbsp;
-<img src="https://farm6.staticflickr.com/5527/14366168477_8b8a5f5787.jpg">&nbsp;
-<img src="https://farm6.staticflickr.com/5538/14529545316_9f674aba2c.jpg">&nbsp;
+<img src="https://farm8.staticflickr.com/7524/15717757931_686f2a55b3.jpg">&nbsp;
+<img src="https://farm8.staticflickr.com/7514/15798741869_6cd6a7e002.jpg">&nbsp;
+<img src="https://farm9.staticflickr.com/8675/15797356068_0f880b364c.jpg">&nbsp;
 <img src="https://farm6.staticflickr.com/5596/14551722492_b24e1ec32d.jpg">&nbsp;
-<img src="https://farm4.staticflickr.com/3731/12764293465_021d24ab48.jpg">&nbsp;
+<img src="https://farm9.staticflickr.com/8676/15982754031_0b2c5cf990.jpg">&nbsp;
 <img src="https://farm6.staticflickr.com/5547/12764293595_4fd5078513.jpg">&nbsp;
 
 <h2>Tablet's view</h2>
