@@ -180,30 +180,38 @@ public class TorrentDetailsFragment extends Fragment {
 			percentageTV.setText(percentage + "%");
 
 			// Set status icon
-			ImageView icon = (ImageView) rootView.findViewById(R.id.icon);
+//			ImageView icon = (ImageView) rootView.findViewById(R.id.icon);
 
+			nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.error,0,0,0);
+			
 			if ("pausedUP".equals(state) || "pausedDL".equals(state)) {
-				icon.setImageResource(R.drawable.paused);
+//				icon.setImageResource(R.drawable.paused);
+				nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.paused,0,0,0);
 			}
 
 			if ("stalledUP".equals(state)) {
-				icon.setImageResource(R.drawable.stalledup);
+//				icon.setImageResource(R.drawable.stalledup);
+				nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.stalledup,0,0,0);
 			}
 
 			if ("stalledDL".equals(state)) {
-				icon.setImageResource(R.drawable.stalleddl);
+//				icon.setImageResource(R.drawable.stalleddl);
+				nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.stalleddl,0,0,0);
 			}
 
 			if ("downloading".equals(state)) {
-				icon.setImageResource(R.drawable.downloading);
+//				icon.setImageResource(R.drawable.downloading);
+				nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.downloading,0,0,0);
 			}
 
 			if ("uploading".equals(state)) {
-				icon.setImageResource(R.drawable.uploading);
+//				icon.setImageResource(R.drawable.uploading);
+				nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.uploading,0,0,0);
 			}
 
 			if ("queuedDL".equals(state) || "queuedUP".equals(state)) {
-				icon.setImageResource(R.drawable.queued);
+//				icon.setImageResource(R.drawable.queued);
+				nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.queued,0,0,0);
 			}
 
 			// Show progressBar
