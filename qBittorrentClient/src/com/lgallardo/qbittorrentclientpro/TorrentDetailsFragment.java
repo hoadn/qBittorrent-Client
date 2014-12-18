@@ -10,18 +10,28 @@
  ******************************************************************************/
 package com.lgallardo.qbittorrentclientpro;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.lgallardo.qbittorrentclientpro.MainActivity.myAdapter;
+
 import android.app.Fragment;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.transition.Visibility;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -40,6 +50,12 @@ public class TorrentDetailsFragment extends Fragment {
 
 	JSONObject json2;
 
+	static ContentFile[] files;
+	static String[] names;
+
+	// myAdapter myadapter
+	myAdapter myadapter;
+
 	public TorrentDetailsFragment() {
 	}
 
@@ -50,7 +66,7 @@ public class TorrentDetailsFragment extends Fragment {
 	public int getPosition() {
 		return this.position;
 	}
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -58,7 +74,6 @@ public class TorrentDetailsFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
 
 		// Tell the host activity that your fragment has menu options that it
 		// wants to add/replace/delete using the onCreateOptionsMenu method.
@@ -179,48 +194,43 @@ public class TorrentDetailsFragment extends Fragment {
 			progressBar.setProgress(Integer.parseInt(percentage));
 			percentageTV.setText(percentage + "%");
 
-			// Set status icon
-//			ImageView icon = (ImageView) rootView.findViewById(R.id.icon);
+			nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.error, 0, 0, 0);
 
-			nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.error,0,0,0);
-			
 			if ("pausedUP".equals(state) || "pausedDL".equals(state)) {
-//				icon.setImageResource(R.drawable.paused);
-				nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.paused,0,0,0);
+				nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.paused, 0, 0, 0);
 			}
 
 			if ("stalledUP".equals(state)) {
-//				icon.setImageResource(R.drawable.stalledup);
-				nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.stalledup,0,0,0);
+				nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.stalledup, 0, 0, 0);
 			}
 
 			if ("stalledDL".equals(state)) {
-//				icon.setImageResource(R.drawable.stalleddl);
-				nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.stalleddl,0,0,0);
+				nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.stalleddl, 0, 0, 0);
 			}
 
 			if ("downloading".equals(state)) {
-//				icon.setImageResource(R.drawable.downloading);
-				nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.downloading,0,0,0);
+				nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.downloading, 0, 0, 0);
 			}
 
 			if ("uploading".equals(state)) {
-//				icon.setImageResource(R.drawable.uploading);
-				nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.uploading,0,0,0);
+				nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.uploading, 0, 0, 0);
 			}
 
 			if ("queuedDL".equals(state) || "queuedUP".equals(state)) {
-//				icon.setImageResource(R.drawable.queued);
-				nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.queued,0,0,0);
+				nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.queued, 0, 0, 0);
 			}
 
 			// Show progressBar
 			if (MainActivity.progressBar != null) {
 				MainActivity.progressBar.setVisibility(View.VISIBLE);
 			}
-			// Execute the task in background
-			qBittorrentGeneralInfoTask qgit = new qBittorrentGeneralInfoTask();
 
+			// Get Content files in background
+			qBittorrentContentFile qcf = new qBittorrentContentFile();
+			qcf.execute(new View[] { rootView });
+
+			// Get General info in background
+			qBittorrentGeneralInfoTask qgit = new qBittorrentGeneralInfoTask();
 			qgit.execute(new View[] { rootView });
 
 		} catch (Exception e) {
@@ -307,18 +317,6 @@ public class TorrentDetailsFragment extends Fragment {
 
 			} catch (Exception e) {
 
-				// MainActivity.lines[position].setSavePath(" ");
-				// MainActivity.lines[position].setCreationDate(" ");
-				// MainActivity.lines[position].setComment(" ");
-				// MainActivity.lines[position].setTotalWasted(" ");
-				// MainActivity.lines[position].setTotalUploaded(" ");
-				// MainActivity.lines[position].setTotalDownloaded(" ");
-				// MainActivity.lines[position].setTimeElapsed(" ");
-				// MainActivity.lines[position].setNbConnections(" ");
-				// MainActivity.lines[position].setShareRatio(" ");
-				// MainActivity.lines[position].setUploadLimit(" ");
-				// MainActivity.lines[position].setDownloadLimit(" ");
-
 				Log.e("TorrentFragment:", e.toString());
 
 			}
@@ -372,10 +370,6 @@ public class TorrentDetailsFragment extends Fragment {
 				nbConnectionsTextView.setText(nbConnections);
 				shareRatioTextView.setText(shareRatio);
 
-				if (json2 == null) {
-					Toast.makeText(getActivity(), R.string.torrent_details_cant_general_ino, Toast.LENGTH_SHORT).show();
-				}
-
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 
@@ -390,4 +384,203 @@ public class TorrentDetailsFragment extends Fragment {
 
 	}
 
+	// // Here is where the action happens
+	private class qBittorrentContentFile extends AsyncTask<View, View, View[]> {
+
+		String name, size;
+		Double progress;
+		int priority;
+
+		protected View[] doInBackground(View... rootViews) {
+			// Get torrent's extra info
+			url = "json/propertiesFiles/";
+
+			try {
+
+				JSONParser jParser = new JSONParser(MainActivity.hostname, MainActivity.subfolder, MainActivity.protocol, MainActivity.port,
+						MainActivity.username, MainActivity.password, MainActivity.connection_timeout, MainActivity.data_timeout);
+
+				JSONArray jArray = jParser.getJSONArrayFromUrl(url + hash);
+
+				if (jArray != null) {
+
+					files = new ContentFile[jArray.length()];
+					TorrentDetailsFragment.names = new String[jArray.length()];
+
+					for (int i = 0; i < jArray.length(); i++) {
+
+						JSONObject json = jArray.getJSONObject(i);
+
+						name = json.getString(MainActivity.TAG_NAME);
+						size = json.getString(MainActivity.TAG_SIZE).replace(",", ".");
+						progress = json.getDouble(MainActivity.TAG_PROGRESS);
+						priority = json.getInt(MainActivity.TAG_PRIORITY);
+
+						Log.i("Content", name + " " + size + " " + progress + " " + priority);
+
+						files[i] = new ContentFile(name, size, progress, priority);
+						names[i] = name;
+
+					}
+
+				}
+
+			} catch (Exception e) {
+
+				Log.e("TorrentFragment:", e.toString());
+
+			}
+
+			return rootViews;
+
+		}
+
+		@Override
+		protected void onPostExecute(View[] rootViews) {
+
+			try {
+
+				View rootView = rootViews[0];
+
+				for (int i = 0; i < files.length; i++) {
+
+					Log.i("Content2", "Name: " + files[i]);
+
+				}
+
+				myadapter = new myAdapter(getActivity(), names, files);
+
+				Log.i("Content2", "Count: " + myadapter.getCount());
+
+				LinearLayout layout = (LinearLayout) rootView.findViewById(R.id.files);
+
+				// for (int i = 0; i < myadapter.getCount(); i++) {
+				// View item = myadapter.getView(i, null, null);
+				// layout.addView(item);
+				// }
+
+				
+				ListView lv =  (ListView) rootView.findViewById(R.id.theList);
+				//
+				lv.setAdapter(myadapter);
+
+				setListViewHeightBasedOnChildren(lv);
+
+				layout.addView(lv, layout.getWidth(), layout.getHeight() + lv.getHeight());
+
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				Log.e("Content2", e.toString());
+
+			}
+
+			// // Hide progressBar
+			// if (MainActivity.progressBar != null) {
+			// MainActivity.progressBar.setVisibility(View.INVISIBLE);
+			// }
+
+		}
+
+	}
+
+	class myAdapter extends ArrayAdapter<String> {
+
+		private String[] filesNames;
+		private ContentFile[] files;
+		private Context context;
+
+		public myAdapter(Context context, String[] filesNames, ContentFile[] files) {
+			// TODO Auto-generated constructor stub
+			super(context, R.layout.contentfile_row, R.id.file, filesNames);
+
+			this.context = context;
+			this.filesNames = filesNames;
+			this.files = files;
+
+		}
+
+		@Override
+		public int getCount() {
+			// TODO Auto-generated method stub}
+			return (filesNames != null) ? filesNames.length : 0;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+
+			View row = super.getView(position, convertView, parent);
+
+			TextView info = (TextView) row.findViewById(R.id.info);
+
+			info.setText("" + files[position].getSize());
+
+			// Set progress bar
+			ProgressBar progressBar = (ProgressBar) row.findViewById(R.id.progressBar1);
+			TextView percentageTV = (TextView) row.findViewById(R.id.percentage);
+
+			int index = files[position].getProgressAsString().indexOf(".");
+
+			if (index == -1) {
+				index = files[position].getProgressAsString().indexOf(",");
+
+				if (index == -1) {
+					index = files[position].getProgressAsString().length();
+				}
+			}
+
+			String percentage = files[position].getProgressAsString().substring(0, index);
+
+			progressBar.setProgress(Integer.parseInt(percentage));
+
+			percentageTV.setText(percentage + "%");
+
+			return (row);
+		}
+	}
+
+	/****
+	 * Method for Setting the Height of the ListView dynamically. Hack to fix
+	 * the issue of not showing all the items of the ListView when placed inside
+	 * a ScrollView
+	 ****/
+	public static void setListViewHeightBasedOnChildren(ListView listView) {
+		
+		ListAdapter listAdapter = listView.getAdapter();
+		if (listAdapter == null)
+			return;
+
+		Log.i("setListViewHeightBasedOnChildren","count: " + listAdapter.getCount());
+		
+		int desiredWidth = MeasureSpec.makeMeasureSpec(listView.getWidth(), MeasureSpec.UNSPECIFIED);
+		int totalHeight = 0;
+		View view = null;
+		
+//		Log.i("setListViewHeightBasedOnChildren"," -2 -");
+		
+		for (int i = 0; i < listAdapter.getCount(); i++) {
+			view = listAdapter.getView(i, view, listView);
+			if (i == 0)
+				view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth, LayoutParams.WRAP_CONTENT));
+
+			view.measure(desiredWidth, MeasureSpec.UNSPECIFIED);
+			totalHeight += view.getMeasuredHeight();
+		}
+		
+//		Log.i("setListViewHeightBasedOnChildren"," - 3 -");
+		
+		ViewGroup.LayoutParams params = listView.getLayoutParams();
+		
+//		Log.i("setListViewHeightBasedOnChildren"," - 4 -");
+		
+		params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+		
+		Log.i("setListViewHeightBasedOnChildren"," - 5 -");
+		
+//		Log.i("setListViewHeightBasedOnChildren","height: " + params.height);
+		
+		listView.setLayoutParams(params);
+		listView.requestLayout();
+		
+//		Log.i("setListViewHeightBasedOnChildren"," - 6 -");
+	}
 }

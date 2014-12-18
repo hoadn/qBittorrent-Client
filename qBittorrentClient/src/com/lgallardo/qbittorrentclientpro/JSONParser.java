@@ -195,7 +195,7 @@ public class JSONParser {
 
 	public JSONArray getJSONArrayFromUrl(String url) throws JSONParserStatusCodeException {
 
-		// if server is publish in a subfolder, fix url
+		// if server is published in a subfolder, fix url
 		if (subfolder != null && subfolder != "") {
 			url = subfolder + "/" + url;
 		}
