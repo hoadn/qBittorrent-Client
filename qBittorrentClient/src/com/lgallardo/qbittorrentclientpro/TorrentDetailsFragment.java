@@ -13,7 +13,6 @@ package com.lgallardo.qbittorrentclientpro;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.lgallardo.qbittorrentclientpro.MainActivity.myAdapter;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -51,10 +50,12 @@ public class TorrentDetailsFragment extends Fragment {
 	JSONObject json2;
 
 	static ContentFile[] files;
-	static String[] names;
+	static Tracker[] trackers;
+	static String[] names, trackerNames;
 
-	// myAdapter myadapter
-	myAdapter myadapter;
+	// Adapters
+	myFileAdapter fileAdpater;
+	myTrackerAdapter trackerAdapter;
 
 	public TorrentDetailsFragment() {
 	}
@@ -228,6 +229,10 @@ public class TorrentDetailsFragment extends Fragment {
 			// Get Content files in background
 			qBittorrentContentFile qcf = new qBittorrentContentFile();
 			qcf.execute(new View[] { rootView });
+			
+			// Get trackers in background
+			qBittorrentTrackers qt = new qBittorrentTrackers();
+			qt.execute(new View[] { rootView });
 
 			// Get General info in background
 			qBittorrentGeneralInfoTask qgit = new qBittorrentGeneralInfoTask();
@@ -448,21 +453,21 @@ public class TorrentDetailsFragment extends Fragment {
 
 				}
 
-				myadapter = new myAdapter(getActivity(), names, files);
+				fileAdpater = new myFileAdapter(getActivity(), names, files);
 
-				Log.i("Content2", "Count: " + myadapter.getCount());
+				Log.i("Content2", "Count: " + fileAdpater.getCount());
 
 				LinearLayout layout = (LinearLayout) rootView.findViewById(R.id.files);
 
-				// for (int i = 0; i < myadapter.getCount(); i++) {
-				// View item = myadapter.getView(i, null, null);
+				// for (int i = 0; i < fileAdpater.getCount(); i++) {
+				// View item = fileAdpater.getView(i, null, null);
 				// layout.addView(item);
 				// }
 
 				
 				ListView lv =  (ListView) rootView.findViewById(R.id.theList);
 				//
-				lv.setAdapter(myadapter);
+				lv.setAdapter(fileAdpater);
 
 				setListViewHeightBasedOnChildren(lv);
 
@@ -482,14 +487,101 @@ public class TorrentDetailsFragment extends Fragment {
 		}
 
 	}
+	
+	
+	// // Here is where the action happens
+	private class qBittorrentTrackers extends AsyncTask<View, View, View[]> {
 
-	class myAdapter extends ArrayAdapter<String> {
+		String url;
+
+		protected View[] doInBackground(View... rootViews) {
+			// Get torrent's extra info
+			url = "json/propertiesTrackers/";
+
+			try {
+
+				JSONParser jParser = new JSONParser(MainActivity.hostname, MainActivity.subfolder, MainActivity.protocol, MainActivity.port,
+						MainActivity.username, MainActivity.password, MainActivity.connection_timeout, MainActivity.data_timeout);
+
+				JSONArray jArray = jParser.getJSONArrayFromUrl(url + hash);
+
+				if (jArray != null) {
+
+					trackers = new Tracker[jArray.length()];
+					TorrentDetailsFragment.trackerNames = new String[jArray.length()];
+
+					for (int i = 0; i < jArray.length(); i++) {
+
+						JSONObject json = jArray.getJSONObject(i);
+
+						url = json.getString(MainActivity.TAG_URL);
+
+						Log.i("Trackers", url );
+
+						trackers[i] = new Tracker(url);
+						trackerNames[i] = url;
+
+					}
+
+				}
+
+			} catch (Exception e) {
+
+				Log.e("TorrentFragment:", e.toString());
+
+			}
+
+			return rootViews;
+
+		}
+
+		@Override
+		protected void onPostExecute(View[] rootViews) {
+
+			try {
+
+				View rootView = rootViews[0];
+
+				for (int i = 0; i < trackers.length; i++) {
+
+					Log.i("Trackers", "Url: " + trackers[i].getUrl());
+
+				}
+
+				trackerAdapter = new myTrackerAdapter(getActivity(), trackerNames, trackers);
+
+				Log.i("Trackers", "Count: " + trackerAdapter.getCount());
+
+				LinearLayout layout = (LinearLayout) rootView.findViewById(R.id.trackers);
+
+				for (int i = 0; i < trackerAdapter.getCount(); i++) {
+					View item = trackerAdapter.getView(i, null, null);
+					layout.addView(item);
+				}
+
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				Log.e("Trackers", e.toString());
+
+			}
+
+			// // Hide progressBar
+			// if (MainActivity.progressBar != null) {
+			// MainActivity.progressBar.setVisibility(View.INVISIBLE);
+			// }
+
+		}
+
+	}
+
+
+	class myFileAdapter extends ArrayAdapter<String> {
 
 		private String[] filesNames;
 		private ContentFile[] files;
 		private Context context;
 
-		public myAdapter(Context context, String[] filesNames, ContentFile[] files) {
+		public myFileAdapter(Context context, String[] filesNames, ContentFile[] files) {
 			// TODO Auto-generated constructor stub
 			super(context, R.layout.contentfile_row, R.id.file, filesNames);
 
@@ -538,6 +630,40 @@ public class TorrentDetailsFragment extends Fragment {
 		}
 	}
 
+	class myTrackerAdapter extends ArrayAdapter<String> {
+
+		private String[] trackersNames;
+		private Tracker[] trackers;
+		private Context context;
+
+		public myTrackerAdapter(Context context, String[] trackersNames, Tracker[] trackers) {
+			// TODO Auto-generated constructor stub
+			super(context, R.layout.tracker_row, R.id.tracker, trackersNames);
+
+			this.context = context;
+			this.trackersNames = trackersNames;
+			this.trackers = trackers;
+
+		}
+
+		@Override
+		public int getCount() {
+			// TODO Auto-generated method stub}
+			return (trackersNames != null) ? trackersNames.length : 0;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+
+			View row = super.getView(position, convertView, parent);
+
+			TextView tracker = (TextView) row.findViewById(R.id.tracker);
+
+			tracker.setText("" + trackers[position].getUrl());
+
+			return (row);
+		}
+	}
 	/****
 	 * Method for Setting the Height of the ListView dynamically. Hack to fix
 	 * the issue of not showing all the items of the ListView when placed inside

@@ -4,6 +4,10 @@ public class Tracker {
 
 	private String url;
 
+	public Tracker(String url){
+		this.url = url;
+		
+	}
 	public String getUrl() {
 		return url;
 	}

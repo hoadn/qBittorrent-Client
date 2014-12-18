@@ -109,6 +109,7 @@ public class MainActivity extends FragmentActivity {
 	protected static final String TAG_MAX_ACT_TORRENTS = "max_active_torrents";
 
 	protected static final String TAG_IS_SEED = "is_seed";
+	protected static final String TAG_URL = "url";
 
 	protected static JSONParser jParser;
 
