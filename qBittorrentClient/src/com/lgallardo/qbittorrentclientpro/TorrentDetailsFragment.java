@@ -314,6 +314,9 @@ public class TorrentDetailsFragment extends Fragment {
 		protected View[] doInBackground(View... rootViews) {
 			// Get torrent's extra info
 			url = "json/propertiesFiles/";
+			
+			files = null;
+			names = null;
 
 			try {
 
@@ -387,6 +390,9 @@ public class TorrentDetailsFragment extends Fragment {
 			// Get torrent's extra info
 			url = "json/propertiesTrackers/";
 
+			trackers = null;
+			trackerNames = null;
+			
 			try {
 
 				JSONParser jParser = new JSONParser(MainActivity.hostname, MainActivity.subfolder, MainActivity.protocol, MainActivity.port,
