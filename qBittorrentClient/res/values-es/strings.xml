@@ -83,6 +83,7 @@
     <string name="icon">icono</string>
     <string name="no_results">No se encontraron torrents</string>
     <string name="tablet_help">Utilice el menú de navegación para elegir una opción</string>
+    <string name="torrent_details_properties">Propiedades</string>
     <string name="torrent_details_content">Archivos</string>
     <string name="torrent_details_trackers">Trackers</string>
     <string name="torrent_details_general_info">Información general</string>

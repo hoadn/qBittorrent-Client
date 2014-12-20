@@ -74,6 +74,9 @@
     <string name="icon">icône</string>
     <string name="no_results">Pas de résultat</string>
     <string name="tablet_help">Utilisez le menu de tiroir pour choisir une option</string>
+    <string name="torrent_details_properties">Propriétés</string>
+    <string name="torrent_details_content">Fichiers</string>
+    <string name="torrent_details_trackers">Trackers</string>
     <string name="torrent_details_general_info">Infromations générales</string>
     <string name="torrent_details_save_path">Chemin:</string>
     <string name="torrent_details_ratio">Ratio:</string>

@@ -74,6 +74,9 @@
     <string name="icon">Ikona</string>
     <string name="no_results">Nie znaleziono torrents</string>
     <string name="tablet_help">Użyj menu szuflady, aby wybrać opcję</string>
+    <string name="torrent_details_properties">Właściwości</string>
+    <string name="torrent_details_content">Pliki</string>
+    <string name="torrent_details_trackers">Trackers</string>
     <string name="torrent_details_general_info">Informacje ogólne</string>
     <string name="torrent_details_save_path">Ścieżka:</string>
     <string name="torrent_details_ratio">Stosunek:</string>

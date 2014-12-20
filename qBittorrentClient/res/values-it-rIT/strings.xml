@@ -74,6 +74,9 @@
     <string name="icon">icona</string>
     <string name="no_results">Nessun torrent trovato</string>
     <string name="tablet_help">Utilizzare il menu del cassetto per scegliere un\'opzione</string>
+    <string name="torrent_details_properties">Proprietà</string>
+    <string name="torrent_details_content">Files</string>
+    <string name="torrent_details_trackers">Trackers</string>
     <string name="torrent_details_general_info">Informazioni generali</string>
     <string name="torrent_details_save_path">Cartella salvataggio:</string>
     <string name="torrent_details_ratio">Rapporto:</string>

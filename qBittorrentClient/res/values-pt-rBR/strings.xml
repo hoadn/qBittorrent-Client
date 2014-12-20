@@ -74,6 +74,9 @@
     <string name="icon">icones</string>
     <string name="no_results">Torrents não encontrados</string>
     <string name="tablet_help">Utilize o menu de gaveta para escolher uma opção</string>
+    <string name="torrent_details_properties">Propiedades</string>
+    <string name="torrent_details_content">Arquivos</string>
+    <string name="torrent_details_trackers">Trackers</string>
     <string name="torrent_details_general_info">Informações gerais</string>
     <string name="torrent_details_save_path">Salvar caminho:</string>
     <string name="torrent_details_ratio">Proporção:</string>
