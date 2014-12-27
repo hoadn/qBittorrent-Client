@@ -157,5 +157,6 @@
     <string name="dialog_add_url">Lägg till länk här</string>
     <string name="dialog_download_rate_limit">Nedladdningshastighet gräns (KiB/s)</string>
     <string name="dialog_upload_rate_limit">Överför hastighetsgränser (KiB/s)</string>
+    <string name="title_activity_settings">Inställningar</string>
 
 </resources>
