@@ -10,11 +10,6 @@
  ******************************************************************************/
 package com.lgallardo.qbittorrentclientpro;
 
-import java.util.ArrayList;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.FragmentManager;
@@ -50,6 +45,12 @@ import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class MainActivity extends FragmentActivity {
 
@@ -498,13 +499,6 @@ public class MainActivity extends FragmentActivity {
 		drawerToggle.syncState();
 	}
 
-	// MainActivity old methods
-
-	// // Rotation handling
-	// @Override
-	// public void onConfigurationChanged(Configuration newConfig) {
-	// }
-
 	@Override
 	public void onBackPressed() {
 
@@ -622,11 +616,6 @@ public class MainActivity extends FragmentActivity {
 				addTorrent(Uri.decode(urlTorrent));
 			}
 
-			// // // Activity is visble
-			// activityIsVisible = true;
-			// //
-			// // // // Autorefresh
-			// refreshCurrent();
 		}
 
 	}
@@ -1525,8 +1514,6 @@ public class MainActivity extends FragmentActivity {
 				refreshWithDelay("inactive", delay);
 				break;
 			case 6:
-				// Select "All" torrents list
-				// selectItem(0);
 				break;
 			case 7:
 				break;
@@ -1696,10 +1683,17 @@ public class MainActivity extends FragmentActivity {
 
 				}
 
-				// MainActivity.lines = (torrent[]) torrentsFiltered.toArray();
+                // Sort by filename
+                //Collections.sort(torrentsFiltered, new TorrentNameComparator());
 
-				// Get names (delete in background method)
-				MainActivity.names = new String[torrentsFiltered.size()];
+                // Sort by priority
+                //Collections.sort(torrentsFiltered, new TorrentPriorityComparator());
+
+                // Sort by progress
+                Collections.sort(torrentsFiltered, new TorrentProgressComparator());
+
+                // Get names (delete in background method)
+                MainActivity.names = new String[torrentsFiltered.size()];
 				MainActivity.lines = new Torrent[torrentsFiltered.size()];
 
 				try {
@@ -2007,17 +2001,7 @@ public class MainActivity extends FragmentActivity {
 			ProgressBar progressBar = (ProgressBar) row.findViewById(R.id.progressBar1);
 			TextView percentageTV = (TextView) row.findViewById(R.id.percentage);
 
-			int index = torrentsData[position].getProgress().indexOf(".");
-
-			if (index == -1) {
-				index = torrentsData[position].getProgress().indexOf(",");
-
-				if (index == -1) {
-					index = torrentsData[position].getProgress().length();
-				}
-			}
-
-			String percentage = torrentsData[position].getProgress().substring(0, index);
+            String percentage = torrentsData[position].getPercentage();
 
 			progressBar.setProgress(Integer.parseInt(percentage));
 

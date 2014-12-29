@@ -10,8 +10,6 @@
  ******************************************************************************/
 package com.lgallardo.qbittorrentclientpro;
 
-import android.util.Log;
-
 class Torrent {
 
 	private String file;
@@ -122,8 +120,25 @@ class Torrent {
 	public String getProgress() {
 		return progress;
 	}
-	
-	/**
+
+
+    public String getPercentage() {
+
+        int index = progress.indexOf(".");
+
+        if (index == -1) {
+            index = progress.indexOf(",");
+
+            if (index == -1) {
+                index = progress.length();
+            }
+        }
+
+        return progress.substring(0, index);
+
+    }
+
+    /**
 	 * @return the downloaded size
 	 */
 	public String getDownloaded() {
