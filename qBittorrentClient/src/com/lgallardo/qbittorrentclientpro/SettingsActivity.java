@@ -4,210 +4,220 @@
  * are made available under the terms of the GNU Public License v3.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/gpl.html
- * 
+ *
  * Contributors:
  *     Luis M. Gallardo D. - initial implementation
  ******************************************************************************/
 package com.lgallardo.qbittorrentclientpro;
 
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 
 public class SettingsActivity extends PreferenceActivity implements android.content.SharedPreferences.OnSharedPreferenceChangeListener {
 
-	private ListPreference currentServer;
-	private EditTextPreference hostname;
-	private EditTextPreference subfolder;
-	private CheckBoxPreference https;
-	private EditTextPreference port;
-	private EditTextPreference username;
-	private EditTextPreference password;
-	private CheckBoxPreference old_version;
-	private String currentServerValue;
+    private ListPreference currentServer;
+    private EditTextPreference hostname;
+    private EditTextPreference subfolder;
+    private CheckBoxPreference https;
+    private EditTextPreference port;
+    private EditTextPreference username;
+    private EditTextPreference password;
+    private CheckBoxPreference old_version;
+    private String currentServerValue;
 
-	private CheckBoxPreference auto_refresh;
-	private ListPreference refresh_period;
+    private CheckBoxPreference auto_refresh;
+    private ListPreference refresh_period;
 
-	private EditTextPreference connection_timeout;
-	private EditTextPreference data_timeout;
+    private EditTextPreference connection_timeout;
+    private EditTextPreference data_timeout;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    private ListPreference sortBy;
 
-		addPreferencesFromResource(R.xml.preferences);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		// Get preferences from screen
-		currentServer = (ListPreference) findPreference("currentServer");
-		hostname = (EditTextPreference) findPreference("hostname");
-		subfolder = (EditTextPreference) findPreference("subfolder");
+        addPreferencesFromResource(R.xml.preferences);
 
-		https = (CheckBoxPreference) findPreference("https");
-		port = (EditTextPreference) findPreference("port");
-		username = (EditTextPreference) findPreference("username");
-		password = (EditTextPreference) findPreference("password");
-		old_version = (CheckBoxPreference) findPreference("old_version");
+        // Get preferences from screen
+        currentServer = (ListPreference) findPreference("currentServer");
+        hostname = (EditTextPreference) findPreference("hostname");
+        subfolder = (EditTextPreference) findPreference("subfolder");
 
-		auto_refresh = (CheckBoxPreference) findPreference("auto_refresh");
-		refresh_period = (ListPreference) findPreference("refresh_period");
+        https = (CheckBoxPreference) findPreference("https");
+        port = (EditTextPreference) findPreference("port");
+        username = (EditTextPreference) findPreference("username");
+        password = (EditTextPreference) findPreference("password");
+        old_version = (CheckBoxPreference) findPreference("old_version");
 
-		connection_timeout = (EditTextPreference) findPreference("connection_timeout");
-		data_timeout = (EditTextPreference) findPreference("data_timeout");
+        auto_refresh = (CheckBoxPreference) findPreference("auto_refresh");
+        refresh_period = (ListPreference) findPreference("refresh_period");
 
-		// Get values for server
-		getQBittorrentServerValues(currentServer.getValue());
+        connection_timeout = (EditTextPreference) findPreference("connection_timeout");
+        data_timeout = (EditTextPreference) findPreference("data_timeout");
 
-		Preference pref = findPreference("currentServer");
-		pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-			@Override
-			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				// do whatever you want with new value
+        sortBy = (ListPreference) findPreference("sortby");
 
-				// Read and load preferences
-				saveQBittorrentServerValues();
-				getQBittorrentServerValues(newValue.toString());
-				return true;
-			}
-		});
-	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		// getMenuInflater().inflate(R.menu.setting, menu);
-		return true;
-	}
+        // Get values for server
+        getQBittorrentServerValues(currentServer.getValue());
 
-	@Override
-	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-		// TODO Auto-generated method stub
+        Preference pref = findPreference("currentServer");
+        pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                // do whatever you want with new value
 
-		// Update values on Screen
-		refreshScreenValues();
-	}
+                // Read and load preferences
+                saveQBittorrentServerValues();
+                getQBittorrentServerValues(newValue.toString());
+                return true;
+            }
+        });
+    }
 
-	@Override
-	public void onResume() {
-		super.onResume();
-		getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        // getMenuInflater().inflate(R.menu.setting, menu);
+        return true;
+    }
 
-	}
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        // TODO Auto-generated method stub
 
-	@Override
-	public void onPause() {
-		getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+        // Update values on Screen
+        refreshScreenValues();
+    }
 
-		saveQBittorrentServerValues();
-		super.onPause();
-	}
+    @Override
+    public void onResume() {
+        super.onResume();
+        getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 
-	public void getQBittorrentServerValues(String value) {
+    }
 
-		SharedPreferences sharedPrefs = getPreferenceManager().getSharedPreferences();
+    @Override
+    public void onPause() {
+        getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
 
-		currentServer.setSummary(currentServer.getEntry());
-		hostname.setText(sharedPrefs.getString("hostname" + value, ""));
-		hostname.setSummary(sharedPrefs.getString("hostname" + value, ""));
+        saveQBittorrentServerValues();
+        super.onPause();
+    }
 
-		if (hostname.getText().toString().equals("")) {
+    public void getQBittorrentServerValues(String value) {
 
-			hostname.setSummary(getString(R.string.settings_qbittorrent_hostname_hint));
+        SharedPreferences sharedPrefs = getPreferenceManager().getSharedPreferences();
 
-		}
-		subfolder.setText(sharedPrefs.getString("subfolder" + value, ""));
-		subfolder.setSummary(sharedPrefs.getString("subfolder" + value, ""));
+        currentServer.setSummary(currentServer.getEntry());
+        hostname.setText(sharedPrefs.getString("hostname" + value, ""));
+        hostname.setSummary(sharedPrefs.getString("hostname" + value, ""));
 
-		https.setChecked(sharedPrefs.getBoolean("https" + value, false));
+        if (hostname.getText().toString().equals("")) {
 
-		port.setText(sharedPrefs.getString("port" + value, "8080"));
-		port.setSummary(sharedPrefs.getString("port" + value, "8080"));
+            hostname.setSummary(getString(R.string.settings_qbittorrent_hostname_hint));
 
-		username.setText(sharedPrefs.getString("username" + value, "admin"));
-		username.setSummary(sharedPrefs.getString("username" + value, "admin"));
+        }
+        subfolder.setText(sharedPrefs.getString("subfolder" + value, ""));
+        subfolder.setSummary(sharedPrefs.getString("subfolder" + value, ""));
 
-		password.setText(sharedPrefs.getString("password" + value, "adminadmin"));
-		old_version.setChecked(sharedPrefs.getBoolean("old_version" + value, false));
+        https.setChecked(sharedPrefs.getBoolean("https" + value, false));
 
-		Log.i("auto-refresh", "Refresg value: " + refresh_period.getEntry());
+        port.setText(sharedPrefs.getString("port" + value, "8080"));
+        port.setSummary(sharedPrefs.getString("port" + value, "8080"));
 
-		refresh_period.setValueIndex(2);
-		refresh_period.setSummary(refresh_period.getEntry());
+        username.setText(sharedPrefs.getString("username" + value, "admin"));
+        username.setSummary(sharedPrefs.getString("username" + value, "admin"));
 
-		connection_timeout.setText(sharedPrefs.getString("connection_timeout", "5"));
-		data_timeout.setText(sharedPrefs.getString("data_timeout", "8"));
+        password.setText(sharedPrefs.getString("password" + value, "adminadmin"));
+        old_version.setChecked(sharedPrefs.getBoolean("old_version" + value, false));
 
-	}
+        if (refresh_period.getEntry() == null) {
+            refresh_period.setValueIndex(2);
+        } else {
+            Log.i("Settings", "" + refresh_period.getEntry());
+        }
+        refresh_period.setSummary(refresh_period.getEntry());
 
-	public void refreshScreenValues() {
+        connection_timeout.setText(sharedPrefs.getString("connection_timeout", "5"));
+        data_timeout.setText(sharedPrefs.getString("data_timeout", "8"));
 
-		currentServer.setSummary(currentServer.getEntry());
-		hostname.setSummary(hostname.getText());
-		subfolder.setSummary(subfolder.getText());
-		port.setSummary(port.getText());
-		username.setSummary(username.getText());
-		refresh_period.setSummary(refresh_period.getEntry());
+        if (sortBy.getEntry() == null) {
+            sortBy.setValueIndex(1);
+        }
+        sortBy.setSummary(sortBy.getEntry());
+    }
 
-	}
+    public void refreshScreenValues() {
 
-	public void saveQBittorrentServerValues() {
+        currentServer.setSummary(currentServer.getEntry());
+        hostname.setSummary(hostname.getText());
+        subfolder.setSummary(subfolder.getText());
+        port.setSummary(port.getText());
+        username.setSummary(username.getText());
+        refresh_period.setSummary(refresh_period.getEntry());
+        sortBy.setSummary(sortBy.getEntry());
 
-		currentServerValue = currentServer.getValue();
+    }
 
-		// Save options locally
-		SharedPreferences sharedPrefs = getPreferenceManager().getSharedPreferences();
+    public void saveQBittorrentServerValues() {
 
-		// SharedPreferences sharedPrefs =
-		// PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		Editor editor = sharedPrefs.edit();
+        currentServerValue = currentServer.getValue();
 
-		if (hostname.getText().toString() != null && hostname.getText().toString() != "") {
-			editor.putString("hostname" + currentServerValue, hostname.getText().toString());
-		}
+        // Save options locally
+        SharedPreferences sharedPrefs = getPreferenceManager().getSharedPreferences();
 
-		if (subfolder.getText().toString() != null) {
-			editor.putString("subfolder" + currentServerValue, subfolder.getText().toString());
-		}
+        // SharedPreferences sharedPrefs =
+        // PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        Editor editor = sharedPrefs.edit();
 
-		editor.putBoolean("https" + currentServerValue, https.isChecked());
+        if (hostname.getText().toString() != null && hostname.getText().toString() != "") {
+            editor.putString("hostname" + currentServerValue, hostname.getText().toString());
+        }
 
-		if (port.getText().toString() != null && port.getText().toString() != "") {
+        if (subfolder.getText().toString() != null) {
+            editor.putString("subfolder" + currentServerValue, subfolder.getText().toString());
+        }
 
-			editor.putString("port" + currentServerValue, port.getText().toString());
-		}
+        editor.putBoolean("https" + currentServerValue, https.isChecked());
 
-		if (username.getText().toString() != null && username.getText().toString() != "") {
+        if (port.getText().toString() != null && port.getText().toString() != "") {
 
-			editor.putString("username" + currentServerValue, username.getText().toString());
-		}
+            editor.putString("port" + currentServerValue, port.getText().toString());
+        }
 
-		if (password.getText().toString() != null && password.getText().toString() != "") {
+        if (username.getText().toString() != null && username.getText().toString() != "") {
 
-			editor.putString("password" + currentServerValue, password.getText().toString());
-		}
+            editor.putString("username" + currentServerValue, username.getText().toString());
+        }
 
-		editor.putBoolean("old_version" + currentServerValue, old_version.isChecked());
+        if (password.getText().toString() != null && password.getText().toString() != "") {
 
-		if (connection_timeout.getText().toString() != null && connection_timeout.getText().toString() != "") {
-			editor.putString("connection_timeout", connection_timeout.getText().toString());
-		}
+            editor.putString("password" + currentServerValue, password.getText().toString());
+        }
 
-		if (data_timeout.getText().toString() != null && data_timeout.getText().toString() != "") {
-			editor.putString("data_timeout", data_timeout.getText().toString());
-		}
+        editor.putBoolean("old_version" + currentServerValue, old_version.isChecked());
 
-		// Commit changes
-		editor.commit();
+        if (connection_timeout.getText().toString() != null && connection_timeout.getText().toString() != "") {
+            editor.putString("connection_timeout", connection_timeout.getText().toString());
+        }
 
-	}
+        if (data_timeout.getText().toString() != null && data_timeout.getText().toString() != "") {
+            editor.putString("data_timeout", data_timeout.getText().toString());
+        }
+
+        // Commit changes
+        editor.commit();
+
+    }
 
 }

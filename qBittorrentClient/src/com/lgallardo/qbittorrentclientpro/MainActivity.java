@@ -130,6 +130,7 @@ public class MainActivity extends FragmentActivity {
 	protected static int refresh_period;
 	protected static int connection_timeout;
 	protected static int data_timeout;
+    protected static String sortby;
 
 	// Option
 	protected static String global_max_num_connections;
@@ -1336,6 +1337,8 @@ public class MainActivity extends FragmentActivity {
 			data_timeout = 8;
 		}
 
+        sortby = sharedPrefs.getString("sortby", "NULL");
+
 	}
 
 	// Get Options
@@ -1557,11 +1560,12 @@ public class MainActivity extends FragmentActivity {
 						name = json.getString(TAG_NAME);
 						size = json.getString(TAG_SIZE).replace(",", ".");
 						progress = String.format("%.2f", json.getDouble(TAG_PROGRESS) * 100) + "%";
-						info = "";
+                        progress = progress.replace(",", ".");
+                        info = "";
 						state = json.getString(TAG_STATE);
 						hash = json.getString(TAG_HASH);
-						ratio = json.getString(TAG_RATIO);
-						leechs = json.getString(TAG_NUMLEECHS);
+                        ratio = json.getString(TAG_RATIO).replace(",", ".");
+                        leechs = json.getString(TAG_NUMLEECHS);
 						seeds = json.getString(TAG_NUMSEEDS);
 						priority = json.getString(TAG_PRIORITY);
 						eta = json.getString(TAG_ETA);
@@ -1684,13 +1688,27 @@ public class MainActivity extends FragmentActivity {
 				}
 
                 // Sort by filename
-                //Collections.sort(torrentsFiltered, new TorrentNameComparator());
-
+                if (sortby.equals("Name")) {
+                    Collections.sort(torrentsFiltered, new TorrentNameComparator());
+                }
                 // Sort by priority
-                //Collections.sort(torrentsFiltered, new TorrentPriorityComparator());
-
+                if (sortby.equals("Priority")) {
+                    Collections.sort(torrentsFiltered, new TorrentPriorityComparator());
+                }
                 // Sort by progress
-                Collections.sort(torrentsFiltered, new TorrentProgressComparator());
+                if (sortby.equals("Progress")) {
+                    Collections.sort(torrentsFiltered, new TorrentProgressComparator());
+                }
+                // Sort by Eta
+                if (sortby.equals("ETA")) {
+                    Collections.sort(torrentsFiltered, new TorrentEtaComparator());
+                }
+
+                // Sort by Ratio
+                if (sortby.equals("Ratio")) {
+                    Collections.sort(torrentsFiltered, new TorrentRatioComparator());
+                }
+
 
                 // Get names (delete in background method)
                 MainActivity.names = new String[torrentsFiltered.size()];

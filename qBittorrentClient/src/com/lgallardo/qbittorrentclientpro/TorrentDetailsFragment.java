@@ -10,9 +10,6 @@
  ******************************************************************************/
 package com.lgallardo.qbittorrentclientpro;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import android.app.Fragment;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -31,6 +28,9 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class TorrentDetailsFragment extends Fragment {
 
@@ -182,15 +182,15 @@ public class TorrentDetailsFragment extends Fragment {
 			TextView uploadSpeedTextView = (TextView) rootView.findViewById(R.id.uploadSpeed);
 			TextView downloadSpeedTextView = (TextView) rootView.findViewById(R.id.DownloadSpeed);
 
-			nameTextView.setText(name);
-			ratioTextView.setText(ratio);
-			stateTextView.setText(state);
-			leechsTextView.setText(leechs);
-			seedsTextView.setText(seeds);
-			progressTextView.setText(progress);
-			hashTextView.setText(hash);
-			priorityTextView.setText(priority);
-			etaTextView.setText(eta);
+            nameTextView.setText(name + ":");
+            ratioTextView.setText(ratio + ":");
+            stateTextView.setText(state + ":");
+            leechsTextView.setText(leechs + ":");
+            seedsTextView.setText(seeds + ":");
+            progressTextView.setText(progress + ":");
+            hashTextView.setText(hash + ":");
+            priorityTextView.setText(priority + ":");
+            etaTextView.setText(eta);
 
 			downloadSpeedTextView.setText(Character.toString('\u2193') + " " + downloadSpeed);
 			uploadSpeedTextView.setText(Character.toString('\u2191') + " " + uploadSpeed);

@@ -79,12 +79,12 @@
     <string name="torrent_details_trackers">Trackers</string>
     <string name="torrent_details_general_info">Infromations générales</string>
     <string name="torrent_details_save_path">Chemin:</string>
-    <string name="torrent_details_ratio">Ratio:</string>
-    <string name="torrent_details_priority">Priorité:</string>
-    <string name="torrent_details_leechs">Leechs</string>
+    <string name="torrent_details_ratio">Ratio</string>
+    <string name="torrent_details_priority">Priorité</string>
+    <string name="torrent_details_leechs">Leeches</string>
     <string name="torrent_details_seeds">Seeds:</string>
     <string name="torrent_details_state">État:</string>
-    <string name="torrent_details_progres">Progrès:</string>
+    <string name="torrent_details_progress">Progrès</string>
     <string name="torrent_details_torrent_hash">Hash du torrent:</string>
     <string name="torrent_details_created_date">Date de création:</string>
     <string name="torrent_details_comment">Commentaire:</string>
@@ -159,5 +159,10 @@
     <string name="dialog_download_rate_limit">Limite de vitesse de téléchargement (KiB/s)</string>
     <string name="dialog_upload_rate_limit">Limite de vitesse de charge (KiB/s)</string>
     <string name="title_activity_settings">Paramètres</string>
+    <string name="torrent_details_name">Nom</string>
+    <string name="settings_qbittorrent_sort_category">Trier la liste </string>
+    <string name="settings_qbittorrent_sortby_dialog_title">Trier par...</string>
+    <string name="settings_qbittorrent_sortby_summary">Trier par...</string>
+    <string name="torrent_details_eta">Durée estimée</string>
 
 </resources>
