@@ -18,7 +18,6 @@ import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.util.Log;
 import android.view.Menu;
 
 public class SettingsActivity extends PreferenceActivity implements android.content.SharedPreferences.OnSharedPreferenceChangeListener {
@@ -40,6 +39,7 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
     private EditTextPreference data_timeout;
 
     private ListPreference sortBy;
+    private CheckBoxPreference reverse_order;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +65,7 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
         data_timeout = (EditTextPreference) findPreference("data_timeout");
 
         sortBy = (ListPreference) findPreference("sortby");
+        reverse_order = (CheckBoxPreference) findPreference("reverse_order");
 
 
         // Get values for server
@@ -93,7 +94,6 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        // TODO Auto-generated method stub
 
         // Update values on Screen
         refreshScreenValues();
@@ -143,18 +143,19 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
 
         if (refresh_period.getEntry() == null) {
             refresh_period.setValueIndex(2);
-        } else {
-            Log.i("Settings", "" + refresh_period.getEntry());
         }
         refresh_period.setSummary(refresh_period.getEntry());
 
-        connection_timeout.setText(sharedPrefs.getString("connection_timeout", "5"));
-        data_timeout.setText(sharedPrefs.getString("data_timeout", "8"));
+        connection_timeout.setText(sharedPrefs.getString("connection_timeout" + value, "5"));
+        data_timeout.setText(sharedPrefs.getString("data_timeout" + value, "8"));
 
         if (sortBy.getEntry() == null) {
             sortBy.setValueIndex(1);
         }
+
         sortBy.setSummary(sortBy.getEntry());
+        reverse_order.setChecked(sharedPrefs.getBoolean("reverse_order", false));
+
     }
 
     public void refreshScreenValues() {
@@ -208,12 +209,14 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
         editor.putBoolean("old_version" + currentServerValue, old_version.isChecked());
 
         if (connection_timeout.getText().toString() != null && connection_timeout.getText().toString() != "") {
-            editor.putString("connection_timeout", connection_timeout.getText().toString());
+            editor.putString("connection_timeout" + currentServerValue, connection_timeout.getText().toString());
         }
 
         if (data_timeout.getText().toString() != null && data_timeout.getText().toString() != "") {
-            editor.putString("data_timeout", data_timeout.getText().toString());
+            editor.putString("data_timeout" + currentServerValue, data_timeout.getText().toString());
         }
+
+        editor.putBoolean("revserse_order" + currentServerValue, reverse_order.isChecked());
 
         // Commit changes
         editor.commit();

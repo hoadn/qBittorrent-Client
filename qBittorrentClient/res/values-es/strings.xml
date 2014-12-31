@@ -51,7 +51,7 @@
     <string name="setUploadRateLimit">Límite de subida cambiado</string>
     <string name="setDownloadRateLimit">Límite de bajada cambiado</string>
     <string name="error">Error</string>
-    <string name="error1">El host o dirección IP no son alcanzables. Por favor revise su configuraciones!</string>
+    <string name="error1">El host o dirección IP no son alcanzables. Por favor revise su configuración!</string>
     <string name="error401">Acceso no autorizado. Compruebe la configuración de la cuenta para evitar ser baneado!</string>
     <string name="error403">Su dirección IP ha sido baneada después de demasiados intentos de autenticación fallidos</string>
     <string name="info">Atención</string>
@@ -87,13 +87,13 @@
     <string name="torrent_details_trackers">Trackers</string>
     <string name="torrent_details_general_info">Información general</string>
     <string name="torrent_details_save_path">Ruta:</string>
-    <string name="torrent_details_ratio">Ratio</string>
-    <string name="torrent_details_eta">Tiempo estimado</string>
-    <string name="torrent_details_priority">Prioridad</string>
-    <string name="torrent_details_leechs">Leeches</string>
+    <string name="torrent_details_ratio">Ratio:</string>
+    <string name="torrent_details_eta">Tiempo estimado:</string>
+    <string name="torrent_details_priority">Prioridad:</string>
+    <string name="torrent_details_leechs">Leeches:</string>
     <string name="torrent_details_seeds">Seeds:</string>
     <string name="torrent_details_state">Estado:</string>
-    <string name="torrent_details_progress">Progreso</string>
+    <string name="torrent_details_progress">Progreso:</string>
     <string name="torrent_details_torrent_hash">Torrent Hash:</string>
     <string name="torrent_details_created_date">Fecha de Creación:</string>
     <string name="torrent_details_comment">Comentario:</string>
@@ -102,7 +102,7 @@
     <string name="torrent_details_total_wasted">Total perdido:</string>
     <string name="torrent_details_total_uploaded">Total subido:</string>
     <string name="torrent_details_total_downloaded">Total descargado:</string>
-    <string name="torrent_details_time_elapsed">Tiempo transcurrido</string>
+    <string name="torrent_details_time_elapsed">Tiempo transcurrido:</string>
     <string name="torrent_details_num_connections">Num. Conexiones:</string>
     <string name="torrent_details_share_ratio">Ratio:</string>
     <string name="torrent_details_cant_general_ino">No pude obtener la información general</string>
@@ -168,9 +168,11 @@
     <string name="dialog_download_rate_limit">Límite de bajada (KiB/s)</string>
     <string name="dialog_upload_rate_limit">Límite de subida (KiB/s)</string>
     <string name="title_activity_settings">Configuración</string>
-    <string name="torrent_details_name">Nombre</string>
+    <string name="torrent_details_name">Nombre:</string>
     <string name="settings_qbittorrent_sort_category">Ordenar lista de torrents</string>
     <string name="settings_qbittorrent_sortby_summary">Ordenar por...</string>
     <string name="settings_qbittorrent_sortby_dialog_title">Ordenar por...</string>
+    <string name="settings_qbittorrent_reverse_order_dialog_title">Invertir orden?</string>
+    <string name="settings_qbittorrent_reverse_order_summary">Invertir orden</string>
 
 </resources>

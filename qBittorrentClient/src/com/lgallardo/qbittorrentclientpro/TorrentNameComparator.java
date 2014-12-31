@@ -14,14 +14,25 @@ import java.util.Comparator;
 
 public class TorrentNameComparator implements Comparator<Torrent> {
 
+    boolean reversed = false;
+
+    TorrentNameComparator(boolean reversed) {
+        this.reversed = reversed;
+    }
+
     @Override
     public int compare(Torrent t1, Torrent t2) {
         String name1 = t1.getFile();
         String name2 = t2.getFile();
 
-        // Ascending order (descending order would be: name2.compareTo(name1))
-        return name1.compareTo(name2);
+        if (reversed) {
+            // Descending order
+            return name2.compareTo(name1);
 
+        } else {
+            // Ascending order
+            return name1.compareTo(name2);
+        }
     }
 
 

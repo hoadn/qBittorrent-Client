@@ -8,11 +8,11 @@
   Contributors:
       Luis M. Gallardo D. - initial implementation
 -->
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
         android:key="Account"
-        android:title="@string/settings_qbittorrent_account_category" >
+        android:title="@string/settings_qbittorrent_account_category">
         <ListPreference
             android:defaultValue="1"
             android:entries="@array/qBittorrentServers"
@@ -23,8 +23,8 @@
 
         <EditTextPreference
             android:defaultValue=""
-            android:hint="@string/settings_qbittorrent_hostname_hint"
             android:dialogTitle="@string/settings_qbittorrent_hostname_dialog_title"
+            android:hint="@string/settings_qbittorrent_hostname_hint"
             android:key="hostname"
             android:summary="@string/settings_qbittorrent_hostname_summary"
             android:title="@string/settings_qbittorrent_hostname_title" />
@@ -69,8 +69,8 @@
     </PreferenceCategory>
     <PreferenceCategory
         android:key="Autorefresh"
-        android:title="@string/settings_qbittorrent_autorefresh_category" >
-        <CheckBoxPreference
+        android:title="@string/settings_qbittorrent_autorefresh_category">
+    <CheckBoxPreference
             android:defaultValue="true"
             android:key="auto_refresh"
             android:summary="@string/settings_qbittorrent_autorefresh_summary"
@@ -87,8 +87,8 @@
     </PreferenceCategory>
     <PreferenceCategory
         android:key="timeous"
-        android:title="@string/settings_qbittorrent_timeouts_category" >
-        <EditTextPreference
+        android:title="@string/settings_qbittorrent_timeouts_category">
+    <EditTextPreference
             android:defaultValue="5"
             android:dialogTitle="@string/settings_qbittorrent_connection_timeout_dialog_title"
             android:inputType="number"
@@ -116,6 +116,11 @@
             android:key="sortby"
             android:summary="@string/settings_qbittorrent_sortby_summary"
             android:title="@string/settings_qbittorrent_sortby_dialog_title" />
-    </PreferenceCategory>
 
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="reverse_order"
+            android:summary="@string/settings_qbittorrent_reverse_order_summary"
+            android:title="@string/settings_qbittorrent_reverse_order_dialog_title" />
+    </PreferenceCategory>
 </PreferenceScreen>

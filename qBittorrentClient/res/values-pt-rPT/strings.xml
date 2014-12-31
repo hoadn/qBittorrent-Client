@@ -78,12 +78,12 @@
     <string name="torrent_details_trackers">Trackers</string>
     <string name="torrent_details_general_info">Informações gerais</string>
     <string name="torrent_details_save_path">Salvar caminho:</string>
-    <string name="torrent_details_ratio">Proporção</string>
-    <string name="torrent_details_priority">Prioridade</string>
-    <string name="torrent_details_leechs">Leeches</string>
+    <string name="torrent_details_ratio">Proporção:</string>
+    <string name="torrent_details_priority">Prioridade:</string>
+    <string name="torrent_details_leechs">Leeches:</string>
     <string name="torrent_details_seeds">Seeds:</string>
     <string name="torrent_details_state">Estado:</string>
-    <string name="torrent_details_progress">Progresso</string>
+    <string name="torrent_details_progress">Progresso:</string>
     <string name="torrent_details_torrent_hash">Torrent Hash:</string>
     <string name="torrent_details_created_date">Data de Criação:</string>
     <string name="torrent_details_comment">Comentar</string>
@@ -92,7 +92,7 @@
     <string name="torrent_details_total_wasted">Total perdido:</string>
     <string name="torrent_details_total_uploaded">Total Carregado:</string>
     <string name="torrent_details_total_downloaded">Total Baixado:</string>
-    <string name="torrent_details_time_elapsed">Tempo decorrido</string>
+    <string name="torrent_details_time_elapsed">Tempo decorrido:</string>
     <string name="torrent_details_num_connections">Num. conexões:</string>
     <string name="torrent_details_share_ratio">Compartilhar Ratio:</string>
     <string name="torrent_details_cant_general_ino">Informação geral não pôde ser recuperada</string>
@@ -159,10 +159,12 @@
     <string name="dialog_upload_rate_limit">Limite da taxa de carga (KiB/s)</string>
     <string name="error1">O nome do host ou o endereço IP não pode ser alcançado. Por favor, verifique suas configurações!</string>
     <string name="title_activity_settings">Configurações</string>
-    <string name="torrent_details_name">Nome</string>
+    <string name="torrent_details_name">Nome:</string>
     <string name="settings_qbittorrent_sort_category">Ordenar a lista</string>
     <string name="settings_qbittorrent_sortby_dialog_title">Ordenar por...</string>
     <string name="settings_qbittorrent_sortby_summary">Ordenar por...</string>
-    <string name="torrent_details_eta">Tempo estimado</string>
+    <string name="torrent_details_eta">Tempo estimado:</string>
+    <string name="settings_qbittorrent_reverse_order_dialog_title">Ordem inversa?</string>
+    <string name="settings_qbittorrent_reverse_order_summary">Ordem inversa</string>
 
 </resources>

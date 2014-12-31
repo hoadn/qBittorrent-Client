@@ -13,6 +13,13 @@ package com.lgallardo.qbittorrentclientpro;
 import java.util.Comparator;
 
 public class TorrentPriorityComparator implements Comparator<Torrent> {
+
+    boolean reversed = false;
+
+    TorrentPriorityComparator(boolean reversed) {
+        this.reversed = reversed;
+    }
+
     @Override
     public int compare(Torrent t1, Torrent t2) {
 
@@ -32,7 +39,11 @@ public class TorrentPriorityComparator implements Comparator<Torrent> {
         int p1 = Integer.parseInt(priority1);
         int p2 = Integer.parseInt(priority2);
 
-        // Ascending order
-        return p1 - p2;
+        if (reversed) {
+            return p2 - p1;
+        } else {
+            // Ascending order
+            return p1 - p2;
+        }
     }
 }

@@ -12,27 +12,27 @@ package com.lgallardo.qbittorrentclientpro;
 
 import java.util.Comparator;
 
-public class TorrentEtaComparator implements Comparator<Torrent> {
+public class TorrentUploadSpeedComparator implements Comparator<Torrent> {
 
     boolean reversed = false;
 
-    TorrentEtaComparator(boolean reversed) {
+    TorrentUploadSpeedComparator(boolean reversed) {
         this.reversed = reversed;
     }
 
     @Override
     public int compare(Torrent t1, Torrent t2) {
 
-        int eta1 = t1.getEtaInMinutes();
-        int eta2 = t2.getEtaInMinutes();
+        int w1 = t1.getUploadSpeedWeight();
+        int w2 = t2.getUploadSpeedWeight();
 
         if (reversed) {
-            // Descending order
-            return eta2 - eta1;
-        } else {
             // Ascending order
-            return eta1 - eta2;
+            return w1 - w2;
+        } else {
+            // Descending order
+            return w2 - w1;
         }
-
     }
 }
+

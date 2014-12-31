@@ -78,12 +78,12 @@
     <string name="torrent_details_trackers">Trackers</string>
     <string name="torrent_details_general_info">Allmän information</string>
     <string name="torrent_details_save_path">Sökväg:</string>
-    <string name="torrent_details_ratio">Förhå</string>
-    <string name="torrent_details_priority">Prioritet</string>
-    <string name="torrent_details_leechs">Leeches</string>
+    <string name="torrent_details_ratio">Förhå:</string>
+    <string name="torrent_details_priority">Prioritet:</string>
+    <string name="torrent_details_leechs">Leeches:</string>
     <string name="torrent_details_seeds">Seeds:</string>
     <string name="torrent_details_state">Status:</string>
-    <string name="torrent_details_progress">Framsteg</string>
+    <string name="torrent_details_progress">Framsteg:</string>
     <string name="torrent_details_torrent_hash">Torrent Hash:</string>
     <string name="torrent_details_created_date">Skapad den:</string>
     <string name="torrent_details_comment">Kommentar:</string>
@@ -92,7 +92,7 @@
     <string name="torrent_details_total_wasted">Bortkastade totalt:</string>
     <string name="torrent_details_total_uploaded">Totalt uppladdat:</string>
     <string name="torrent_details_total_downloaded">Totalt nedladdade:</string>
-    <string name="torrent_details_time_elapsed">Tid Förfluten</string>
+    <string name="torrent_details_time_elapsed">Tid Förfluten:</string>
     <string name="torrent_details_num_connections">Ant. Anslutningar:</string>
     <string name="torrent_details_share_ratio">Förhållande:</string>
     <string name="torrent_details_cant_general_ino">Den allmänna information kunde inte hämtas</string>
@@ -158,10 +158,12 @@
     <string name="dialog_download_rate_limit">Nedladdningshastighet gräns (KiB/s)</string>
     <string name="dialog_upload_rate_limit">Överför hastighetsgränser (KiB/s)</string>
     <string name="title_activity_settings">Inställningar</string>
-    <string name="torrent_details_name">Namn</string>
+    <string name="torrent_details_name">Namn:</string>
     <string name="settings_qbittorrent_sort_category">Sortera listan</string>
     <string name="settings_qbittorrent_sortby_dialog_title">Sortera efter...</string>
     <string name="settings_qbittorrent_sortby_summary">Sortera efter...</string>
-    <string name="torrent_details_eta">Beräknad tid</string>
+    <string name="torrent_details_eta">Beräknad tid:</string>
+    <string name="settings_qbittorrent_reverse_order_dialog_title">Omvänd ordning?</string>
+    <string name="settings_qbittorrent_reverse_order_summary">Omvänd ordning</string>
 
 </resources>

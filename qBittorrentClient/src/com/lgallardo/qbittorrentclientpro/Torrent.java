@@ -142,11 +142,72 @@ class Torrent {
         this.downloadSpeed = downloadSpeed;
     }
 
+    public int getSpeedWeight(String type) {
+
+        String scalar = "0";
+        String unit = "";
+        int weight = 0;
+
+        String speed = this.downloadSpeed;
+
+        if (type.equals("upload")) {
+            speed = this.uploadSpeed;
+        }
+
+
+        String[] words = speed.split("\\s+");
+
+        if (words.length == 2) {
+
+            try {
+                scalar = words[0];
+            } catch (Exception e) {
+            }
+
+            try {
+                unit = words[1];
+            } catch (Exception e) {
+            }
+
+            weight = (int) (Float.parseFloat(scalar) * 10);
+
+            if (unit.charAt(0) == 'B') {
+                weight = (int) (Float.parseFloat(scalar) / 10);
+            }
+            if (unit.charAt(0) == 'K') {
+                weight = weight * 10;
+            }
+
+            if (unit.charAt(0) == 'M') {
+                weight = weight * 100;
+            }
+
+            if (unit.charAt(0) == 'G') {
+                weight = weight * 1000;
+            }
+
+            if (unit.charAt(0) == 'T') {
+                weight = weight * 10000;
+            }
+
+        }
+
+        return weight;
+    }
+
+    public int getDownloadSpeedWeight() {
+        return getSpeedWeight("download");
+    }
+
     /**
      * @return the uploadSpeed
      */
     public String getUploadSpeed() {
         return uploadSpeed;
+    }
+
+    public int getUploadSpeedWeight() {
+        return getSpeedWeight("upload");
     }
 
     /**

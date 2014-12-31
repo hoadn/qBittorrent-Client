@@ -131,6 +131,7 @@ public class MainActivity extends FragmentActivity {
 	protected static int connection_timeout;
 	protected static int data_timeout;
     protected static String sortby;
+    protected static boolean reverse_order;
 
 	// Option
 	protected static String global_max_num_connections;
@@ -1338,6 +1339,7 @@ public class MainActivity extends FragmentActivity {
 		}
 
         sortby = sharedPrefs.getString("sortby", "NULL");
+        reverse_order = sharedPrefs.getBoolean("reverse_order", false);
 
 	}
 
@@ -1689,24 +1691,34 @@ public class MainActivity extends FragmentActivity {
 
                 // Sort by filename
                 if (sortby.equals("Name")) {
-                    Collections.sort(torrentsFiltered, new TorrentNameComparator());
+                    Collections.sort(torrentsFiltered, new TorrentNameComparator(reverse_order));
                 }
                 // Sort by priority
                 if (sortby.equals("Priority")) {
-                    Collections.sort(torrentsFiltered, new TorrentPriorityComparator());
+                    Collections.sort(torrentsFiltered, new TorrentPriorityComparator(reverse_order));
                 }
                 // Sort by progress
                 if (sortby.equals("Progress")) {
-                    Collections.sort(torrentsFiltered, new TorrentProgressComparator());
+                    Collections.sort(torrentsFiltered, new TorrentProgressComparator(reverse_order));
                 }
                 // Sort by Eta
                 if (sortby.equals("ETA")) {
-                    Collections.sort(torrentsFiltered, new TorrentEtaComparator());
+                    Collections.sort(torrentsFiltered, new TorrentEtaComparator(reverse_order));
+                }
+
+                // Sort by download speed
+                if (sortby.equals("Ratio")) {
+                    Collections.sort(torrentsFiltered, new TorrentRatioComparator(reverse_order));
+                }
+
+                // Sort by upload speed
+                if (sortby.equals("DownloadSpeed")) {
+                    Collections.sort(torrentsFiltered, new TorrentDownloadSpeedComparator(reverse_order));
                 }
 
                 // Sort by Ratio
-                if (sortby.equals("Ratio")) {
-                    Collections.sort(torrentsFiltered, new TorrentRatioComparator());
+                if (sortby.equals("UploadSpeed")) {
+                    Collections.sort(torrentsFiltered, new TorrentUploadSpeedComparator(reverse_order));
                 }
 
 
