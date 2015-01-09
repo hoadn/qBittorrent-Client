@@ -543,18 +543,9 @@ public class MainActivity extends FragmentActivity {
 
                 qtt.execute(params);
 
-//                // If activity is visible
-//                if (activityIsVisible) {
-//                    // Connecting message
-//                    Toast.makeText(this, R.string.connecting, Toast.LENGTH_SHORT).show();
-//                }
-
-
                 // Close Contextual Action Bar
                 if (firstFragment != null && firstFragment.mActionMode != null) {
-
                     firstFragment.mActionMode.finish();
-
                 }
 
             }
@@ -1111,14 +1102,9 @@ public class MainActivity extends FragmentActivity {
         qtc.execute(new String[]{"deleteSelected", hashes});
 
         Toast.makeText(getApplicationContext(), R.string.torrentsSelectedDeleted, Toast.LENGTH_SHORT).show();
-    }
 
-    public void deleteDriveSelectedTorrents(String hashes) {
-        // Execute the task in background
-        qBittorrentCommand qtc = new qBittorrentCommand();
-        qtc.execute(new String[]{"deleteDriveSelected", hashes});
-
-        Toast.makeText(getApplicationContext(), R.string.torrentsSelectedDeletedDrive, Toast.LENGTH_SHORT).show();
+        // Delay of 3 seconds
+        refreshAfterCommand(3);
     }
 
     public void deleteDriveTorrent(String hash) {
@@ -1126,6 +1112,19 @@ public class MainActivity extends FragmentActivity {
         qBittorrentCommand qtc = new qBittorrentCommand();
         qtc.execute(new String[]{"deleteDrive", hash});
     }
+
+
+    public void deleteDriveSelectedTorrents(String hashes) {
+        // Execute the task in background
+        qBittorrentCommand qtc = new qBittorrentCommand();
+        qtc.execute(new String[]{"deleteDriveSelected", hashes});
+
+        Toast.makeText(getApplicationContext(), R.string.torrentsSelectedDeletedDrive, Toast.LENGTH_SHORT).show();
+
+        // Delay of 3 seconds
+        refreshAfterCommand(3);
+    }
+
 
     public void addTorrent(String url) {
         // Execute the task in background
@@ -2098,9 +2097,5 @@ public class MainActivity extends FragmentActivity {
         }
 
     }
-
-
-    // Drawer classes
-
 
 }

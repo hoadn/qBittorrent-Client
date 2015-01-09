@@ -15,7 +15,6 @@ import android.app.FragmentManager;
 import android.app.ListFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -66,13 +65,6 @@ public class ItemstFragment extends ListFragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onListItemClick(ListView parent, View v, int position, long id) {
-
-        ListItemClicked(position);
-
     }
 
     @Override
@@ -138,8 +130,6 @@ public class ItemstFragment extends ListFragment {
 
 
                         if (mAdapter.isPositionChecked(i)) {
-                            Log.i("ItemsFragment", "Name: " + mAdapter.getData()[i].getFile());
-                            Log.i("ItemsFragment", "Hash: " + mAdapter.getData()[i].getHash());
 
                             if (hashes == null) {
                                 hashes = mAdapter.getData()[i].getHash();
@@ -152,9 +142,6 @@ public class ItemstFragment extends ListFragment {
                     }
 
                     hashesStr = hashes;
-
-
-                    Log.i("ItemsFragment", "Hashes: " + hashes);
 
                     switch (item.getItemId()) {
 
@@ -290,45 +277,10 @@ public class ItemstFragment extends ListFragment {
     }
 
 
-    //    @Override
-//    public void onViewCreated (View view, Bundle savedInstanceState) {
-//        registerForContextMenu(getListView());
-//    }
-
-//    @Override
-//    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-//        super.onCreateContextMenu(menu, v, menuInfo);
-//
-//        MenuInflater inflater = this.getActivity().getMenuInflater();
-//        inflater.inflate(R.menu.main_contextual_action_bar, menu);
-//    }
-
-
-//    @Override
-//    public boolean onContextItemSelected(MenuItem item) {
-//
-////        ListView list = this.getListView().getCheckedItemCount();;
-////        // Capture total checked items
-////        final int checkedCount = list.getCheckedItemCount();
-////        // Set the CAB title according to total checked items
-////        mode.setTitle(checkedCount + " Selected");
-////        // Calls toggleSelection method from ListViewAdapter Class
-////        listviewadapter.toggleSelection(position);
-//
-//
-//
-//
-//        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-//        switch (item.getItemId()) {
-//
-//            case R.id.delete: // <-- your custom menu item id here
-//                // do something here
-//                return true;
-//
-//            default:
-//                return super.onContextItemSelected(item);
-//        }
-//    }
+    @Override
+    public void onListItemClick(ListView parent, View v, int position, long id) {
+        ListItemClicked(position);
+    }
 
     public void ListItemClicked(int position) {
 
