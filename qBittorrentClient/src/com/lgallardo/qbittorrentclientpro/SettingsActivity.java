@@ -142,7 +142,7 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
         old_version.setChecked(sharedPrefs.getBoolean("old_version" + value, false));
 
         if (refresh_period.getEntry() == null) {
-            refresh_period.setValueIndex(2);
+            refresh_period.setValueIndex(6);
         }
         refresh_period.setSummary(refresh_period.getEntry());
 

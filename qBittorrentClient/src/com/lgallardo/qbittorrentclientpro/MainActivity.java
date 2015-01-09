@@ -505,9 +505,10 @@ public class MainActivity extends FragmentActivity {
 
     private void refresh(String state) {
 
-        // Close CAB
-//        MainActivity.this.getActionBar().
-
+        // If Contextual Action Bar is open, don't refresh
+        if (firstFragment != null && firstFragment.mActionMode != null) {
+            return;
+        }
 
         if (oldVersion == true) {
             params[0] = "json/events";
@@ -543,10 +544,6 @@ public class MainActivity extends FragmentActivity {
 
                 qtt.execute(params);
 
-                // Close Contextual Action Bar
-                if (firstFragment != null && firstFragment.mActionMode != null) {
-                    firstFragment.mActionMode.finish();
-                }
 
             }
 
@@ -1084,8 +1081,8 @@ public class MainActivity extends FragmentActivity {
 
         Toast.makeText(getApplicationContext(), R.string.torrentsSelectedPaused, Toast.LENGTH_SHORT).show();
 
-        // Delay of 3 seconds
-        refreshAfterCommand(3);
+        // Delay of 1 second
+        refreshAfterCommand(1);
 
     }
 
@@ -1103,8 +1100,8 @@ public class MainActivity extends FragmentActivity {
 
         Toast.makeText(getApplicationContext(), R.string.torrentsSelectedDeleted, Toast.LENGTH_SHORT).show();
 
-        // Delay of 3 seconds
-        refreshAfterCommand(3);
+        // Delay of 1 second
+        refreshAfterCommand(1);
     }
 
     public void deleteDriveTorrent(String hash) {
@@ -1121,8 +1118,8 @@ public class MainActivity extends FragmentActivity {
 
         Toast.makeText(getApplicationContext(), R.string.torrentsSelectedDeletedDrive, Toast.LENGTH_SHORT).show();
 
-        // Delay of 3 seconds
-        refreshAfterCommand(3);
+        // Delay of 1 second
+        refreshAfterCommand(1);
     }
 
 
