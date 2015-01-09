@@ -67,6 +67,17 @@
         android:showAsAction="ifRoom"
         android:title="@string/action_decrease_priority"/>
     <item
+        android:id="@+id/action_max_prio"
+        android:icon="@drawable/ic_action_max_prio"
+        android:showAsAction="ifRoom"
+        android:title="@string/action_maximum_priority"/>
+    <item
+        android:id="@+id/action_min_prio"
+        android:icon="@drawable/ic_action_min_prio"
+        android:showAsAction="ifRoom"
+        android:title="@string/action_minimum_priority"/>
+
+    <item
         android:id="@+id/action_download_rate_limit"
         android:showAsAction="ifRoom"
         android:title="@string/action_download_rate_limit"/>

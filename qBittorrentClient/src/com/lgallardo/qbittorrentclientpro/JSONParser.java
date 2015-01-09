@@ -345,6 +345,15 @@ public class JSONParser {
             key = "hashes";
             ;
         }
+        if ("maxPrio".equals(command)) {
+            url = "command/topPrio";
+            key = "hashes";
+        }
+        if ("minPrio".equals(command)) {
+            url = "command/bottomPrio";
+            key = "hashes";
+            ;
+        }
         if ("setQBittorrentPrefefrences".equals(command)) {
             url = "command/setPreferences";
             key = "json";
