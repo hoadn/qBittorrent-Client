@@ -1297,8 +1297,18 @@ public class MainActivity extends FragmentActivity {
                 limit = (Integer.parseInt(uploadRateLimit) > Integer.parseInt(global_upload) && Integer.parseInt(global_upload) != 0) ? Integer
                         .parseInt(global_upload) : Integer.parseInt(uploadRateLimit);
 
-                qBittorrentCommand qtc = new qBittorrentCommand();
-                qtc.execute(new String[]{"setUploadRateLimit", hash + "&" + limit * 1024});
+
+                String[] hashesArray = hash.split("\\|");
+
+                for (int i = 0; hashesArray.length > i; i++) {
+                    qBittorrentCommand qtc = new qBittorrentCommand();
+                    qtc.execute(new String[]{"setUploadRateLimit", hashesArray[i]  + "&" + limit * 1024});
+                }
+
+                Toast.makeText(getApplicationContext(), R.string.setUploadRateLimit, Toast.LENGTH_SHORT).show();
+
+                // Delay of 1 second
+                refreshAfterCommand(1);
 
             } else {
                 genericOkDialog(R.string.error, R.string.global_value_error);
@@ -1319,8 +1329,19 @@ public class MainActivity extends FragmentActivity {
                 limit = (Integer.parseInt(downloadRateLimit) > Integer.parseInt(global_download)) ? Integer.parseInt(global_download) : Integer
                         .parseInt(downloadRateLimit);
 
-                qBittorrentCommand qtc = new qBittorrentCommand();
-                qtc.execute(new String[]{"setDownloadRateLimit", hash + "&" + limit * 1024});
+                String[] hashesArray = hash.split("\\|");
+
+                for (int i = 0; hashesArray.length > i; i++) {
+                    qBittorrentCommand qtc = new qBittorrentCommand();
+                    qtc.execute(new String[]{"setDownloadRateLimit", hashesArray[i]  + "&" + limit * 1024});
+                }
+
+                Toast.makeText(getApplicationContext(), R.string.setUploadRateLimit, Toast.LENGTH_SHORT).show();
+
+                // Delay of 1 second
+                refreshAfterCommand(1);
+
+
             } else {
                 genericOkDialog(R.string.error, R.string.global_value_error);
             }
@@ -1680,7 +1701,7 @@ public class MainActivity extends FragmentActivity {
                 }
             }
 
-            if (!("startSelected".equals(result)) && !("pauseSelected".equals(result)) && !("deleteSelected".equals(result)) && !("deleteDriveSelected".equals(result))) {
+            if (!("startSelected".equals(result)) && !("pauseSelected".equals(result)) && !("deleteSelected".equals(result)) && !("deleteDriveSelected".equals(result)) && !("setUploadRateLimit".equals(result)) && !("setDownloadRateLimit".equals(result))) {
                 Toast.makeText(getApplicationContext(), messageId, Toast.LENGTH_SHORT).show();
 
                 // Refresh

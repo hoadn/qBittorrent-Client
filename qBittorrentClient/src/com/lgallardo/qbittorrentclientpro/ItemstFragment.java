@@ -283,7 +283,27 @@ public class ItemstFragment extends ListFragment {
 
                             return true;
 
+                        case R.id.action_upload_rate_limit:
 
+                            m.uploadRateLimitDialog(hashes);
+
+                            // Clear selection
+                            nr = 0;
+                            mAdapter.clearSelection();
+                            mode.finish();
+
+                            return true;
+
+                        case R.id.action_download_rate_limit:
+
+                            m.downloadRateLimitDialog(hashes);
+
+                            // Clear selection
+                            nr = 0;
+                            mAdapter.clearSelection();
+                            mode.finish();
+
+                            return true;
                         default:
                             return true;
 
