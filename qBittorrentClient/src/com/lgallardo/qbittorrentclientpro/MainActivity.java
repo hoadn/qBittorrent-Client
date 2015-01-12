@@ -1675,11 +1675,11 @@ public class MainActivity extends FragmentActivity {
             }
 
             if ("maxPrio".equals(result)) {
-                messageId = R.string.maxPrioTorrent;
+                messageId = R.string.priorityUpdated;
             }
 
             if ("minPrio".equals(result)) {
-                messageId = R.string.minPrioTorrent;
+                messageId = R.string.priorityUpdated;
             }
 
 
