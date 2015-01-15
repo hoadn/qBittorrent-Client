@@ -8,6 +8,11 @@
         <item name="android:windowBackground">@android:color/background_dark</item>
 
         <!-- dropshadow backgrouns (for torrent details)-->
+        <item name="dropShadowBackground">@drawable/container_dropshadow_dark</item>
+
+        <!-- backgroundSelector (for row listView)-->
+        <item name="backgroundSelector">@drawable/background_selector_dark</item>
+
 
         <item name="android:editTextBackground">@drawable/theme_dark_edit_text_holo_dark</item>
 
