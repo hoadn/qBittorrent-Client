@@ -154,6 +154,10 @@
     <string name="settings_qbittorrent_sortby_dialog_title">Sort by...</string>
     <string name="settings_qbittorrent_reverse_order_summary">Reverse order</string>
     <string name="settings_qbittorrent_reverse_order_dialog_title">Reverse order?</string>
+
+    <string name="settings_qbittorrent_darkui_category">Dark Theme</string>
+    <string name="settings_qbittorrent_darkui_dialog_title">Use dark theme </string>
+
     <string name="options_qbittorrent_connections_limits_category">Connections Limits</string>
     <string name="options_qbittorrent_global_max_connections_title">Global max connections</string>
     <string name="options_qbittorrent_global_max_connections_dialog_title">Global maximum number of connections?</string>
@@ -186,5 +190,6 @@
     <string name="drawer_open">Close navigation drawer</string>
     <string name="title_activity_settings">Settings</string>
     <string name="settings_qbittorrent_sort_category">Sort torrent list</string>
+    <string name="settings_qbittorrent_darkui_summary">Restart the app to apply the theme</string>
 
 </resources>

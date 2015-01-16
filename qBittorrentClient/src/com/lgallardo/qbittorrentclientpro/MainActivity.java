@@ -118,6 +118,7 @@ public class MainActivity extends FragmentActivity {
     protected static int data_timeout;
     protected static String sortby;
     protected static boolean reverse_order;
+    protected static boolean dark_ui;
     // Option
     protected static String global_max_num_connections;
     protected static String max_num_conn_per_torrent;
@@ -146,7 +147,7 @@ public class MainActivity extends FragmentActivity {
     private StringBuilder builderPrefs;
     // Drawer properties
     private String[] navigationDrawerItemTitles;
-    private DrawerLayout drawerLayout;
+    protected DrawerLayout drawerLayout;
     private ListView drawerList;
     private CharSequence drawerTitle;
     private CharSequence title;
@@ -170,6 +171,16 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Get preferences
+        getSettings();
+
+        // Set Theme (It must be fore inflating or setContentView)
+        if (dark_ui) {
+            this.setTheme(R.style.Theme_Dark);
+        } else {
+            this.setTheme(R.style.Theme_Light);
+        }
 
         setContentView(R.layout.activity_main);
 
@@ -239,11 +250,10 @@ public class MainActivity extends FragmentActivity {
 
         drawerLayout.setDrawerListener(drawerToggle);
 
+
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
 
-        // Get preferences
-        getSettings();
 
         // Get options and save them as shared preferences
         qBittorrentOptions qso = new qBittorrentOptions();
@@ -357,6 +367,7 @@ public class MainActivity extends FragmentActivity {
 
     }
 
+
     @Override
     public void onResume() {
         super.onResume();
@@ -468,40 +479,11 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
-    private final Runnable m_Runnable = new Runnable() {
-        public void run()
-
-        {
-            // Toast.makeText(MainActivity.this, "Refresh period: " +
-            // refresh_period, Toast.LENGTH_SHORT).show();
-
-            if (auto_refresh == true && canrefresh == true && activityIsVisible == true) {
-
-                if (findViewById(R.id.fragment_container) != null) {
-                    refreshCurrent();
-                } else {
-
-                    FragmentManager fm = getFragmentManager();
-
-                    if (fm.findFragmentById(R.id.one_frame) instanceof ItemstFragment || fm.findFragmentById(R.id.one_frame) instanceof AboutFragment) {
-                        refreshCurrent();
-                    }
-
-                }
-            }
-
-            MainActivity.this.handler.postDelayed(m_Runnable, refresh_period);
-        }
-
-    };// runnable
-
     private void refresh() {
 
         refresh("all");
 
     }
-
-    // Drawer's method
 
     private void refresh(String state) {
 
@@ -556,11 +538,40 @@ public class MainActivity extends FragmentActivity {
 
     }
 
+    private final Runnable m_Runnable = new Runnable() {
+        public void run()
+
+        {
+            // Toast.makeText(MainActivity.this, "Refresh period: " +
+            // refresh_period, Toast.LENGTH_SHORT).show();
+
+            if (auto_refresh == true && canrefresh == true && activityIsVisible == true) {
+
+                if (findViewById(R.id.fragment_container) != null) {
+                    refreshCurrent();
+                } else {
+
+                    FragmentManager fm = getFragmentManager();
+
+                    if (fm.findFragmentById(R.id.one_frame) instanceof ItemstFragment || fm.findFragmentById(R.id.one_frame) instanceof AboutFragment) {
+                        refreshCurrent();
+                    }
+
+                }
+            }
+
+            MainActivity.this.handler.postDelayed(m_Runnable, refresh_period);
+        }
+
+    };// runnable
+
     @Override
     protected void onNewIntent(Intent intent) {
 
         handleIntent(intent);
     }
+
+    // Drawer's method
 
     private void handleIntent(Intent intent) {
 
@@ -1050,6 +1061,7 @@ public class MainActivity extends FragmentActivity {
 
     private void openSettings() {
         canrefresh = false;
+
         Intent intent = new Intent(getBaseContext(), SettingsActivity.class);
         // startActivity(intent);
         startActivityForResult(intent, SETTINGS_CODE);
@@ -1095,7 +1107,6 @@ public class MainActivity extends FragmentActivity {
 
     }
 
-
     public void pauseSelectedTorrents(String hashes) {
         // Execute the task in background
 
@@ -1112,7 +1123,6 @@ public class MainActivity extends FragmentActivity {
         refreshAfterCommand(1);
 
     }
-
 
     public void deleteTorrent(String hash) {
         // Execute the task in background
@@ -1137,7 +1147,6 @@ public class MainActivity extends FragmentActivity {
         qtc.execute(new String[]{"deleteDrive", hash});
     }
 
-
     public void deleteDriveSelectedTorrents(String hashes) {
         // Execute the task in background
         qBittorrentCommand qtc = new qBittorrentCommand();
@@ -1148,7 +1157,6 @@ public class MainActivity extends FragmentActivity {
         // Delay of 1 second
         refreshAfterCommand(1);
     }
-
 
     public void addTorrent(String url) {
         // Execute the task in background
@@ -1302,7 +1310,7 @@ public class MainActivity extends FragmentActivity {
 
                 for (int i = 0; hashesArray.length > i; i++) {
                     qBittorrentCommand qtc = new qBittorrentCommand();
-                    qtc.execute(new String[]{"setUploadRateLimit", hashesArray[i]  + "&" + limit * 1024});
+                    qtc.execute(new String[]{"setUploadRateLimit", hashesArray[i] + "&" + limit * 1024});
                 }
 
                 Toast.makeText(getApplicationContext(), R.string.setUploadRateLimit, Toast.LENGTH_SHORT).show();
@@ -1333,7 +1341,7 @@ public class MainActivity extends FragmentActivity {
 
                 for (int i = 0; hashesArray.length > i; i++) {
                     qBittorrentCommand qtc = new qBittorrentCommand();
-                    qtc.execute(new String[]{"setDownloadRateLimit", hashesArray[i]  + "&" + limit * 1024});
+                    qtc.execute(new String[]{"setDownloadRateLimit", hashesArray[i] + "&" + limit * 1024});
                 }
 
                 Toast.makeText(getApplicationContext(), R.string.setUploadRateLimit, Toast.LENGTH_SHORT).show();
@@ -1481,6 +1489,9 @@ public class MainActivity extends FragmentActivity {
 
         sortby = sharedPrefs.getString("sortby", "NULL");
         reverse_order = sharedPrefs.getBoolean("reverse_order", false);
+
+        dark_ui = sharedPrefs.getBoolean("dark_ui", false);
+
 
     }
 
@@ -2165,5 +2176,6 @@ public class MainActivity extends FragmentActivity {
         }
 
     }
+
 
 }

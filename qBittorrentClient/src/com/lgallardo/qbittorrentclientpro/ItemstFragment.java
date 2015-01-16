@@ -331,6 +331,8 @@ public class ItemstFragment extends ListFragment {
                     return false;
                 }
             });
+
+
         } catch (Exception e) {
             getListView().setChoiceMode(ListView.CHOICE_MODE_NONE);
 
