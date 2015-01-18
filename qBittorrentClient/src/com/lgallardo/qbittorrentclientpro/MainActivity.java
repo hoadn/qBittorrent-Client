@@ -1344,7 +1344,7 @@ public class MainActivity extends FragmentActivity {
                     qtc.execute(new String[]{"setDownloadRateLimit", hashesArray[i] + "&" + limit * 1024});
                 }
 
-                Toast.makeText(getApplicationContext(), R.string.setUploadRateLimit, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), R.string.setDownloadRateLimit, Toast.LENGTH_SHORT).show();
 
                 // Delay of 1 second
                 refreshAfterCommand(1);
