@@ -18,7 +18,6 @@ import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceManager;
 import android.view.Menu;
 
 public class SettingsActivity extends PreferenceActivity implements android.content.SharedPreferences.OnSharedPreferenceChangeListener {
@@ -47,15 +46,9 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean dark_ui_value = sharedPrefs.getBoolean("dark_ui", false);
 
         // Set Theme
-//        if(dark_ui_value){
-//            this.setTheme(R.style.Theme_Dark);
-//        }else{
-            this.setTheme(R.style.Theme_Light);
-//        }
+        this.setTheme(R.style.Theme_Light);
 
         super.onCreate(savedInstanceState);
 
@@ -99,7 +92,6 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
                 return true;
             }
         });
-
 
 
     }
