@@ -375,6 +375,10 @@ class Torrent {
      */
     public String getEta() {
 
+        if(eta.equals("8640000")){
+            return "∞";
+        }
+
         return eta;
     }
 
@@ -514,5 +518,7 @@ class Torrent {
     public void setDownloadLimit(String downloadLimit) {
         this.downloadLimit = downloadLimit;
     }
+
+
 
 }

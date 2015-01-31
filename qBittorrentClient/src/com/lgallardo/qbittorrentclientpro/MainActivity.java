@@ -2052,6 +2052,14 @@ public class MainActivity extends FragmentActivity {
                         downloadSpeed = json.getString(TAG_DLSPEED);
                         uploadSpeed = json.getString(TAG_UPSPEED);
 
+                        if(qb_version.equals("3.2.x")){
+
+
+                            size =  Common.calculateSize(size);
+                            downloadSpeed  = Common.calculateSize(downloadSpeed) + "/s";
+                            uploadSpeed = Common.calculateSize(uploadSpeed) + "/s";
+                        }
+
                         torrents[i] = new Torrent(name, size, state, hash, info, ratio, progress, leechs, seeds, priority, eta, downloadSpeed, uploadSpeed);
 
                         MainActivity.names[i] = name;

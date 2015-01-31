@@ -358,6 +358,10 @@ public class TorrentDetailsFragment extends Fragment {
                         progress = json.getDouble(MainActivity.TAG_PROGRESS);
                         priority = json.getInt(MainActivity.TAG_PRIORITY);
 
+                        if(MainActivity.qb_version.equals("3.2.x")){
+                            size = Common.calculateSize(json.getString(MainActivity.TAG_SIZE)).replace(",", ".");
+                        }
+
                         files[i] = new ContentFile(name, size, progress, priority);
                         names[i] = name;
 
@@ -570,6 +574,20 @@ public class TorrentDetailsFragment extends Fragment {
                     labels[10] = getString(R.string.torrent_details_download_rate_limit);
                     values[10] = json2.getString(TAG_DOWNLOAD_LIMIT);
 
+
+                    if(MainActivity.qb_version.equals("3.2.x")){
+
+                        // Total wasted
+                        values[3] = Common.calculateSize(json2.getString(TAG_TOTAL_WASTED)).replace(",", ".");
+
+                        // Total uploaded
+                        values[4] = Common.calculateSize(json2.getString(TAG_TOTAL_UPLOADED)).replace(",", ".");
+
+                        // Total downloaded
+                        values[5] = Common.calculateSize(json2.getString(TAG_TOTAL_DOWNLOADED)).replace(",", ".");
+                    }
+
+
                 }
 
             } catch (Exception e) {
@@ -599,7 +617,6 @@ public class TorrentDetailsFragment extends Fragment {
                 }
 
             } catch (Exception e) {
-                // TODO Auto-generated catch block
                 Log.e("TorrentFragment:", e.toString());
             }
 
