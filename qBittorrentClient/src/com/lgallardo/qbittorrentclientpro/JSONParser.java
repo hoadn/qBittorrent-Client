@@ -366,7 +366,7 @@ public class JSONParser {
         if ("decreasePrio".equals(command)) {
             url = "command/decreasePrio";
             key = "hashes";
-            ;
+
         }
         if ("maxPrio".equals(command)) {
             url = "command/topPrio";
@@ -375,7 +375,7 @@ public class JSONParser {
         if ("minPrio".equals(command)) {
             url = "command/bottomPrio";
             key = "hashes";
-            ;
+
         }
         if ("setQBittorrentPrefefrences".equals(command)) {
             url = "command/setPreferences";

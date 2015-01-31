@@ -1362,10 +1362,14 @@ public class MainActivity extends FragmentActivity {
 
             if (global_upload != null) {
 
-                limit = (Integer.parseInt(uploadRateLimit) > Integer.parseInt(global_upload) && Integer.parseInt(global_upload) != 0) ? Integer
-                        .parseInt(global_upload) : Integer.parseInt(uploadRateLimit);
+                if(Integer.parseInt(global_download) > 0) {
 
+                    limit = (Integer.parseInt(uploadRateLimit) > Integer.parseInt(global_upload) && Integer.parseInt(global_upload) != 0) ? Integer
+                            .parseInt(global_upload) : Integer.parseInt(uploadRateLimit);
 
+                }else{
+                    limit = Integer.parseInt(uploadRateLimit);
+                }
                 String[] hashesArray = hash.split("\\|");
 
                 for (int i = 0; hashesArray.length > i; i++) {
@@ -1392,14 +1396,27 @@ public class MainActivity extends FragmentActivity {
 
         if (downloadRateLimit != null && !downloadRateLimit.equals("")) {
 
+//            Log.i("setDownloadRateLimit", "downloadRateLimit: " + downloadRateLimit);
+
             if (global_download != null) {
 
-                limit = (Integer.parseInt(downloadRateLimit) > Integer.parseInt(global_download)) ? Integer.parseInt(global_download) : Integer
-                        .parseInt(downloadRateLimit);
+//                Log.i("setDownloadRateLimit", "global_download: " + Integer.parseInt(global_download));
+
+
+                if(Integer.parseInt(global_download) > 0) {
+                    limit = (Integer.parseInt(downloadRateLimit) > Integer.parseInt(global_download)) ? Integer.parseInt(global_download) : Integer
+                            .parseInt(downloadRateLimit);
+                }else{
+                    limit = Integer.parseInt(downloadRateLimit);
+                }
 
                 String[] hashesArray = hash.split("\\|");
 
                 for (int i = 0; hashesArray.length > i; i++) {
+
+//                    Log.i("setDownloadRateLimit", "hash: " + hashesArray[i]);
+//                    Log.i("setDownloadRateLimit", "limit: " + limit * 1024);
+
                     qBittorrentCommand qtc = new qBittorrentCommand();
                     qtc.execute(new String[]{"setDownloadRateLimit", hashesArray[i] + "&" + limit * 1024});
                 }

@@ -151,6 +151,8 @@
             android:label="Options"
             android:theme="@style/Theme_Light">
         </activity>
+
+        <service android:name="QBService" />
     </application>
 
 </manifest>
