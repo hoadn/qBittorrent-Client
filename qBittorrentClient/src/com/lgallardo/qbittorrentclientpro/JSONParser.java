@@ -28,6 +28,7 @@ import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.cookie.Cookie;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
@@ -39,6 +40,7 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -56,7 +58,9 @@ import java.util.List;
 
 
 public class JSONParser {
+    private static final int TIMEOUT_ERROR = 1;
     static InputStream is = null;
+    static boolean nohome = false;
     private JSONObject jObj = null;
     private JSONArray jArray = null;
     private String json = "";
@@ -68,10 +72,7 @@ public class JSONParser {
     private String password;
     private int connection_timeout;
     private int data_timeout;
-
-    private static final int TIMEOUT_ERROR = 1;
-
-    static boolean nohome = false;
+    private String cookie;
 
     // constructor
     public JSONParser() {
@@ -93,6 +94,10 @@ public class JSONParser {
         this.connection_timeout = connection_timeout;
         this.data_timeout = data_timeout;
 
+    }
+
+    public void setCookie(String cookie){
+        this.cookie = cookie;
     }
 
     public JSONObject getJSONFromUrl(String url) throws JSONParserStatusCodeException {
@@ -138,6 +143,12 @@ public class JSONParser {
             // set http parameters
 
             HttpGet httpget = new HttpGet(url);
+
+            if(this.cookie != null){
+
+                httpget.setHeader("Cookie", this.cookie);
+            }
+
 
             httpResponse = httpclient.execute(targetHost, httpget);
 
@@ -193,10 +204,16 @@ public class JSONParser {
 
     public JSONArray getJSONArrayFromUrl(String url) throws JSONParserStatusCodeException {
 
+        Log.i("getJSONArrayFromUrl", "OK");
+
         // if server is published in a subfolder, fix url
         if (subfolder != null && subfolder != "") {
             url = subfolder + "/" + url;
         }
+
+        Log.i("getJSONArrayFromUrl", "URL: " + url);
+        Log.i("getJSONArrayFromUrl", "USERNAME: " + username);
+        Log.i("getJSONArrayFromUrl", "PASWOD: " + password);
 
         HttpResponse httpResponse;
         DefaultHttpClient httpclient;
@@ -232,6 +249,14 @@ public class JSONParser {
             httpclient.getCredentialsProvider().setCredentials(authScope, credentials);
 
             HttpGet httpget = new HttpGet(url);
+
+            if(this.cookie != null){
+
+                httpget.setHeader("Cookie", this.cookie);
+                Log.i("getJSONArrayFromUrl", "Cookie: " + this.cookie);
+
+            }
+
 
             httpResponse = httpclient.execute(targetHost, httpget);
 
@@ -290,10 +315,8 @@ public class JSONParser {
         String urlContentType = "application/x-www-form-urlencoded";
 
         String limit = "";
-
         String boundary = null;
 
-        String contentDisposition = "";
 
         StringBuilder fileContent = null;
 
@@ -398,6 +421,9 @@ public class JSONParser {
 
             // In order to pass the has we must set the pair name value
 
+            Log.i("postCommand", "key: " + key);
+            Log.i("postCommand", "hash(es): " + hash);
+
             BasicNameValuePair bnvp = new BasicNameValuePair(key, hash);
 
             List<NameValuePair> nvps = new ArrayList<NameValuePair>();
@@ -412,8 +438,17 @@ public class JSONParser {
             httpget.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
 
             // Set content type and urls
-            if ("addTorrent".equals(command) || "increasePrio".equals(command) || "decreasePrio".equals(command)) {
+            if ("addTorrent".equals(command) || "increasePrio".equals(command) || "decreasePrio".equals(command) || "maxPrio".equals(command)) {
                 httpget.setHeader("Content-Type", urlContentType);
+
+            }
+
+
+            if(this.cookie != null){
+
+                httpget.setHeader("Cookie", this.cookie);
+
+                Log.i("postCommand", "Cookie set to " + this.cookie);
             }
 
             // Set content type and urls
@@ -462,7 +497,9 @@ public class JSONParser {
 
             is = httpEntity.getContent();
 
+
         } catch (UnsupportedEncodingException e) {
+
         } catch (ClientProtocolException e) {
             Log.e("qbittorrent", "Client: " + e.toString());
         } catch (IOException e) {
@@ -482,7 +519,8 @@ public class JSONParser {
 
     }
 
-    // https
+        // https
+
     public DefaultHttpClient getNewHttpClient() {
         try {
             KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
@@ -508,4 +546,199 @@ public class JSONParser {
         }
     }
 
-}
+    // Cookies
+    public String getNewCookie() throws JSONParserStatusCodeException  {
+
+
+        String url = "/login";
+
+        // if server is publish in a subfolder, fix url
+        if (subfolder != null && subfolder != "") {
+            url = subfolder + "/" + url;
+        }
+
+        String cookieString = null;
+
+        HttpResponse httpResponse;
+        DefaultHttpClient httpclient;
+
+        HttpParams httpParameters = new BasicHttpParams();
+
+        // Set the timeout in milliseconds until a connection is established.
+        // The default value is zero, that means the timeout is not used.
+        int timeoutConnection = connection_timeout * 1000;
+
+        // Set the default socket timeout (SO_TIMEOUT)
+        // in milliseconds which is the timeout for waiting for data.
+        int timeoutSocket = data_timeout * 1000;
+
+        // Set http parameters
+        HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
+        HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
+
+        // Making HTTP request
+        HttpHost targetHost = new HttpHost(hostname, port, protocol);
+
+        // httpclient = new DefaultHttpClient();
+        httpclient = getNewHttpClient();
+
+        try {
+
+//            AuthScope authScope = new AuthScope(targetHost.getHostName(), targetHost.getPort());
+//
+//            UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(this.username, this.password);
+//
+//            httpclient.getCredentialsProvider().setCredentials(authScope, credentials);
+
+            HttpPost httpget = new HttpPost(url);
+
+//            // In order to pass the username and password we must set the pair name value
+
+            List<NameValuePair> nvps = new ArrayList<NameValuePair>();
+
+
+            nvps.add(new BasicNameValuePair("username", this.username));
+            nvps.add(new BasicNameValuePair("password", this.password));
+
+            httpget.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
+
+
+            HttpResponse response = httpclient.execute(targetHost, httpget);
+            HttpEntity entity = response.getEntity();
+
+            Log.i("Cookies", "Login form get: " + response.getStatusLine());
+
+            StatusLine statusLine = response.getStatusLine();
+
+            int mStatusCode = statusLine.getStatusCode();
+
+            if (mStatusCode == 200) {
+
+                // Save cookie
+
+
+                Log.i("Cookies", "Initial set of cookies");
+
+                List<Cookie> cookies = httpclient.getCookieStore().getCookies();
+                if (cookies.isEmpty()) {
+                    Log.i("Cookies", "None");
+
+                } else {
+
+
+                    Log.i("Cookies", "Cookie=>" + cookies.get(0).toString());
+
+                    // Save cookie
+                    cookieString = cookies.get(0).getName() + "=" + cookies.get(0).getValue() + "; domain=" + cookies.get(0).getDomain();
+
+                    cookieString = cookies.get(0).getName() + "=" + cookies.get(0).getValue();
+
+
+                }
+
+            }
+
+            if (entity != null) {
+                entity.consumeContent();
+            }
+
+
+
+            // When HttpClient instance is no longer needed,
+            // shut down the connection manager to ensure
+            // immediate deallocation of all system resources
+            httpclient.getConnectionManager().shutdown();
+
+        } catch (Exception e) {
+
+            Log.i("Cookies", "Exception " + e.toString());
+        }
+
+        if(cookieString == null){
+            cookieString = "";
+        }
+        return cookieString;
+
+
+    }
+
+    public String getApiVersion() throws JSONParserStatusCodeException {
+
+
+        String url = "/version/api";
+
+        // if server is publish in a subfolder, fix url
+        if (subfolder != null && subfolder != "") {
+            url = subfolder + "/" + url;
+        }
+
+        String APIVersionString = null;
+
+        HttpResponse httpResponse;
+        DefaultHttpClient httpclient;
+
+        HttpParams httpParameters = new BasicHttpParams();
+
+        // Set the timeout in milliseconds until a connection is established.
+        // The default value is zero, that means the timeout is not used.
+        int timeoutConnection = connection_timeout * 1000;
+
+        // Set the default socket timeout (SO_TIMEOUT)
+        // in milliseconds which is the timeout for waiting for data.
+        int timeoutSocket = data_timeout * 1000;
+
+        // Set http parameters
+        HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
+        HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
+
+        // Making HTTP request
+        HttpHost targetHost = new HttpHost(hostname, port, protocol);
+
+        // httpclient = new DefaultHttpClient();
+        httpclient = getNewHttpClient();
+
+        try {
+
+            HttpGet httpget = new HttpGet(url);
+
+            HttpResponse response = httpclient.execute(targetHost, httpget);
+            HttpEntity entity = response.getEntity();
+
+            Log.i("APIVer", "API Ver Status: " + response.getStatusLine());
+
+            StatusLine statusLine = response.getStatusLine();
+
+            int mStatusCode = statusLine.getStatusCode();
+
+            if (mStatusCode == 200) {
+
+                // Save API
+
+                 APIVersionString = EntityUtils.toString(response.getEntity());
+
+            }
+
+
+            if (entity != null) {
+                entity.consumeContent();
+            }
+
+            // When HttpClient instance is no longer needed,
+            // shut down the connection manager to ensure
+            // immediate deallocation of all system resources
+            httpclient.getConnectionManager().shutdown();
+
+        } catch (Exception e) {
+
+            Log.i("APIVer", "Exception " + e.toString());
+        }
+
+        if (APIVersionString == null) {
+            APIVersionString = "";
+        }
+        return APIVersionString;
+    }
+
+
+
+    }

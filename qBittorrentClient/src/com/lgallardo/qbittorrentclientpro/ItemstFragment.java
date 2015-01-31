@@ -75,7 +75,7 @@ public class ItemstFragment extends ListFragment {
             getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
 
             // Get adapter
-            final torrentListAdapter mAdapter = (torrentListAdapter) this.getListAdapter();
+            final TorrentListAdapter mAdapter = (TorrentListAdapter) this.getListAdapter();
             getListView().setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
 
                 private int nr = 0;

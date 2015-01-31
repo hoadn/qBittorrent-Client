@@ -356,6 +356,10 @@ class Torrent {
      * @return the priority
      */
     public String getPriority() {
+
+        if(priority.equals("-1")){
+            return "*";
+        }
         return priority;
     }
 

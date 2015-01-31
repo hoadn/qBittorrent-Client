@@ -40,6 +40,7 @@ public class TorrentDetailsFragment extends Fragment {
             percentage = "";
 
     String url;
+    private String qbQueryString = "query";
 
     int position;
 
@@ -314,8 +315,22 @@ public class TorrentDetailsFragment extends Fragment {
         int priority;
 
         protected View[] doInBackground(View... rootViews) {
-            // Get torrent's extra info
-            url = "json/propertiesFiles/";
+            // Get torrent's files
+            if (MainActivity.qb_version.equals("2.x")) {
+                qbQueryString = "json";
+            }
+
+            if (MainActivity.qb_version.equals("3.1.x")) {
+                qbQueryString = "json";
+            }
+
+            if (MainActivity.qb_version.equals("3.2.x")) {
+                qbQueryString = "query";
+            }
+
+
+
+            url = qbQueryString +"/propertiesFiles/";
 
             files = null;
             names = null;
@@ -324,6 +339,8 @@ public class TorrentDetailsFragment extends Fragment {
 
                 JSONParser jParser = new JSONParser(MainActivity.hostname, MainActivity.subfolder, MainActivity.protocol, MainActivity.port,
                         MainActivity.username, MainActivity.password, MainActivity.connection_timeout, MainActivity.data_timeout);
+
+                jParser.setCookie(MainActivity.cookie);
 
                 JSONArray jArray = jParser.getJSONArrayFromUrl(url + hash);
 
@@ -389,8 +406,21 @@ public class TorrentDetailsFragment extends Fragment {
         String url;
 
         protected View[] doInBackground(View... rootViews) {
-            // Get torrent's extra info
-            url = "json/propertiesTrackers/";
+            // Get torrent's trackers
+
+            if (MainActivity.qb_version.equals("2.x")) {
+                qbQueryString = "json";
+            }
+
+            if (MainActivity.qb_version.equals("3.1.x")) {
+                qbQueryString = "json";
+            }
+
+            if (MainActivity.qb_version.equals("3.2.x")) {
+                qbQueryString = "query";
+            }
+
+            url = qbQueryString + "/propertiesTrackers/";
 
             trackers = null;
             trackerNames = null;
@@ -399,6 +429,8 @@ public class TorrentDetailsFragment extends Fragment {
 
                 JSONParser jParser = new JSONParser(MainActivity.hostname, MainActivity.subfolder, MainActivity.protocol, MainActivity.port,
                         MainActivity.username, MainActivity.password, MainActivity.connection_timeout, MainActivity.data_timeout);
+
+                jParser.setCookie(MainActivity.cookie);
 
                 JSONArray jArray = jParser.getJSONArrayFromUrl(url + hash);
 
@@ -464,12 +496,28 @@ public class TorrentDetailsFragment extends Fragment {
 
         protected View[] doInBackground(View... rootViews) {
             // Get torrent's extra info
-            url = "json/propertiesGeneral/";
+
+
+            if (MainActivity.qb_version.equals("2.x")) {
+                qbQueryString = "json";
+            }
+
+            if (MainActivity.qb_version.equals("3.1.x")) {
+                qbQueryString = "json";
+            }
+
+            if (MainActivity.qb_version.equals("3.2.x")) {
+                qbQueryString = "query";
+            }
+
+            url = qbQueryString + "/propertiesGeneral/";
 
             try {
 
                 JSONParser jParser = new JSONParser(MainActivity.hostname, MainActivity.subfolder, MainActivity.protocol, MainActivity.port,
                         MainActivity.username, MainActivity.password, MainActivity.connection_timeout, MainActivity.data_timeout);
+
+                jParser.setCookie(MainActivity.cookie);
 
                 json2 = jParser.getJSONFromUrl(url + hash);
 

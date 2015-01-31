@@ -18,6 +18,7 @@ import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.util.Log;
 import android.view.Menu;
 
 public class SettingsActivity extends PreferenceActivity implements android.content.SharedPreferences.OnSharedPreferenceChangeListener {
@@ -29,7 +30,7 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
     private EditTextPreference port;
     private EditTextPreference username;
     private EditTextPreference password;
-    private CheckBoxPreference old_version;
+//    private CheckBoxPreference old_version;
     private String currentServerValue;
 
     private CheckBoxPreference auto_refresh;
@@ -42,6 +43,8 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
     private CheckBoxPreference reverse_order;
 
     private CheckBoxPreference dark_ui;
+
+    private ListPreference qb_version;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +66,7 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
         port = (EditTextPreference) findPreference("port");
         username = (EditTextPreference) findPreference("username");
         password = (EditTextPreference) findPreference("password");
-        old_version = (CheckBoxPreference) findPreference("old_version");
+//        old_version = (CheckBoxPreference) findPreference("old_version");
 
         auto_refresh = (CheckBoxPreference) findPreference("auto_refresh");
         refresh_period = (ListPreference) findPreference("refresh_period");
@@ -75,6 +78,8 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
         reverse_order = (CheckBoxPreference) findPreference("reverse_order");
 
         dark_ui = (CheckBoxPreference) findPreference("dark_ui");
+
+        qb_version = (ListPreference) findPreference("qb_version");
 
 
         // Get values for server
@@ -150,7 +155,7 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
         username.setSummary(sharedPrefs.getString("username" + value, "admin"));
 
         password.setText(sharedPrefs.getString("password" + value, "adminadmin"));
-        old_version.setChecked(sharedPrefs.getBoolean("old_version" + value, false));
+//        old_version.setChecked(sharedPrefs.getBoolean("old_version" + value, false));
 
         if (refresh_period.getEntry() == null) {
             refresh_period.setValueIndex(6);
@@ -165,9 +170,24 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
         }
 
         sortBy.setSummary(sortBy.getEntry());
-        reverse_order.setChecked(sharedPrefs.getBoolean("reverse_order", false));
+        reverse_order.setChecked(sharedPrefs.getBoolean("reverse_order"+value, false));
 
         dark_ui.setChecked(sharedPrefs.getBoolean("dark_ui", false));
+
+        if (qb_version.getEntry() == null) {
+            qb_version.setValueIndex(1);
+        }else{
+
+            Log.i("GettingPrefs", "qb_version_server" + "qb_version" + value);
+            Log.i("GettingPrefs", "qb_version_pref" + sharedPrefs.getString("qb_version" + value, "NOPE"));
+            Log.i("GettingPrefs", "qb_version_index" + qb_version.findIndexOfValue(sharedPrefs.getString("qb_version" + value, "3.1.x")));
+
+
+            qb_version.setValueIndex(qb_version.findIndexOfValue(sharedPrefs.getString("qb_version" + value, "3.1.x")));
+        }
+
+        qb_version.setSummary(qb_version.getEntry());
+
 
     }
 
@@ -180,6 +200,7 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
         username.setSummary(username.getText());
         refresh_period.setSummary(refresh_period.getEntry());
         sortBy.setSummary(sortBy.getEntry());
+        qb_version.setSummary(qb_version.getEntry());
 
     }
 
@@ -219,7 +240,7 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
             editor.putString("password" + currentServerValue, password.getText().toString());
         }
 
-        editor.putBoolean("old_version" + currentServerValue, old_version.isChecked());
+//        editor.putBoolean("old_version" + currentServerValue, old_version.isChecked());
 
         if (connection_timeout.getText().toString() != null && connection_timeout.getText().toString() != "") {
             editor.putString("connection_timeout" + currentServerValue, connection_timeout.getText().toString());
@@ -230,6 +251,11 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
         }
 
         editor.putBoolean("revserse_order" + currentServerValue, reverse_order.isChecked());
+
+
+        Log.i("SavingPrefs", "qb_version" + currentServerValue +": " +qb_version.getValue());
+
+        editor.putString("qb_version" + currentServerValue, qb_version.getValue());
 
         editor.putBoolean("dark_ui" + currentServerValue, dark_ui.isChecked());
 
