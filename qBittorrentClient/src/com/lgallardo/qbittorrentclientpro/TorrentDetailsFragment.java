@@ -169,6 +169,7 @@ public class TorrentDetailsFragment extends Fragment {
                 percentage = MainActivity.lines[position].getProgress().substring(0, index);
             }
 
+
             TextView nameTextView = (TextView) rootView.findViewById(R.id.torrentName);
             TextView sizeTextView = (TextView) rootView.findViewById(R.id.downloadedVsTotal);
             TextView ratioTextView = (TextView) rootView.findViewById(R.id.torrentRatio);
@@ -250,7 +251,7 @@ public class TorrentDetailsFragment extends Fragment {
             qgit.execute(new View[]{rootView});
 
         } catch (Exception e) {
-            // TODO Auto-generated catch block
+
             Log.e("TorrentDetailsFragment - onCreateView", e.toString());
         }
 
@@ -577,14 +578,44 @@ public class TorrentDetailsFragment extends Fragment {
 
                     if(MainActivity.qb_version.equals("3.2.x")){
 
+                        // Creation date
+                        values[1] = Common.unixTimestampToDate(json2.getString(TAG_CREATION_DATE));
                         // Total wasted
                         values[3] = Common.calculateSize(json2.getString(TAG_TOTAL_WASTED)).replace(",", ".");
 
                         // Total uploaded
                         values[4] = Common.calculateSize(json2.getString(TAG_TOTAL_UPLOADED)).replace(",", ".");
 
+                        // Time elapsed
+                        values[6] = Common.secondsToEta(json2.getString(TAG_TIME_ELAPSED));
+
                         // Total downloaded
                         values[5] = Common.calculateSize(json2.getString(TAG_TOTAL_DOWNLOADED)).replace(",", ".");
+
+                        // Upload limit
+                        values[9] = json2.getString(TAG_UPLOAD_LIMIT);
+
+                        if(!values[9].equals("-1")){
+                            values[9] = Common.calculateSize(values[9]) + "/s";
+                        }
+                        else{
+                            values[9] = "∞";
+                        }
+
+                        // Download limit
+                        values[10] = json2.getString(TAG_DOWNLOAD_LIMIT);
+
+                        if(!values[10].equals("-1")){
+                            values[10] = Common.calculateSize(values[10]) + "/s";
+                        }
+                        else{
+                            values[10] = "∞";
+                        }
+
+
+
+
+
                     }
 
 

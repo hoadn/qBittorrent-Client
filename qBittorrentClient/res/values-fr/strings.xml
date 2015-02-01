@@ -43,7 +43,7 @@
     <string name="error">Erreur</string>
     <string name="error1">L\'adresse de l\'hôte ou IP ne peut pas être atteint. Se il vous plaît vérifier vos paramètres!</string>
     <string name="error401">Accès non autorisé. Vérifiez vos paramètres de compte pour éviter les interdictions!</string>
-    <string name="error403">Votre adresse IP a été interdit après de trop nombreuses tentatives d\'authentification infructueuses</string>
+    <string name="error403">rreur d\'authentification</string>
     <string name="info">Avertissement</string>
     <string name="global_value_error">Valeur globale ne peut pas être récupéré. Se il vous plaît vérifier vos paramètres de connexion!</string>
     <string name="navigation_drawer_all">Tout</string>

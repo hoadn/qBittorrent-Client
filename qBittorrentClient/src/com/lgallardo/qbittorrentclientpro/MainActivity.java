@@ -2056,6 +2056,7 @@ public class MainActivity extends FragmentActivity {
 
 
                             size =  Common.calculateSize(size);
+                            eta = Common.secondsToEta(eta);
                             downloadSpeed  = Common.calculateSize(downloadSpeed) + "/s";
                             uploadSpeed = Common.calculateSize(uploadSpeed) + "/s";
                         }

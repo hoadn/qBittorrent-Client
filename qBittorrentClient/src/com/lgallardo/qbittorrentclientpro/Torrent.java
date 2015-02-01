@@ -477,6 +477,7 @@ class Torrent {
      * @return the timeElapsed
      */
     public String getTimeElapsed() {
+
         return timeElapsed;
     }
 
@@ -503,6 +504,10 @@ class Torrent {
 
     public String getUploadLimit() {
 
+        if(uploadLimit.equals("-1")){
+            return "∞";
+        }
+
         return uploadLimit;
     }
 
@@ -511,6 +516,10 @@ class Torrent {
     }
 
     public String getDownloadLimit() {
+
+        if(downloadLimit.equals("-1")){
+            return "∞";
+        }
 
         return downloadLimit;
     }

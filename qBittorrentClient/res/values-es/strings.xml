@@ -54,7 +54,7 @@
     <string name="error">Error</string>
     <string name="error1">El host o dirección IP no son alcanzables. Por favor revise su configuración!</string>
     <string name="error401">Acceso no autorizado. Compruebe la configuración de la cuenta para evitar ser baneado!</string>
-    <string name="error403">Su dirección IP ha sido baneada después de demasiados intentos de autenticación fallidos</string>
+    <string name="error403">Error de autenticación</string>
     <string name="info">Atención</string>
     <string name="global_value_error">Un valor global no puede ser recuperado. Por favor, revise la configuración de conexión!</string>
     <string name="navigation_drawer_all">Todos</string>
