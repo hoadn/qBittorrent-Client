@@ -536,12 +536,12 @@ public class MainActivity extends FragmentActivity {
                 new qBittorrentCookie().execute();
             }
 
-            Log.i("REFRESH", "Cookie:" + cookie);
+//            Log.i("REFRESH", "Cookie:" + cookie);
 
         }
 
 
-        Log.i("REFRESH", params[0]);
+//        Log.i("REFRESH", params[0]);
 
         params[1] = state;
 
@@ -949,6 +949,19 @@ public class MainActivity extends FragmentActivity {
                 }
                 return true;
 
+            case R.id.action_recheck:
+
+                tf = this.getTorrentDetailsFragment();
+
+                if (tf != null) {
+                    position = tf.position;
+                    hash = MainActivity.lines[position].getHash();
+                    recheckTorrents(hash);
+                    // if (findViewById(R.id.one_frame) != null) {
+                    // getFragmentManager().popBackStack();
+                    // }
+                }
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -1268,6 +1281,22 @@ public class MainActivity extends FragmentActivity {
         qBittorrentCommand qtc = new qBittorrentCommand();
         qtc.execute(new String[]{"minPrio", hash});
 
+    }
+
+    public void recheckTorrents(String hashes) {
+        // Execute the task in background
+
+        String[] hashesArray = hashes.split("\\|");
+
+        for (int i = 0; hashesArray.length > i; i++) {
+            qBittorrentCommand qtc = new qBittorrentCommand();
+            qtc.execute(new String[]{"recheckSelected", hashesArray[i]});
+        }
+
+        Toast.makeText(getApplicationContext(), R.string.torrentsRecheck, Toast.LENGTH_SHORT).show();
+
+        // Delay of 3 seconds
+        refreshAfterCommand(3);
     }
 
     public void setQBittorrentPrefefrences(String hash) {
@@ -1779,7 +1808,7 @@ public class MainActivity extends FragmentActivity {
             String api = "";
 
 
-            Log.i("qBittorrentCookie =>", "qBittorrentCookie");
+//            Log.i("qBittorrentCookie =>", "qBittorrentCookie");
 
             try {
 
@@ -1790,8 +1819,8 @@ public class MainActivity extends FragmentActivity {
 
                 httpStatusCode = e.getCode();
 
-                Log.i("qBittorrentCookie", "httpStatusCode: " + httpStatusCode);
-                Log.e("qBittorrentCookie", e.toString());
+//                Log.i("qBittorrentCookie", "httpStatusCode: " + httpStatusCode);
+//                Log.e("qBittorrentCookie", e.toString());
 
             }
 
@@ -1804,9 +1833,9 @@ public class MainActivity extends FragmentActivity {
                 api = "";
 
             }
-
-            Log.i("qBittorrentCookie", "COOKIE: " + ">" + cookie + "<");
-            Log.i("qBittorrentCookie", "API: >" + api + "<");
+//
+//            Log.i("qBittorrentCookie", "COOKIE: " + ">" + cookie + "<");
+//            Log.i("qBittorrentCookie", "API: >" + api + "<");
 
             return new String[]{cookie, api};
 
@@ -1833,10 +1862,6 @@ public class MainActivity extends FragmentActivity {
 
         }
     }
-
-    /**
-     * ***
-     */
 
     // Here is where the action happens
     private class qBittorrentCommand extends AsyncTask<String, Integer, String> {
@@ -1870,7 +1895,7 @@ public class MainActivity extends FragmentActivity {
 
         @Override
         protected void onPostExecute(String result) {
-            Log.i("httpStatusCode", "" + httpStatusCode);
+//            Log.i("httpStatusCode", "" + httpStatusCode);
 
             if (httpStatusCode == 1) {
                 Toast.makeText(getApplicationContext(), R.string.error1, Toast.LENGTH_SHORT).show();
@@ -1985,7 +2010,12 @@ public class MainActivity extends FragmentActivity {
                 }
             }
 
-            if (!("startSelected".equals(result)) && !("pauseSelected".equals(result)) && !("deleteSelected".equals(result)) && !("deleteDriveSelected".equals(result)) && !("setUploadRateLimit".equals(result)) && !("setDownloadRateLimit".equals(result))) {
+
+            if ("recheckSelected".equals(result)) {
+                messageId = R.string.torrentsRecheck;
+            }
+
+            if (!("startSelected".equals(result)) && !("pauseSelected".equals(result)) && !("deleteSelected".equals(result)) && !("deleteDriveSelected".equals(result)) && !("setUploadRateLimit".equals(result)) && !("setDownloadRateLimit".equals(result)) && !("recheckSelected".equals(result))) {
                 Toast.makeText(getApplicationContext(), messageId, Toast.LENGTH_SHORT).show();
 
                 // Refresh
@@ -2017,13 +2047,7 @@ public class MainActivity extends FragmentActivity {
 
 //                MainActivity.cookie = jParser.getNewCookie();
 
-
-                Log.i("DaCookie", MainActivity.cookie);
-
-
                 jParser.setCookie(MainActivity.cookie);
-
-                Log.i("DaCookie2", MainActivity.cookie);
 
                 JSONArray jArray = jParser.getJSONArrayFromUrl(params[0]);
 
@@ -2132,7 +2156,7 @@ public class MainActivity extends FragmentActivity {
 
                 }
 
-                Log.i("httpStatusCode", "" + httpStatusCode);
+//                Log.i("httpStatusCode", "" + httpStatusCode);
 
                 // Set App title
                 setTitle(R.string.app_shortname);

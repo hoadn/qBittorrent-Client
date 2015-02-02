@@ -21,7 +21,6 @@ class TorrentListAdapter extends ArrayAdapter<String> {
     private static HashMap<Integer, Boolean> mSelection = new HashMap<Integer, Boolean>();
 
     public TorrentListAdapter(Context context, String[] torrentsNames, Torrent[] torrentsData) {
-        // TODO Auto-generated constructor stub
         super(context, R.layout.row, R.id.file, torrentsNames);
 
         this.context = context;
@@ -32,7 +31,6 @@ class TorrentListAdapter extends ArrayAdapter<String> {
 
     @Override
     public int getCount() {
-        // TODO Auto-generated method stub}
         return (torrentsNames != null) ? torrentsNames.length : 0;
     }
 
@@ -71,6 +69,10 @@ class TorrentListAdapter extends ArrayAdapter<String> {
 
         if ("queuedDL".equals(state) || "queuedUP".equals(state)) {
             icon.setImageResource(R.drawable.queued);
+        }
+
+        if ("checkingDL".equals(state) || "checkingUP".equals(state)) {
+            icon.setImageResource(R.drawable.ic_action_recheck);
         }
 
         // Set progress bar

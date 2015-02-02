@@ -233,6 +233,11 @@ public class TorrentDetailsFragment extends Fragment {
                 nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.queued, 0, 0, 0);
             }
 
+            if ("checkingDL".equals(state) || "checkingUP".equals(state)) {
+                nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_action_recheck,0,0,0);
+            }
+
+
             // Show progressBar
             if (MainActivity.progressBar != null) {
                 MainActivity.progressBar.setVisibility(View.VISIBLE);
@@ -304,6 +309,7 @@ public class TorrentDetailsFragment extends Fragment {
             menu.findItem(R.id.action_delete_drive).setVisible(true);
             menu.findItem(R.id.action_download_rate_limit).setVisible(true);
             menu.findItem(R.id.action_upload_rate_limit).setVisible(true);
+            menu.findItem(R.id.action_recheck).setVisible(true);
 
         }
     }

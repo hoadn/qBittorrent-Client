@@ -188,5 +188,7 @@
     <string name="settings_qbittorrent_darkui_category">Tema Oscuro</string>
     <string name="settings_qbittorrent_darkui_summary">Reinicie la aplicación para aplicar el tema</string>
     <string name="settings_qbittorrent_darkui_dialog_title">Usar tema oscuro</string>
+    <string name="action_force_recheck">Forzar verificación</string>
+    <string name="torrentsRecheck">Verificación iniciada</string>
 
 </resources>

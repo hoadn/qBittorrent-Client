@@ -27,6 +27,7 @@
     <string name="action_minimum_priority">Move to bottom</string>
     <string name="action_download_rate_limit">Download rate limit</string>
     <string name="action_upload_rate_limit">Upload rate limit</string>
+    <string name="action_force_recheck">Force recheck</string>
     <string name="connection_error">Network connection failed</string>
     <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
@@ -44,6 +45,7 @@
     <string name="torrentFileAdded">Torrent file sent!</string>
     <string name="torrentStarted">Torrent started!</string>
     <string name="torrentsSelectedStarted">Torrents started!</string>
+    <string name="torrentsRecheck">Recheck started</string>
     <string name="torrentPaused">Torrent paused!</string>
     <string name="torrentsSelectedPaused">Torrents paused!</string>
     <string name="AllTorrentsPaused">All torrents were paused!</string>

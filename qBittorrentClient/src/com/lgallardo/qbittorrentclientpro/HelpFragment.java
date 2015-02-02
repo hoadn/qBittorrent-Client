@@ -11,8 +11,12 @@
 package com.lgallardo.qbittorrentclientpro;
 
 import android.app.Fragment;
-import android.view.*;
-import android.os.*;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 public class HelpFragment extends Fragment {
 
@@ -76,6 +80,10 @@ public class HelpFragment extends Fragment {
 			if (menu.findItem(R.id.action_download_rate_limit) != null) {
 				menu.findItem(R.id.action_download_rate_limit).setVisible(false);
 			}
+
+            if (menu.findItem(R.id.action_recheck) != null) {
+                menu.findItem(R.id.action_recheck).setVisible(false);
+            }
 
 		}
 	}

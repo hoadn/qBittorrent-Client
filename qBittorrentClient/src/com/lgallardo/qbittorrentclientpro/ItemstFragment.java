@@ -304,6 +304,16 @@ public class ItemstFragment extends ListFragment {
                             mode.finish();
 
                             return true;
+                        case R.id.action_recheck:
+
+                            m.recheckTorrents(hashes);
+
+                            // Clear selection
+                            nr = 0;
+                            mAdapter.clearSelection();
+                            mode.finish();
+
+                            return true;
                         default:
                             return true;
 
@@ -419,6 +429,10 @@ public class ItemstFragment extends ListFragment {
 
             if (menu.findItem(R.id.action_download_rate_limit) != null) {
                 menu.findItem(R.id.action_download_rate_limit).setVisible(false);
+            }
+
+            if (menu.findItem(R.id.action_recheck) != null) {
+                menu.findItem(R.id.action_recheck).setVisible(false);
             }
 
         }

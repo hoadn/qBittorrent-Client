@@ -204,16 +204,14 @@ public class JSONParser {
 
     public JSONArray getJSONArrayFromUrl(String url) throws JSONParserStatusCodeException {
 
-        Log.i("getJSONArrayFromUrl", "OK");
-
         // if server is published in a subfolder, fix url
         if (subfolder != null && subfolder != "") {
             url = subfolder + "/" + url;
         }
 
-        Log.i("getJSONArrayFromUrl", "URL: " + url);
-        Log.i("getJSONArrayFromUrl", "USERNAME: " + username);
-        Log.i("getJSONArrayFromUrl", "PASWOD: " + password);
+//        Log.i("getJSONArrayFromUrl", "URL: " + url);
+//        Log.i("getJSONArrayFromUrl", "USERNAME: " + username);
+//        Log.i("getJSONArrayFromUrl", "PASWOD: " + password);
 
         HttpResponse httpResponse;
         DefaultHttpClient httpclient;
@@ -253,7 +251,7 @@ public class JSONParser {
             if(this.cookie != null){
 
                 httpget.setHeader("Cookie", this.cookie);
-                Log.i("getJSONArrayFromUrl", "Cookie: " + this.cookie);
+//                Log.i("getJSONArrayFromUrl", "Cookie: " + this.cookie);
 
             }
 
@@ -398,6 +396,10 @@ public class JSONParser {
             limit = tmpString[1];
         }
 
+        if ("recheckSelected".equals(command) ) {
+            url = "command/recheck";
+        }
+
         // if server is publish in a subfolder, fix url
         if (subfolder != null && subfolder != "") {
             url = subfolder + "/" + url;
@@ -421,8 +423,8 @@ public class JSONParser {
 
             // In order to pass the has we must set the pair name value
 
-            Log.i("postCommand", "key: " + key);
-            Log.i("postCommand", "hash(es): " + hash);
+//            Log.i("postCommand", "key: " + key);
+//            Log.i("postCommand", "hash(es): " + hash);
 
             BasicNameValuePair bnvp = new BasicNameValuePair(key, hash);
 
@@ -448,7 +450,7 @@ public class JSONParser {
 
                 httpget.setHeader("Cookie", this.cookie);
 
-                Log.i("postCommand", "Cookie set to " + this.cookie);
+//                Log.i("postCommand", "Cookie set to " + this.cookie);
             }
 
             // Set content type and urls
@@ -606,7 +608,7 @@ public class JSONParser {
             HttpResponse response = httpclient.execute(targetHost, httpget);
             HttpEntity entity = response.getEntity();
 
-            Log.i("Cookies", "Login form get: " + response.getStatusLine());
+//            Log.i("Cookies", "Login form get: " + response.getStatusLine());
 
             StatusLine statusLine = response.getStatusLine();
 
@@ -617,16 +619,16 @@ public class JSONParser {
                 // Save cookie
 
 
-                Log.i("Cookies", "Initial set of cookies");
+//                Log.i("Cookies", "Initial set of cookies");
 
                 List<Cookie> cookies = httpclient.getCookieStore().getCookies();
                 if (cookies.isEmpty()) {
-                    Log.i("Cookies", "None");
+//                    Log.i("Cookies", "None");
 
                 } else {
 
 
-                    Log.i("Cookies", "Cookie=>" + cookies.get(0).toString());
+//                    Log.i("Cookies", "Cookie=>" + cookies.get(0).toString());
 
                     // Save cookie
                     cookieString = cookies.get(0).getName() + "=" + cookies.get(0).getValue() + "; domain=" + cookies.get(0).getDomain();
@@ -651,7 +653,7 @@ public class JSONParser {
 
         } catch (Exception e) {
 
-            Log.i("Cookies", "Exception " + e.toString());
+//            Log.i("Cookies", "Exception " + e.toString());
         }
 
         if(cookieString == null){
@@ -704,7 +706,7 @@ public class JSONParser {
             HttpResponse response = httpclient.execute(targetHost, httpget);
             HttpEntity entity = response.getEntity();
 
-            Log.i("APIVer", "API Ver Status: " + response.getStatusLine());
+//            Log.i("APIVer", "API Ver Status: " + response.getStatusLine());
 
             StatusLine statusLine = response.getStatusLine();
 
@@ -730,7 +732,7 @@ public class JSONParser {
 
         } catch (Exception e) {
 
-            Log.i("APIVer", "Exception " + e.toString());
+//            Log.i("APIVer", "Exception " + e.toString());
         }
 
         if (APIVersionString == null) {
