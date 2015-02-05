@@ -52,4 +52,14 @@
         <item name="6">DownloadSpeed</item>
         <item name="7">UploadSpeed</item>
     </string-array>
+    <string-array name="navigation_drawer_items_array">
+        <item>Alla</item>
+        <item>Hämtar</item>
+        <item>Färdiga</item>
+        <item>Pausad</item>
+        <item>Aktiva</item>
+        <item>Inaktiva</item>
+        <item>Alternativ</item>
+        <item>Inställningar</item>
+    </string-array>
 </resources>

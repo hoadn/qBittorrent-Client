@@ -18,7 +18,6 @@ import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.util.Log;
 import android.view.Menu;
 
 public class SettingsActivity extends PreferenceActivity implements android.content.SharedPreferences.OnSharedPreferenceChangeListener {
@@ -160,6 +159,7 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
         if (refresh_period.getEntry() == null) {
             refresh_period.setValueIndex(6);
         }
+
         refresh_period.setSummary(refresh_period.getEntry());
 
         connection_timeout.setText(sharedPrefs.getString("connection_timeout" + value, "5"));
@@ -178,10 +178,9 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
             qb_version.setValueIndex(1);
         }else{
 
-            Log.i("GettingPrefs", "qb_version_server" + "qb_version" + value);
-            Log.i("GettingPrefs", "qb_version_pref" + sharedPrefs.getString("qb_version" + value, "NOPE"));
-            Log.i("GettingPrefs", "qb_version_index" + qb_version.findIndexOfValue(sharedPrefs.getString("qb_version" + value, "3.1.x")));
-
+//            Log.i("GettingPrefs", "qb_version_server" + "qb_version" + value);
+//            Log.i("GettingPrefs", "qb_version_pref" + sharedPrefs.getString("qb_version" + value, "NOPE"));
+//            Log.i("GettingPrefs", "qb_version_index" + qb_version.findIndexOfValue(sharedPrefs.getString("qb_version" + value, "3.1.x")));
 
             qb_version.setValueIndex(qb_version.findIndexOfValue(sharedPrefs.getString("qb_version" + value, "3.1.x")));
         }
@@ -253,11 +252,12 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
         editor.putBoolean("revserse_order" + currentServerValue, reverse_order.isChecked());
 
 
-        Log.i("SavingPrefs", "qb_version" + currentServerValue +": " +qb_version.getValue());
+//        Log.i("SavingPrefs", "qb_version" + currentServerValue +": " +qb_version.getValue());
+
+        editor.putBoolean("dark_ui" + currentServerValue, dark_ui.isChecked());
 
         editor.putString("qb_version" + currentServerValue, qb_version.getValue());
 
-        editor.putBoolean("dark_ui" + currentServerValue, dark_ui.isChecked());
 
         // Commit changes
         editor.commit();

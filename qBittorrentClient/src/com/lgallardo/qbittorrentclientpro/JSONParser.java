@@ -60,7 +60,6 @@ import java.util.List;
 public class JSONParser {
     private static final int TIMEOUT_ERROR = 1;
     static InputStream is = null;
-    static boolean nohome = false;
     private JSONObject jObj = null;
     private JSONArray jArray = null;
     private String json = "";

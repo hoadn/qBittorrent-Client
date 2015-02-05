@@ -43,7 +43,7 @@
     <string name="error">Erreur</string>
     <string name="error1">L\'adresse de l\'hôte ou IP ne peut pas être atteint. Se il vous plaît vérifier vos paramètres!</string>
     <string name="error401">Accès non autorisé. Vérifiez vos paramètres de compte pour éviter les interdictions!</string>
-    <string name="error403">rreur d\'authentification</string>
+    <string name="error403">Erreur d\'authentification</string>
     <string name="info">Avertissement</string>
     <string name="global_value_error">Valeur globale ne peut pas être récupéré. Se il vous plaît vérifier vos paramètres de connexion!</string>
     <string name="navigation_drawer_all">Tout</string>
@@ -54,19 +54,6 @@
     <string name="navigation_drawer_inactive">Inactif</string>
     <string name="navigation_drawer_options">Options</string>
     <string name="navigation_drawer_settins">Paramètres</string>
-
-    <string-array name="navigation_drawer_items_array">
-        <item>Tout</item>
-        <item>Téléchargement</item>
-        <item>Fini</item>
-        <item>Suspendu</item>
-        <item>Actif</item>
-        <item>Inactif</item>
-        <item>Options</item>
-        <item>Paramètres</item>
-        <item>Obtenir Pro</item>
-    </string-array>
-
     <string name="about_help1">Pour commencer à utiliser le client, définissez les paramètres de votre serveur qBittorent et compte en sélectionnant \"Paramètres\" dans le menu de gauche.</string>
     <string name="about_help2">Appuyez sur le bouton de rafraîchissement dans le menu pour obtenir de nouveaux résultats, ou choisissez une option dans le menu de gauche pour obtenir la liste de torrent à partir du serveur.</string>
     <string name="about_motto">Gérer vos torrents avec Android en utilisant qBittorrent Client Pro</string>

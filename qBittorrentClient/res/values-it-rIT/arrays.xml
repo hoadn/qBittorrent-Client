@@ -52,4 +52,15 @@
         <item name="6">DownloadSpeed</item>
         <item name="7">UploadSpeed</item>
     </string-array>
+    <string-array name="navigation_drawer_items_array">
+        <item>Tutto</item>
+        <item>Download</item>
+        <item>Completato</item>
+        <item>In pausa</item>
+        <item>Attivo</item>
+        <item>Inattivo</item>
+        <item>Opzioni</item>
+        <item>Impostazioni</item>
+        <item>Ottenere PRO</item>
+    </string-array>
 </resources>

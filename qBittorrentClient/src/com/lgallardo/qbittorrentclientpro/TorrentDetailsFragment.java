@@ -40,7 +40,7 @@ public class TorrentDetailsFragment extends Fragment {
             percentage = "";
 
     String url;
-    private String qbQueryString = "query";
+        private String qbQueryString = "query";
 
     int position;
 
@@ -418,7 +418,6 @@ public class TorrentDetailsFragment extends Fragment {
 
         protected View[] doInBackground(View... rootViews) {
             // Get torrent's trackers
-
             if (MainActivity.qb_version.equals("2.x")) {
                 qbQueryString = "json";
             }
@@ -507,8 +506,6 @@ public class TorrentDetailsFragment extends Fragment {
 
         protected View[] doInBackground(View... rootViews) {
             // Get torrent's extra info
-
-
             if (MainActivity.qb_version.equals("2.x")) {
                 qbQueryString = "json";
             }
@@ -617,10 +614,6 @@ public class TorrentDetailsFragment extends Fragment {
                         else{
                             values[10] = "∞";
                         }
-
-
-
-
 
                     }
 

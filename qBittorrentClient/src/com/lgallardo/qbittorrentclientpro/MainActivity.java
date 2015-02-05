@@ -1391,7 +1391,7 @@ public class MainActivity extends FragmentActivity {
 
             if (global_upload != null) {
 
-                if(Integer.parseInt(global_download) > 0) {
+                if(Integer.parseInt(global_upload) > 0) {
 
                     limit = (Integer.parseInt(uploadRateLimit) > Integer.parseInt(global_upload) && Integer.parseInt(global_upload) != 0) ? Integer
                             .parseInt(global_upload) : Integer.parseInt(uploadRateLimit);
@@ -2044,9 +2044,6 @@ public class MainActivity extends FragmentActivity {
                 // Creating new JSON Parser
                 jParser = new JSONParser(hostname, subfolder, protocol, port, username, password, connection_timeout, data_timeout);
 
-
-//                MainActivity.cookie = jParser.getNewCookie();
-
                 jParser.setCookie(MainActivity.cookie);
 
                 JSONArray jArray = jParser.getJSONArrayFromUrl(params[0]);
@@ -2077,7 +2074,6 @@ public class MainActivity extends FragmentActivity {
                         uploadSpeed = json.getString(TAG_UPSPEED);
 
                         if(qb_version.equals("3.2.x")){
-
 
                             size =  Common.calculateSize(size);
                             eta = Common.secondsToEta(eta);
@@ -2117,7 +2113,7 @@ public class MainActivity extends FragmentActivity {
 
             } catch (Exception e) {
                 torrents = null;
-                Log.e("MAIN--:", e.toString());
+                Log.e("MAIN:", e.toString());
             }
 
             return torrents;
@@ -2446,7 +2442,7 @@ public class MainActivity extends FragmentActivity {
                     editor.commit();
 
                 } catch (Exception e) {
-                    Log.e("MAIN--OO:", e.toString());
+                    Log.e("MAIN:", e.toString());
                     return null;
                 }
 
