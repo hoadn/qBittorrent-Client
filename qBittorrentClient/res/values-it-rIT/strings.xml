@@ -169,5 +169,7 @@
     <string name="error403">Errore di autenticazione</string>
     <string name="action_force_recheck">Forza ricontrollo</string>
     <string name="torrentsRecheck">Verifica avviato</string>
+    <string name="torrent_details_torrent_first_last_piece_first">Scarica il primo e l\'ultimo pezzo prima</string>
+    <string name="torrent_details_torrent_sequential">Scarica in ordine sequenziale</string>
 
 </resources>

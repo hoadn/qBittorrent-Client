@@ -23,6 +23,7 @@ import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -184,6 +185,9 @@ public class TorrentDetailsFragment extends Fragment {
             TextView uploadSpeedTextView = (TextView) rootView.findViewById(R.id.uploadSpeed);
             TextView downloadSpeedTextView = (TextView) rootView.findViewById(R.id.DownloadSpeed);
 
+            CheckBox sequentialDownloadCheckBox = (CheckBox) rootView.findViewById(R.id.torrentSequentialDownload);
+            CheckBox firstLAstPiecePrioCheckBox = (CheckBox) rootView.findViewById(R.id.torrentFirstLastPiecePrio);
+
             nameTextView.setText(name);
             ratioTextView.setText(ratio);
             stateTextView.setText(state);
@@ -193,6 +197,11 @@ public class TorrentDetailsFragment extends Fragment {
             hashTextView.setText(hash);
             priorityTextView.setText(priority);
             etaTextView.setText(eta);
+            sequentialDownloadCheckBox.setChecked(MainActivity.lines[position].getSequentialDownload());
+            firstLAstPiecePrioCheckBox.setChecked(MainActivity.lines[position].getisFirstLastPiecePrio());
+
+//            sequentialDownloadCheckBox.setEnabled(false);
+//            firstLAstPiecePrioCheckBox.setEnabled(false);
 
             downloadSpeedTextView.setText(Character.toString('\u2193') + " " + downloadSpeed);
             uploadSpeedTextView.setText(Character.toString('\u2191') + " " + uploadSpeed);
@@ -800,7 +809,7 @@ public class TorrentDetailsFragment extends Fragment {
         if (listAdapter == null)
             return;
 
-        int desiredWidth = MeasureSpec.makeMeasureSpec(listView.getWidth(), MeasureSpec.UNSPECIFIED);
+        int desiredWidth = MeasureSpec.makeMeasureSpec(listView.getWidth(), MeasureSpec.UNSPECIFIED)+5;
         int totalHeight = 0;
         View view = null;
 

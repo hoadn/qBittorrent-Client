@@ -39,10 +39,12 @@ class Torrent {
     private String nbConnections;
     private String uploadLimit;
     private String downloadLimit;
+    private boolean sequentialDownload;
+    private boolean firstLastPiecePrio;
 
     public Torrent(String file, String size, String state, String hash,
                    String info, String ratio, String progress, String leechs,
-                   String seeds, String priority, String eta, String downloadSpeed, String uploadSpeed) {
+                   String seeds, String priority, String eta, String downloadSpeed, String uploadSpeed, boolean sequentialDownload, boolean firstLastPiecePrio) {
         this.file = file;
         this.size = size;
         this.state = state;
@@ -56,6 +58,9 @@ class Torrent {
         this.eta = eta;
         this.downloadSpeed = downloadSpeed;
         this.uploadSpeed = uploadSpeed;
+        this.sequentialDownload = sequentialDownload;
+        this.firstLastPiecePrio = firstLastPiecePrio;
+
     }
 
     /**
@@ -529,5 +534,19 @@ class Torrent {
     }
 
 
+    public boolean getSequentialDownload() {
+        return sequentialDownload;
+    }
 
+    public void setSequentialDownload(boolean sequentialDownload) {
+        this.sequentialDownload = sequentialDownload;
+    }
+
+    public boolean getisFirstLastPiecePrio() {
+        return firstLastPiecePrio;
+    }
+
+    public void setFirstLastPiecePrio(boolean firstLastPiecePrio) {
+        this.firstLastPiecePrio = firstLastPiecePrio;
+    }
 }

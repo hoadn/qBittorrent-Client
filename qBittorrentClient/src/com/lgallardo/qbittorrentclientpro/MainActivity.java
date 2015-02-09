@@ -72,7 +72,8 @@ public class MainActivity extends FragmentActivity {
     protected static final String TAG_RATIO = "ratio";
     protected static final String TAG_PRIORITY = "priority";
     protected static final String TAG_ETA = "eta";
-
+    protected static final String TAG_SEQDL = "seq_dl";
+    protected static final String TAG_FLPIECEPRIO= "f_l_piece_prio";
 
     protected static final String TAG_GLOBAL_MAX_NUM_CONNECTIONS = "max_connec";
     protected static final String TAG_MAX_NUM_CONN_PER_TORRENT = "max_connec_per_torrent";
@@ -2032,6 +2033,9 @@ public class MainActivity extends FragmentActivity {
         protected Torrent[] doInBackground(String... params) {
 
             String name, size, info, progress, state, hash, ratio, leechs, seeds, priority, eta, uploadSpeed, downloadSpeed;
+            boolean sequentialDownload = false;
+            boolean firstLastPiecePrio = false;
+
 
             Torrent[] torrents = null;
 
@@ -2073,15 +2077,21 @@ public class MainActivity extends FragmentActivity {
                         downloadSpeed = json.getString(TAG_DLSPEED);
                         uploadSpeed = json.getString(TAG_UPSPEED);
 
+
+
                         if(qb_version.equals("3.2.x")){
 
                             size =  Common.calculateSize(size);
                             eta = Common.secondsToEta(eta);
                             downloadSpeed  = Common.calculateSize(downloadSpeed) + "/s";
                             uploadSpeed = Common.calculateSize(uploadSpeed) + "/s";
+
+                            sequentialDownload = json.getBoolean(TAG_SEQDL);
+                            firstLastPiecePrio = json.getBoolean(TAG_FLPIECEPRIO);
+
                         }
 
-                        torrents[i] = new Torrent(name, size, state, hash, info, ratio, progress, leechs, seeds, priority, eta, downloadSpeed, uploadSpeed);
+                        torrents[i] = new   Torrent(name, size, state, hash, info, ratio, progress, leechs, seeds, priority, eta, downloadSpeed, uploadSpeed,sequentialDownload,firstLastPiecePrio);
 
                         MainActivity.names[i] = name;
 
