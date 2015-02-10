@@ -809,22 +809,61 @@ public class TorrentDetailsFragment extends Fragment {
         if (listAdapter == null)
             return;
 
-        int desiredWidth = MeasureSpec.makeMeasureSpec(listView.getWidth(), MeasureSpec.UNSPECIFIED)+5;
+        int desiredWidth = MeasureSpec.makeMeasureSpec(listView.getWidth(), MeasureSpec.UNSPECIFIED);
+
+        //Log.i("Height","desiredWidth: "+desiredWidth);
+
+
         int totalHeight = 0;
+
         View view = null;
 
         for (int i = 0; i < listAdapter.getCount(); i++) {
+
+            long numOfLines = 1;
             view = listAdapter.getView(i, view, listView);
-            if (i == 0)
+
+            if (i == 0) {
                 view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth, LayoutParams.WRAP_CONTENT));
+            }
 
             view.measure(desiredWidth, MeasureSpec.UNSPECIFIED);
-            totalHeight += view.getMeasuredHeight();
+
+            TextView file = (TextView) view.findViewById(R.id.file);
+            TextView info = (TextView) view.findViewById(R.id.info);
+
+            if (view.getMeasuredWidth() > desiredWidth) {
+
+                double viewWidthLong = Double.valueOf(view.getMeasuredWidth());
+                double desiredWidthLong = Double.valueOf(desiredWidth);
+
+                //Log.i("Height", "viewWidthLong: " + viewWidthLong);
+                //Log.i("Height", "desiredWidthLong: " + desiredWidthLong);
+
+
+                numOfLines = Math.round(viewWidthLong/desiredWidthLong)+ 1;
+
+
+                totalHeight += file.getMeasuredHeight() * numOfLines + info.getMeasuredHeight();
+
+            } else {
+                totalHeight += view.getMeasuredHeight();
+            }
+
+            //Log.i("Height", "numOfLines: " + numOfLines);
+
+            //Log.i("Height", "getMeasuredHeight: " + view.getMeasuredHeight());
+            //Log.i("Height", "getMeasuredWidth: " + view.getMeasuredWidth());
+
         }
 
         ViewGroup.LayoutParams params = listView.getLayoutParams();
 
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+
+
+        //Log.i("Height","height: "+params.height);
+
 
         listView.setLayoutParams(params);
         listView.requestLayout();

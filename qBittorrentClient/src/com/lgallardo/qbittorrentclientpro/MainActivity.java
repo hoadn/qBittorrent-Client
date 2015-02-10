@@ -73,7 +73,7 @@ public class MainActivity extends FragmentActivity {
     protected static final String TAG_PRIORITY = "priority";
     protected static final String TAG_ETA = "eta";
     protected static final String TAG_SEQDL = "seq_dl";
-    protected static final String TAG_FLPIECEPRIO= "f_l_piece_prio";
+    protected static final String TAG_FLPIECEPRIO = "f_l_piece_prio";
 
     protected static final String TAG_GLOBAL_MAX_NUM_CONNECTIONS = "max_connec";
     protected static final String TAG_MAX_NUM_CONN_PER_TORRENT = "max_connec_per_torrent";
@@ -1113,6 +1113,14 @@ public class MainActivity extends FragmentActivity {
 
     }
 
+    private void openOptions() {
+        // Retrieve preferences for options
+        canrefresh = false;
+        Intent intent = new Intent(getBaseContext(), OptionsActivity.class);
+        startActivityForResult(intent, OPTION_CODE);
+
+    }
+
     private final Runnable m_Runnable = new Runnable() {
         public void run()
 
@@ -1140,22 +1148,14 @@ public class MainActivity extends FragmentActivity {
 
     };// runnable
 
-    private void openOptions() {
-        // Retrieve preferences for options
-        canrefresh = false;
-        Intent intent = new Intent(getBaseContext(), OptionsActivity.class);
-        startActivityForResult(intent, OPTION_CODE);
-
-    }
-
-    // Drawer's method
-
     public void startTorrent(String hash) {
         // Execute the task in background
         qBittorrentCommand qtc = new qBittorrentCommand();
         qtc.execute(new String[]{"start", hash});
 
     }
+
+    // Drawer's method
 
     public void startSelectedTorrents(String hashes) {
         // Execute the task in background
@@ -1392,12 +1392,12 @@ public class MainActivity extends FragmentActivity {
 
             if (global_upload != null) {
 
-                if(Integer.parseInt(global_upload) > 0) {
+                if (Integer.parseInt(global_upload) > 0) {
 
                     limit = (Integer.parseInt(uploadRateLimit) > Integer.parseInt(global_upload) && Integer.parseInt(global_upload) != 0) ? Integer
                             .parseInt(global_upload) : Integer.parseInt(uploadRateLimit);
 
-                }else{
+                } else {
                     limit = Integer.parseInt(uploadRateLimit);
                 }
                 String[] hashesArray = hash.split("\\|");
@@ -1433,10 +1433,10 @@ public class MainActivity extends FragmentActivity {
 //                Log.i("setDownloadRateLimit", "global_download: " + Integer.parseInt(global_download));
 
 
-                if(Integer.parseInt(global_download) > 0) {
+                if (Integer.parseInt(global_download) > 0) {
                     limit = (Integer.parseInt(downloadRateLimit) > Integer.parseInt(global_download)) ? Integer.parseInt(global_download) : Integer
                             .parseInt(downloadRateLimit);
-                }else{
+                } else {
                     limit = Integer.parseInt(downloadRateLimit);
                 }
 
@@ -2078,20 +2078,28 @@ public class MainActivity extends FragmentActivity {
                         uploadSpeed = json.getString(TAG_UPSPEED);
 
 
+                        if (qb_version.equals("3.2.x")) {
 
-                        if(qb_version.equals("3.2.x")){
-
-                            size =  Common.calculateSize(size);
+                            size = Common.calculateSize(size);
                             eta = Common.secondsToEta(eta);
-                            downloadSpeed  = Common.calculateSize(downloadSpeed) + "/s";
+                            downloadSpeed = Common.calculateSize(downloadSpeed) + "/s";
                             uploadSpeed = Common.calculateSize(uploadSpeed) + "/s";
+                            try {
+                                sequentialDownload = json.getBoolean(TAG_SEQDL);
+                            } catch (Exception e) {
+                                firstLastPiecePrio = false;
+                            }
 
-                            sequentialDownload = json.getBoolean(TAG_SEQDL);
-                            firstLastPiecePrio = json.getBoolean(TAG_FLPIECEPRIO);
+
+                            try {
+                                firstLastPiecePrio = json.getBoolean(TAG_FLPIECEPRIO);
+                            } catch (Exception e) {
+                                firstLastPiecePrio = false;
+                            }
 
                         }
 
-                        torrents[i] = new   Torrent(name, size, state, hash, info, ratio, progress, leechs, seeds, priority, eta, downloadSpeed, uploadSpeed,sequentialDownload,firstLastPiecePrio);
+                        torrents[i] = new Torrent(name, size, state, hash, info, ratio, progress, leechs, seeds, priority, eta, downloadSpeed, uploadSpeed, sequentialDownload, firstLastPiecePrio);
 
                         MainActivity.names[i] = name;
 
