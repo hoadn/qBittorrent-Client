@@ -374,6 +374,18 @@ public class MainActivity extends FragmentActivity {
             fragmentTransaction.commit();
         }
 
+//        // Force overflow menu on all devices
+//        try {
+//            ViewConfiguration config = ViewConfiguration.get(this);
+//            Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+//            if(menuKeyField != null) {
+//                menuKeyField.setAccessible(true);
+//                menuKeyField.setBoolean(config, false);
+//            }
+//        } catch (Exception ex) {
+//            // Ignore
+//        }
+
         // Activity is visble
         activityIsVisible = true;
 

@@ -35,22 +35,6 @@ import org.json.JSONObject;
 
 public class TorrentDetailsFragment extends Fragment {
 
-    // Torrent variables
-    String name, info, hash, ratio, size, state, leechs, seeds, progress, priority, savePath, creationDate, comment, totalWasted, totalUploaded,
-            totalDownloaded, timeElapsed, nbConnections, shareRatio, uploadRateLimit, downloadRateLimit, downloaded, eta, downloadSpeed, uploadSpeed,
-            percentage = "";
-
-    String url;
-        private String qbQueryString = "query";
-
-    int position;
-
-    JSONObject json2;
-
-    static ContentFile[] files;
-    static Tracker[] trackers;
-    static String[] names, trackerNames;
-
     // TAGS
     protected static final String TAG_SAVE_PATH = "save_path";
     protected static final String TAG_CREATION_DATE = "creation_date";
@@ -63,21 +47,105 @@ public class TorrentDetailsFragment extends Fragment {
     protected static final String TAG_SHARE_RATIO = "share_ratio";
     protected static final String TAG_UPLOAD_LIMIT = "up_limit";
     protected static final String TAG_DOWNLOAD_LIMIT = "dl_limit";
-
+    static ContentFile[] files;
+    static Tracker[] trackers;
+    static String[] names, trackerNames;
+    // Torrent variables
+    String name, info, hash, ratio, size, state, leechs, seeds, progress, priority, savePath, creationDate, comment, totalWasted, totalUploaded,
+            totalDownloaded, timeElapsed, nbConnections, shareRatio, uploadRateLimit, downloadRateLimit, downloaded, eta, downloadSpeed, uploadSpeed,
+            percentage = "";
+    String url;
+    int position;
+    JSONObject json2;
     // Adapters
     myFileAdapter fileAdpater;
     myTrackerAdapter trackerAdapter;
     myPropertyAdapter propertyAdapter;
+    private String qbQueryString = "query";
 
     public TorrentDetailsFragment() {
     }
 
-    public void setPosition(int position) {
-        this.position = position;
+    /**
+     * *
+     * Method for Setting the Height of the ListView dynamically. Hack to fix
+     * the issue of not showing all the items of the ListView when placed inside
+     * a ScrollView
+     * **
+     */
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null)
+            return;
+
+        int desiredWidth = MeasureSpec.makeMeasureSpec(listView.getWidth(), MeasureSpec.UNSPECIFIED);
+
+        //Log.i("Height","desiredWidth: "+desiredWidth);
+
+
+        int totalHeight = 0;
+
+        View view = null;
+
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+
+            long numOfLines = 1;
+            view = listAdapter.getView(i, view, listView);
+
+            if (i == 0) {
+                view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth, LayoutParams.WRAP_CONTENT));
+            }
+
+            view.measure(desiredWidth, MeasureSpec.UNSPECIFIED);
+
+            TextView file = (TextView) view.findViewById(R.id.file);
+            TextView info = (TextView) view.findViewById(R.id.info);
+
+            if (view.getMeasuredWidth() > desiredWidth) {
+
+                double viewWidthLong = Double.valueOf(view.getMeasuredWidth());
+                double desiredWidthLong = Double.valueOf(desiredWidth);
+
+                //Log.i("Height", "viewWidthLong: " + viewWidthLong);
+                //Log.i("Height", "desiredWidthLong: " + desiredWidthLong);
+
+
+                numOfLines = Math.round(viewWidthLong / desiredWidthLong) + 1;
+
+
+                totalHeight += file.getMeasuredHeight() * numOfLines + info.getMeasuredHeight();
+
+            } else {
+                totalHeight += view.getMeasuredHeight();
+            }
+
+            //Log.i("Height", "numOfLines: " + numOfLines);
+
+            //Log.i("Height", "getMeasuredHeight: " + view.getMeasuredHeight());
+            //Log.i("Height", "getMeasuredWidth: " + view.getMeasuredWidth());
+
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+
+
+        //Log.i("Height","height: "+params.height);
+
+
+        listView.setLayoutParams(params);
+        listView.requestLayout();
+
     }
 
     public int getPosition() {
         return this.position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 
     @Override
@@ -92,7 +160,15 @@ public class TorrentDetailsFragment extends Fragment {
         // wants to add/replace/delete using the onCreateOptionsMenu method.
         setHasOptionsMenu(true);
 
-        View rootView = inflater.inflate(R.layout.torrent_details, container, false);
+        View rootView;
+
+        if (MainActivity.qb_version.equals("3.2.x")) {
+
+            rootView = inflater.inflate(R.layout.torrent_details, container, false);
+        } else {
+            rootView = inflater.inflate(R.layout.torrent_details_old, container, false);
+
+        }
 
         savePath = "";
         creationDate = "";
@@ -243,7 +319,7 @@ public class TorrentDetailsFragment extends Fragment {
             }
 
             if ("checkingDL".equals(state) || "checkingUP".equals(state)) {
-                nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_action_recheck,0,0,0);
+                nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_action_recheck, 0, 0, 0);
             }
 
 
@@ -320,6 +396,16 @@ public class TorrentDetailsFragment extends Fragment {
             menu.findItem(R.id.action_upload_rate_limit).setVisible(true);
             menu.findItem(R.id.action_recheck).setVisible(true);
 
+
+            if (MainActivity.qb_version.equals("3.2.x")) {
+                menu.findItem(R.id.action_firts_last_piece_prio).setVisible(true);
+                menu.findItem(R.id.action_sequential_download).setVisible(true);
+            }
+            else{
+                menu.findItem(R.id.action_firts_last_piece_prio).setVisible(false);
+                menu.findItem(R.id.action_sequential_download).setVisible(false);
+            }
+
         }
     }
 
@@ -345,8 +431,7 @@ public class TorrentDetailsFragment extends Fragment {
             }
 
 
-
-            url = qbQueryString +"/propertiesFiles/";
+            url = qbQueryString + "/propertiesFiles/";
 
             files = null;
             names = null;
@@ -374,7 +459,7 @@ public class TorrentDetailsFragment extends Fragment {
                         progress = json.getDouble(MainActivity.TAG_PROGRESS);
                         priority = json.getInt(MainActivity.TAG_PRIORITY);
 
-                        if(MainActivity.qb_version.equals("3.2.x")){
+                        if (MainActivity.qb_version.equals("3.2.x")) {
                             size = Common.calculateSize(json.getString(MainActivity.TAG_SIZE)).replace(",", ".");
                         }
 
@@ -588,7 +673,7 @@ public class TorrentDetailsFragment extends Fragment {
                     values[10] = json2.getString(TAG_DOWNLOAD_LIMIT);
 
 
-                    if(MainActivity.qb_version.equals("3.2.x")){
+                    if (MainActivity.qb_version.equals("3.2.x")) {
 
                         // Creation date
                         values[1] = Common.unixTimestampToDate(json2.getString(TAG_CREATION_DATE));
@@ -607,20 +692,18 @@ public class TorrentDetailsFragment extends Fragment {
                         // Upload limit
                         values[9] = json2.getString(TAG_UPLOAD_LIMIT);
 
-                        if(!values[9].equals("-1")){
+                        if (!values[9].equals("-1")) {
                             values[9] = Common.calculateSize(values[9]) + "/s";
-                        }
-                        else{
+                        } else {
                             values[9] = "∞";
                         }
 
                         // Download limit
                         values[10] = json2.getString(TAG_DOWNLOAD_LIMIT);
 
-                        if(!values[10].equals("-1")){
+                        if (!values[10].equals("-1")) {
                             values[10] = Common.calculateSize(values[10]) + "/s";
-                        }
-                        else{
+                        } else {
                             values[10] = "∞";
                         }
 
@@ -794,79 +877,5 @@ public class TorrentDetailsFragment extends Fragment {
 
             return (row);
         }
-    }
-
-    /**
-     * *
-     * Method for Setting the Height of the ListView dynamically. Hack to fix
-     * the issue of not showing all the items of the ListView when placed inside
-     * a ScrollView
-     * **
-     */
-    public static void setListViewHeightBasedOnChildren(ListView listView) {
-
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null)
-            return;
-
-        int desiredWidth = MeasureSpec.makeMeasureSpec(listView.getWidth(), MeasureSpec.UNSPECIFIED);
-
-        //Log.i("Height","desiredWidth: "+desiredWidth);
-
-
-        int totalHeight = 0;
-
-        View view = null;
-
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-
-            long numOfLines = 1;
-            view = listAdapter.getView(i, view, listView);
-
-            if (i == 0) {
-                view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth, LayoutParams.WRAP_CONTENT));
-            }
-
-            view.measure(desiredWidth, MeasureSpec.UNSPECIFIED);
-
-            TextView file = (TextView) view.findViewById(R.id.file);
-            TextView info = (TextView) view.findViewById(R.id.info);
-
-            if (view.getMeasuredWidth() > desiredWidth) {
-
-                double viewWidthLong = Double.valueOf(view.getMeasuredWidth());
-                double desiredWidthLong = Double.valueOf(desiredWidth);
-
-                //Log.i("Height", "viewWidthLong: " + viewWidthLong);
-                //Log.i("Height", "desiredWidthLong: " + desiredWidthLong);
-
-
-                numOfLines = Math.round(viewWidthLong/desiredWidthLong)+ 1;
-
-
-                totalHeight += file.getMeasuredHeight() * numOfLines + info.getMeasuredHeight();
-
-            } else {
-                totalHeight += view.getMeasuredHeight();
-            }
-
-            //Log.i("Height", "numOfLines: " + numOfLines);
-
-            //Log.i("Height", "getMeasuredHeight: " + view.getMeasuredHeight());
-            //Log.i("Height", "getMeasuredWidth: " + view.getMeasuredWidth());
-
-        }
-
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-
-
-        //Log.i("Height","height: "+params.height);
-
-
-        listView.setLayoutParams(params);
-        listView.requestLayout();
-
     }
 }

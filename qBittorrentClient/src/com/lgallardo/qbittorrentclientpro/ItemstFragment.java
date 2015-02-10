@@ -384,6 +384,7 @@ public class ItemstFragment extends ListFragment {
         // inflater.inflate(R.menu.main, menu);
         // super.onCreateOptionsMenu(menu, inflater);
 
+
         if (menu != null) {
             menu.findItem(R.id.action_refresh).setVisible(true);
             menu.findItem(R.id.action_search).setVisible(true);
@@ -433,6 +434,18 @@ public class ItemstFragment extends ListFragment {
 
             if (menu.findItem(R.id.action_recheck) != null) {
                 menu.findItem(R.id.action_recheck).setVisible(false);
+            }
+
+            if (menu.findItem(R.id.action_firts_last_piece_prio) != null) {
+                menu.findItem(R.id.action_firts_last_piece_prio).setVisible(false);
+            }
+
+            if (menu.findItem(R.id.action_sequential_download) != null) {
+                menu.findItem(R.id.action_sequential_download).setVisible(false);
+            }
+
+            if (menu.findItem(R.id.action_priority_menu) != null) {
+                menu.findItem(R.id.action_priority_menu).setVisible(false);
             }
 
         }
