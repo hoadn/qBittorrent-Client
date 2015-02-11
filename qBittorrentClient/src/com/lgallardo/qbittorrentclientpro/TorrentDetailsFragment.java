@@ -276,8 +276,6 @@ public class TorrentDetailsFragment extends Fragment {
             sequentialDownloadCheckBox.setChecked(MainActivity.lines[position].getSequentialDownload());
             firstLAstPiecePrioCheckBox.setChecked(MainActivity.lines[position].getisFirstLastPiecePrio());
 
-//            sequentialDownloadCheckBox.setEnabled(false);
-//            firstLAstPiecePrioCheckBox.setEnabled(false);
 
             downloadSpeedTextView.setText(Character.toString('\u2193') + " " + downloadSpeed);
             uploadSpeedTextView.setText(Character.toString('\u2191') + " " + uploadSpeed);

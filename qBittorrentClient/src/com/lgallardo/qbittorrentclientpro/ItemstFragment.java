@@ -111,7 +111,15 @@ public class ItemstFragment extends ListFragment {
 
                 @Override
                 public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
-                    return false;
+                    if (MainActivity.qb_version.equals("3.2.x")) {
+                        menu.findItem(R.id.action_firts_last_piece_prio).setVisible(true);
+                        menu.findItem(R.id.action_sequential_download).setVisible(true);
+                    }
+                    else{
+                        menu.findItem(R.id.action_firts_last_piece_prio).setVisible(false);
+                        menu.findItem(R.id.action_sequential_download).setVisible(false);
+                    }
+                    return true;
                 }
 
                 @Override
@@ -314,12 +322,32 @@ public class ItemstFragment extends ListFragment {
                             mode.finish();
 
                             return true;
+                        case R.id.action_sequential_download:
+
+                            m.toggleSequentialDownload(hashes);
+
+                            // Clear selection
+                            nr = 0;
+                            mAdapter.clearSelection();
+                            mode.finish();
+
+                            return true;
+                        case R.id.action_firts_last_piece_prio:
+
+                            m.toggleFirstLastPiecePrio(hashes);
+
+                            // Clear selection
+                            nr = 0;
+                            mAdapter.clearSelection();
+                            mode.finish();
+
+                            return true;
+
                         default:
                             return true;
 
 
                     }
-
 
                 }
 

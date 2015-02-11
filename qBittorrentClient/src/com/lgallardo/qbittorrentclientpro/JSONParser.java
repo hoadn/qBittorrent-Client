@@ -325,21 +325,26 @@ public class JSONParser {
         if ("start".equals(command) || "startSelected".equals(command)) {
             url = "command/resume";
         }
+
         if ("pause".equals(command) || "pauseSelected".equals(command)) {
             url = "command/pause";
         }
+
         if ("delete".equals(command) || "deleteSelected".equals(command)) {
             url = "command/delete";
             key = "hashes";
         }
+
         if ("deleteDrive".equals(command) || "deleteDriveSelected".equals(command)) {
             url = "command/deletePerm";
             key = "hashes";
         }
+
         if ("addTorrent".equals(command)) {
             url = "command/download";
             key = "urls";
         }
+
         if ("addTorrentFile".equals(command)) {
             url = "command/upload";
             key = "urls";
@@ -353,27 +358,33 @@ public class JSONParser {
         if ("pauseAll".equals(command)) {
             url = "command/pauseall";
         }
+
         if ("resumeAll".equals(command)) {
             url = "command/resumeall";
         }
+
         if ("increasePrio".equals(command)) {
             url = "command/increasePrio";
             key = "hashes";
         }
+
         if ("decreasePrio".equals(command)) {
             url = "command/decreasePrio";
             key = "hashes";
 
         }
+
         if ("maxPrio".equals(command)) {
             url = "command/topPrio";
             key = "hashes";
         }
+
         if ("minPrio".equals(command)) {
             url = "command/bottomPrio";
             key = "hashes";
 
         }
+
         if ("setQBittorrentPrefefrences".equals(command)) {
             url = "command/setPreferences";
             key = "json";
@@ -398,6 +409,19 @@ public class JSONParser {
         if ("recheckSelected".equals(command) ) {
             url = "command/recheck";
         }
+
+        if ("toggleFirstLastPiecePrio".equals(command)) {
+            url = "command/toggleFirstLastPiecePrio";
+            key = "hashes";
+
+        }
+
+        if ("toggleSequentialDownload".equals(command)) {
+            url = "command/toggleSequentialDownload";
+            key = "hashes";
+
+        }
+
 
         // if server is publish in a subfolder, fix url
         if (subfolder != null && subfolder != "") {

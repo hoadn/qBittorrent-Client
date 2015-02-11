@@ -658,6 +658,8 @@ public class MainActivity extends FragmentActivity {
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 
+
+
         return true;
     }
 
@@ -975,6 +977,35 @@ public class MainActivity extends FragmentActivity {
                     // }
                 }
                 return true;
+
+            case R.id.action_firts_last_piece_prio:
+
+                tf = this.getTorrentDetailsFragment();
+
+                if (tf != null) {
+                    position = tf.position;
+                    hash = MainActivity.lines[position].getHash();
+                    toggleFirstLastPiecePrio(hash);
+                    if (findViewById(R.id.one_frame) != null) {
+                        getFragmentManager().popBackStack();
+                    }
+                }
+                return true;
+
+
+            case R.id.action_sequential_download:
+
+                tf = this.getTorrentDetailsFragment();
+
+                if (tf != null) {
+                    position = tf.position;
+                    hash = MainActivity.lines[position].getHash();
+                    toggleSequentialDownload(hash);
+                    if (findViewById(R.id.one_frame) != null) {
+                        getFragmentManager().popBackStack();
+                    }
+                }
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -1000,6 +1031,8 @@ public class MainActivity extends FragmentActivity {
                 cookie = "";
             }
 
+            // redraw menu
+            invalidateOptionsMenu();
 
             // Select "All" torrents list
 //            selectItem(0);
@@ -1311,6 +1344,22 @@ public class MainActivity extends FragmentActivity {
         // Delay of 3 seconds
         refreshAfterCommand(3);
     }
+
+
+    public void toggleFirstLastPiecePrio(String hashes) {
+        // Execute the task in background
+        qBittorrentCommand qtc = new qBittorrentCommand();
+        qtc.execute(new String[]{"toggleFirstLastPiecePrio", hashes});
+
+    }
+
+    public void toggleSequentialDownload(String hashes) {
+        // Execute the task in background
+        qBittorrentCommand qtc = new qBittorrentCommand();
+        qtc.execute(new String[]{"toggleSequentialDownload", hashes});
+
+    }
+
 
     public void setQBittorrentPrefefrences(String hash) {
         // Execute the task in background
@@ -2026,6 +2075,14 @@ public class MainActivity extends FragmentActivity {
 
             if ("recheckSelected".equals(result)) {
                 messageId = R.string.torrentsRecheck;
+            }
+
+            if ("toggleFirstLastPiecePrio".equals(result)) {
+                messageId = R.string.torrentstogglefisrtLastPiecePrio;
+            }
+
+            if ("toggleSequentialDownload".equals(result)) {
+                messageId = R.string.torrentstoggleSequentialDownload;
             }
 
             if (!("startSelected".equals(result)) && !("pauseSelected".equals(result)) && !("deleteSelected".equals(result)) && !("deleteDriveSelected".equals(result)) && !("setUploadRateLimit".equals(result)) && !("setDownloadRateLimit".equals(result)) && !("recheckSelected".equals(result))) {

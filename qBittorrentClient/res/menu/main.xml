@@ -101,14 +101,14 @@
         android:showAsAction="ifRoom"
         android:title="@string/action_force_recheck" />
     <item
+        android:id="@+id/action_sequential_download"
+        android:showAsAction="ifRoom"
+        android:title="@string/torrent_details_seq_download"/>
+    <item
         android:id="@+id/action_firts_last_piece_prio"
         android:showAsAction="ifRoom"
         android:title="@string/torrent_details_first_last" />
 
-    <item
-        android:id="@+id/action_sequential_download"
-        android:showAsAction="ifRoom"
-        android:title="@string/torrent_details_seq_download"/>
 
 
 </menu>
