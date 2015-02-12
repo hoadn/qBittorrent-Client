@@ -261,8 +261,8 @@ public class TorrentDetailsFragment extends Fragment {
             TextView uploadSpeedTextView = (TextView) rootView.findViewById(R.id.uploadSpeed);
             TextView downloadSpeedTextView = (TextView) rootView.findViewById(R.id.DownloadSpeed);
 
-            CheckBox sequentialDownloadCheckBox = (CheckBox) rootView.findViewById(R.id.torrentSequentialDownload);
-            CheckBox firstLAstPiecePrioCheckBox = (CheckBox) rootView.findViewById(R.id.torrentFirstLastPiecePrio);
+            CheckBox sequentialDownloadCheckBox;
+            CheckBox firstLAstPiecePrioCheckBox;
 
             nameTextView.setText(name);
             ratioTextView.setText(ratio);
@@ -273,8 +273,14 @@ public class TorrentDetailsFragment extends Fragment {
             hashTextView.setText(hash);
             priorityTextView.setText(priority);
             etaTextView.setText(eta);
-            sequentialDownloadCheckBox.setChecked(MainActivity.lines[position].getSequentialDownload());
-            firstLAstPiecePrioCheckBox.setChecked(MainActivity.lines[position].getisFirstLastPiecePrio());
+
+            if (MainActivity.qb_version.equals("3.2.x")) {
+                sequentialDownloadCheckBox = (CheckBox) rootView.findViewById(R.id.torrentSequentialDownload);
+                firstLAstPiecePrioCheckBox = (CheckBox) rootView.findViewById(R.id.torrentFirstLastPiecePrio);
+
+                sequentialDownloadCheckBox.setChecked(MainActivity.lines[position].getSequentialDownload());
+                firstLAstPiecePrioCheckBox.setChecked(MainActivity.lines[position].getisFirstLastPiecePrio());
+            }
 
 
             downloadSpeedTextView.setText(Character.toString('\u2193') + " " + downloadSpeed);
