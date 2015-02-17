@@ -25,26 +25,26 @@
         <menu>
             <item
                 android:id="@+id/action_sortby_name"
-                android:title="Name" />
+                android:title="@string/sortby_menu_name" />
             <item
                 android:id="@+id/action_sortby_eta"
-                android:title="ETA" />
+                android:title="@string/sortby_menu_eta" />
             <item
                 android:id="@+id/action_sortby_priority"
-                android:title="Priority" />
+                android:title="@string/sortby_menu_priority" />
             <item
                 android:id="@+id/action_sortby_progress"
-                android:title="Progress" />
+                android:title="@string/sortby_menu_progress" />
             <item
                 android:id="@+id/action_sortby_ratio"
-                android:title="Ratio" />
+                android:title="@string/sortby_menu_ratio" />
 
             <item
                 android:id="@+id/action_sortby_downloadSpeed"
-                android:title="Download speed" />
+                android:title="@string/sortby_menu_download_speed" />
             <item
                 android:id="@+id/action_sortby_uploadSpeed"
-                android:title="Upload speed" />
+                android:title="@string/sortby_menu_upload_speed" />
 
         </menu>
 
