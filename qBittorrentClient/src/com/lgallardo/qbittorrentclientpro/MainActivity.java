@@ -694,8 +694,6 @@ public class MainActivity extends FragmentActivity {
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 
-
-
         return true;
     }
 
@@ -1042,6 +1040,38 @@ public class MainActivity extends FragmentActivity {
                     }
                 }
                 return true;
+
+            case R.id.action_sortby_name:
+                saveSortBy(getResources().getStringArray(R.array.sortByValues)[0]);
+                invalidateOptionsMenu();
+                refreshCurrent();
+                return true;
+            case R.id.action_sortby_eta:
+                saveSortBy(getResources().getStringArray(R.array.sortByValues)[1]);
+                invalidateOptionsMenu();
+                refreshCurrent();
+                return true;
+            case R.id.action_sortby_priority:
+                saveSortBy(getResources().getStringArray(R.array.sortByValues)[2]);
+                refreshCurrent();
+                return true;
+            case R.id.action_sortby_progress:
+                saveSortBy(getResources().getStringArray(R.array.sortByValues)[3]);
+                refreshCurrent();
+                return true;
+            case R.id.action_sortby_ratio:
+                saveSortBy(getResources().getStringArray(R.array.sortByValues)[4]);
+                refreshCurrent();
+                return true;
+            case R.id.action_sortby_downloadSpeed:
+                saveSortBy(getResources().getStringArray(R.array.sortByValues)[5]);
+                refreshCurrent();
+                return true;
+            case R.id.action_sortby_uploadSpeed:
+                saveSortBy(getResources().getStringArray(R.array.sortByValues)[6]);
+                refreshCurrent();
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -1798,6 +1828,20 @@ public class MainActivity extends FragmentActivity {
 
         // Save key-values
         editor.putString("lastState", state);
+
+
+        // Commit changes
+        editor.apply();
+
+    }
+
+    private void saveSortBy(String sortBy){
+        // Save options locally
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        Editor editor = sharedPrefs.edit();
+
+        // Save key-values
+        editor.putString("sortby", sortBy);
 
 
         // Commit changes

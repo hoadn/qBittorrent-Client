@@ -46,8 +46,8 @@
     <string name="torrentStarted">Torrent started!</string>
     <string name="torrentsSelectedStarted">Torrents started!</string>
     <string name="torrentsRecheck">Recheck started</string>
-    <string name="torrentstogglefisrtLastPiecePrio">Toggled first and last piece download</string>
-    <string name="torrentstoggleSequentialDownload">Toggled sequential download</string>
+    <string name="torrentstogglefisrtLastPiecePrio">Toggled first and last piece download!</string>
+    <string name="torrentstoggleSequentialDownload">Toggled sequential download!</string>
 
     <string name="torrentPaused">Torrent paused!</string>
     <string name="torrentsSelectedPaused">Torrents paused!</string>
@@ -189,5 +189,12 @@
     <string name="title_activity_settings">Settings</string>
     <string name="settings_qbittorrent_sort_category">Sort torrent list</string>
     <string name="settings_qbittorrent_darkui_summary">Restart the app to apply the theme</string>
+    <string name="sortby_menu_name">Name</string>
+    <string name="sortby_menu_eta">ETA</string>
+    <string name="sortby_menu_priority">Priority</string>
+    <string name="sortby_menu_progress">Progress</string>
+    <string name="sortby_menu_ratio">Ratio</string>
+    <string name="sortby_menu_download_speed">Download speed</string>
+    <string name="sortby_menu_upload_speed">Upload speed</string>
 
 </resources>
