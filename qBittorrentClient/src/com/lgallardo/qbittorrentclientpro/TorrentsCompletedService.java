@@ -1,19 +1,12 @@
-/*******************************************************************************
- * Copyright (c) 2015 Luis M. Gallardo D..
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v3.0
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/gpl.html
- *
- * Contributors:
- *     Luis M. Gallardo D.
- ******************************************************************************/
-
 package com.lgallardo.qbittorrentclientpro;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Binder;
-import android.os.Handler;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -22,34 +15,35 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Iterator;
 
-public class QBServiceBinder extends Binder {
+/**
+ * Created by lgallard on 2/22/15.
+ */
+public class TorrentsCompletedService extends BroadcastReceiver {
 
     protected static HashMap<String, Torrent> unCompletedTorrents, completedTorrents, torrentHashMap;
     private static String[] params = new String[2];
-    QBServiceListener listener;
-    private Handler handler;
+    private static Context context;
 
-    QBServiceBinder() {
+    public TorrentsCompletedService(){
+        super();
+
+    }
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+
+        this.context = context;
 
         String state = "all";
 
         // Get Settings thr params?
 
-        params[0] = "json/torrents";
+        params[0] = "json/events";
 
         params[1] = state;
 
         Log.i("Binder", "Binder created");
-
-    }
-
-    void getTorrentList(QBServiceListener listener) {
-
-        this.listener = listener;
-
-        handler = new Handler();
-        handler.postDelayed(m_Runnable, 10000);
-
+        new FetchTorrentListTask().execute(params);
 
     }
 
@@ -68,12 +62,12 @@ public class QBServiceBinder extends Binder {
         protected static final String TAG_RATIO = "ratio";
         protected static final String TAG_PRIORITY = "priority";
         protected static final String TAG_ETA = "eta";
-        QBServiceListener listener;
+//        QBServiceListener listener;
 
-
-        FetchTorrentListTask(QBServiceListener listener) {
-            this.listener = listener;
-        }
+//
+//        FetchTorrentListTask(QBServiceListener listener) {
+//            this.listener = listener;
+//        }
 
         @Override
         protected Torrent[] doInBackground(String... params) {
@@ -83,12 +77,13 @@ public class QBServiceBinder extends Binder {
             Torrent[] torrents = null;
 
             // Get settings
-            //getSettings();
+//            getSettings();
+            // Not needed, use static fields for hostname, username, and so on
             String hostname, subfolder, protocol, username, password;
             int port, connection_timeout, data_timeout;
             JSONParser jParser;
 
-            hostname = "10.10.50.63";
+            hostname = "192.168.2.172";
             subfolder = "";
             protocol = "http";
             port = 8080;
@@ -99,7 +94,7 @@ public class QBServiceBinder extends Binder {
 
             int httpStatusCode = 0;
 
-            Log.i("Binder", "Getting torrents");
+            Log.i("TorrentsCompletedService", "Getting torrents");
 
             try {
                 // Creating new JSON Parser
@@ -176,12 +171,6 @@ public class QBServiceBinder extends Binder {
 
             Iterator it;
 
-            // This is needed if you want to share the to the application
-            if (listener != null && torrents != null) {
-                listener.updateTorrentList(torrents);
-            }
-
-
             // Check completed torrents and notify them
 
             if (unCompletedTorrents == null) {
@@ -240,8 +229,30 @@ public class QBServiceBinder extends Binder {
 
                 if(!completedTorrents.isEmpty()){
                     Log.i("Completed", "Torrent(s) download completed");
+                    Intent intent = new Intent(context, MainActivity.class);
+                    PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
-                    listener.notifyCompleted(completedTorrents);
+// build notification
+// the addAction re-use the same intent to keep the example short
+                    Notification.Builder builder = new Notification.Builder(context)
+                            .setContentTitle("qBittorrent")
+                            .setContentText("Torrent(s) completed")
+                            .setSmallIcon(R.drawable.ic_stat_completed)
+                            .setNumber(completedTorrents.size())
+                            .setContentIntent(pIntent)
+                            .setAutoCancel(true);
+
+
+                    NotificationManager notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
+
+                    Notification notification;
+
+                    notification = builder.getNotification();
+
+                    notificationManager.notify(0, notification);
+
+
+//                    listener.notifyCompleted(completedTorrents);
 
                 }
 
@@ -279,19 +290,5 @@ public class QBServiceBinder extends Binder {
 
     }
 
-    private final Runnable m_Runnable = new Runnable() {
-        public void run()
-
-        {
-
-            new FetchTorrentListTask(listener).execute(params);
-
-            Log.i("Binder", "FetchTorrentListTask called");
-
-            handler.postDelayed(m_Runnable, 10000);
-        }
-
-    };// runnable
-
-
 }
+

@@ -152,7 +152,8 @@
             android:theme="@style/Theme_Light">
         </activity>
 
-        <service android:name="QBService" />
+        <receiver android:name=".TorrentsCompletedService">
+        </receiver>
     </application>
 
 </manifest>

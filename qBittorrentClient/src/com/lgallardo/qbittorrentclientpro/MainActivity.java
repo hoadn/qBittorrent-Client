@@ -10,6 +10,7 @@
  ******************************************************************************/
 package com.lgallardo.qbittorrentclientpro;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.FragmentManager;
@@ -18,11 +19,9 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.SearchManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.net.ConnectivityManager;
@@ -31,7 +30,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
@@ -164,27 +162,28 @@ public class MainActivity extends FragmentActivity {
     private int itemPosition = 0;
     // Searching field
     private String searchField = "";
-    // Service
-    private State qbServiceConnection = null;
 
     private String qbQueryString = "query";
 
+    // Alarm manager
+    private AlarmManager alarmMgr;
+    private PendingIntent alarmIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-        // Test service
-//        qbServiceConnection = new State();
-//
-//        getApplicationContext().bindService(new Intent(this, QBService.class), qbServiceConnection, BIND_AUTO_CREATE);
-//
-//        qbServiceConnection.attach(this);
-
-
         // Get preferences
         getSettings();
+
+        // Set Alarm for checking completed torrents
+        alarmMgr = (AlarmManager) getApplication().getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(getApplication(), TorrentsCompletedService.class);
+        alarmIntent = PendingIntent.getBroadcast(getApplication(), 0, intent, 0);
+
+        alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                180000L,
+                180000L, alarmIntent);
 
 
         if (qb_version.equals("3.2.x")) {
@@ -438,8 +437,6 @@ public class MainActivity extends FragmentActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-
-//        getApplicationContext().unbindService(qbServiceConnection);
     }
 
     @Override
@@ -1766,17 +1763,17 @@ public class MainActivity extends FragmentActivity {
 
     }
 
-    // Print torrent list from Service
-    protected void printTorrentList(Torrent[] torrents) {
-
-        try {
-            for (int i = 0; i < torrents.length; i++) {
-                Log.i("QBService", "Name: " + torrents[i].getFile());
-            }
-        } catch (Exception e) {
-            Log.e("QBService", e.toString());
-        }
-    }
+//    // Print torrent list from Service
+//    protected void printTorrentList(Torrent[] torrents) {
+//
+//        try {
+//            for (int i = 0; i < torrents.length; i++) {
+//                Log.i("QBService", "Name: " + torrents[i].getFile());
+//            }
+//        } catch (Exception e) {
+//            Log.e("QBService", e.toString());
+//        }
+//    }
 
     protected void notifyCompleted(HashMap completedTorrents) {
 
@@ -1909,51 +1906,7 @@ public class MainActivity extends FragmentActivity {
 
     }
 
-    static class State implements QBServiceListener, ServiceConnection {
 
-        QBServiceBinder binder = null;
-        MainActivity activity = null;
-
-
-        void attach(MainActivity activity) {
-            this.activity = activity;
-
-            Log.i("State", "Attached");
-
-        }
-
-        // This method update the torrent list (it prints the torrents names for now)
-        public void updateTorrentList(Torrent[] torrents) {
-            activity.printTorrentList(torrents);
-        }
-
-        @Override
-        public void notifyCompleted(HashMap completedTorrents) {
-            activity.notifyCompleted(completedTorrents);
-        }
-
-        public void onServiceConnected(ComponentName className, IBinder rawBinder) {
-
-
-            Log.i("State", "Trying to connect to service");
-
-
-            binder = (QBServiceBinder) rawBinder;
-
-            Log.i("State", "Connected to service");
-
-
-            // Here we are connected to the service, so we can ask for the torrent list
-            binder.getTorrentList(this);
-
-        }
-
-        public void onServiceDisconnected(ComponentName className) {
-            binder = null;
-        }
-
-
-    }
 
     // Here is where the action happens
     private class qBittorrentCookie extends AsyncTask<Void, Integer, String[]> {
