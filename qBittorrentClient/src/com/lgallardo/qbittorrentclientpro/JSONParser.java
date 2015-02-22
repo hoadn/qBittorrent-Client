@@ -156,6 +156,7 @@ public class JSONParser {
             int mStatusCode = statusLine.getStatusCode();
 
             if (mStatusCode != 200) {
+                httpclient.getConnectionManager().shutdown();
                 throw new JSONParserStatusCodeException(mStatusCode);
             }
 
@@ -185,8 +186,10 @@ public class JSONParser {
         } catch (IOException e) {
             Log.e("JSON", "IOException: " + e.toString());
             // e.printStackTrace();
+            httpclient.getConnectionManager().shutdown();
             throw new JSONParserStatusCodeException(TIMEOUT_ERROR);
         } catch (JSONParserStatusCodeException e) {
+            httpclient.getConnectionManager().shutdown();
             throw new JSONParserStatusCodeException(e.getCode());
         } catch (Exception e) {
             Log.e("JSON", "Generic: " + e.toString());
@@ -262,6 +265,7 @@ public class JSONParser {
             int mStatusCode = statusLine.getStatusCode();
 
             if (mStatusCode != 200) {
+                httpclient.getConnectionManager().shutdown();
                 throw new JSONParserStatusCodeException(mStatusCode);
             }
 
@@ -288,8 +292,10 @@ public class JSONParser {
         } catch (IOException e) {
             Log.e("JSON", "IO: " + e.toString());
             // e.printStackTrace();
+            httpclient.getConnectionManager().shutdown();
             throw new JSONParserStatusCodeException(TIMEOUT_ERROR);
         } catch (JSONParserStatusCodeException e) {
+            httpclient.getConnectionManager().shutdown();
             throw new JSONParserStatusCodeException(e.getCode());
         } catch (Exception e) {
             Log.e("JSON", "Generic: " + e.toString());
@@ -515,6 +521,7 @@ public class JSONParser {
             int mStatusCode = statusLine.getStatusCode();
 
             if (mStatusCode != 200) {
+                httpclient.getConnectionManager().shutdown();
                 throw new JSONParserStatusCodeException(mStatusCode);
             }
 
@@ -530,8 +537,10 @@ public class JSONParser {
         } catch (IOException e) {
             Log.e("qbittorrent", "IO: " + e.toString());
             // e.printStackTrace();
+            httpclient.getConnectionManager().shutdown();
             throw new JSONParserStatusCodeException(TIMEOUT_ERROR);
         } catch (JSONParserStatusCodeException e) {
+            httpclient.getConnectionManager().shutdown();
             throw new JSONParserStatusCodeException(e.getCode());
         } catch (Exception e) {
             Log.e("qbittorrent", "Generic: " + e.toString());

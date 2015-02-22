@@ -2343,13 +2343,13 @@ public class MainActivity extends FragmentActivity {
 
 //                Log.i("httpStatusCode", "" + httpStatusCode);
 
-                // Set App title
-                setTitle(R.string.app_shortname);
-
-                // Uncheck any item on the drawer menu
-                for (int i = 0; i < drawerList.getCount(); i++) {
-                    drawerList.setItemChecked(i, false);
-                }
+//                // Set App title
+//                setTitle(R.string.app_shortname);
+//
+//                // Uncheck any item on the drawer menu
+//                for (int i = 0; i < drawerList.getCount(); i++) {
+//                    drawerList.setItemChecked(i, false);
+//                }
 
             } else {
 

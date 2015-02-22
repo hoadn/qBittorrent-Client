@@ -114,8 +114,7 @@ public class ItemstFragment extends ListFragment {
                     if (MainActivity.qb_version.equals("3.2.x")) {
                         menu.findItem(R.id.action_firts_last_piece_prio).setVisible(true);
                         menu.findItem(R.id.action_sequential_download).setVisible(true);
-                    }
-                    else{
+                    } else {
                         menu.findItem(R.id.action_firts_last_piece_prio).setVisible(false);
                         menu.findItem(R.id.action_sequential_download).setVisible(false);
                     }
@@ -486,7 +485,6 @@ public class ItemstFragment extends ListFragment {
             menu.findItem(R.id.action_sortby_uploadSpeed).setVisible(true);
 
 
-
             if (MainActivity.sortby.equals("Name")) {
                 menu.findItem(R.id.action_sortby_name).setIcon(R.drawable.ic_stat_completed);
 
@@ -498,7 +496,7 @@ public class ItemstFragment extends ListFragment {
             }
 
             if (MainActivity.sortby.equals("Priority")) {
-;
+                ;
                 menu.findItem(R.id.action_sortby_priority).setIcon(R.drawable.ic_stat_completed);
             }
 
