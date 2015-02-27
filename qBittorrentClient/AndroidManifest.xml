@@ -152,7 +152,7 @@
             android:theme="@style/Theme_Light">
         </activity>
 
-        <receiver android:name=".TorrentsCompletedService">
+        <receiver android:name=".NotifierService">
         </receiver>
     </application>
 

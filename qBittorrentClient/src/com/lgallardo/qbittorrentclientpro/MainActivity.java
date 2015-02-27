@@ -90,10 +90,10 @@ public class MainActivity extends FragmentActivity {
     protected static final String TAG_URL = "url";
     protected static final int SETTINGS_CODE = 0;
     protected static final int OPTION_CODE = 1;
+
     // Cookie (SID - Session ID)
     public static String cookie = null;
-    // qb Version
-    public static String qb_version = "3.1.x";
+
 
     protected static JSONParser jParser;
 
@@ -113,6 +113,8 @@ public class MainActivity extends FragmentActivity {
     protected static boolean reverse_order;
     protected static boolean dark_ui;
     protected static String lastState;
+    public static String qb_version = "3.1.x";
+
     // Option
     protected static String global_max_num_connections;
     protected static String max_num_conn_per_torrent;
@@ -141,6 +143,7 @@ public class MainActivity extends FragmentActivity {
     // Preferences fields
     private SharedPreferences sharedPrefs;
     private StringBuilder builderPrefs;
+
     // Drawer properties
     private String[] navigationDrawerItemTitles;
     private ListView drawerList;
@@ -178,12 +181,12 @@ public class MainActivity extends FragmentActivity {
 
         // Set Alarm for checking completed torrents
         alarmMgr = (AlarmManager) getApplication().getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(getApplication(), TorrentsCompletedService.class);
+        Intent intent = new Intent(getApplication(), NotifierService.class);
         alarmIntent = PendingIntent.getBroadcast(getApplication(), 0, intent, 0);
 
         alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                180000L,
-                180000L, alarmIntent);
+                1200000L,
+                120000L, alarmIntent);
 
 
         if (qb_version.equals("3.2.x")) {
@@ -641,8 +644,9 @@ public class MainActivity extends FragmentActivity {
             // Use the query to search your data somehow
             searchField = intent.getStringExtra(SearchManager.QUERY);
 
-            // Search results
+            // Autorefresh
             refreshCurrent();
+
         }
 
         if (Intent.ACTION_VIEW.equals(intent.getAction())) {
@@ -652,11 +656,29 @@ public class MainActivity extends FragmentActivity {
 
             // // Activity is visble
             activityIsVisible = true;
-            //
-            // // // Autorefresh
+
+            // Autorefresh
             refreshCurrent();
 
         }
+
+        try {
+            if (intent.getStringExtra("from").equals("NotifierService")) {
+
+                //Refresh completed becase it
+                drawerList.setItemChecked(2, true);
+                setTitle(navigationDrawerItemTitles[2]);
+                refresh("completed");
+
+            }
+        }catch(NullPointerException npe){
+
+        }
+
+
+        NotifierService.notifiedCount = 0;
+
+//        Log.i("Intent", "handleIntent caught it");
 
     }
 
@@ -1802,7 +1824,7 @@ public class MainActivity extends FragmentActivity {
 
 
 //        // Notify individually and remove form completed list
-//        Iterator it = completedTorrents.entrySet().iterator();
+//        Iterator it = notify.entrySet().iterator();
 //        while (it.hasNext()) {
 //
 //            HashMap.Entry pairs = (HashMap.Entry) it.next();
@@ -1812,7 +1834,7 @@ public class MainActivity extends FragmentActivity {
 //            Log.i("Completed", t.getFile() + " - completed");
 //
 //            // Remove it
-//            completedTorrents.remove(pairs.getKey());
+//            notify.remove(pairs.getKey());
 //
 //            it.remove(); // avoids a ConcurrentModificationException
 //        }
@@ -2002,7 +2024,7 @@ public class MainActivity extends FragmentActivity {
             } catch (JSONParserStatusCodeException e) {
 
                 httpStatusCode = e.getCode();
-                Log.e("JSONParserStatusCodeException", e.toString());
+                Log.e("JSONParserStatusCode", e.toString());
 
             }
 
@@ -2251,7 +2273,7 @@ public class MainActivity extends FragmentActivity {
             } catch (JSONParserStatusCodeException e) {
                 httpStatusCode = e.getCode();
                 torrents = null;
-                Log.e("JSONParserStatusCodeException", e.toString());
+                Log.e("JSONParserStatusCode", e.toString());
 
             } catch (Exception e) {
                 torrents = null;
@@ -2552,7 +2574,7 @@ public class MainActivity extends FragmentActivity {
             } catch (JSONParserStatusCodeException e) {
 
                 httpStatusCode = e.getCode();
-                Log.e("JSONParserStatusCodeException", e.toString());
+                Log.e("JSONParserStatusCode", e.toString());
             }
 
             if (json != null) {
