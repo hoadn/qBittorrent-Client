@@ -96,6 +96,26 @@
             android:summary="@string/settings_qbittorrent_refresh_period_title"
             android:title="@string/settings_qbittorrent_refresh_period_title" />
     </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="Notifications"
+        android:title="Notifications">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="enable_notifications"
+            android:summary="Enable backgroud checking"
+            android:title="Enable notifications" />
+
+        <ListPreference
+            android:defaultValue="2 minutos"
+            android:dependency="enable_notifications"
+            android:entries="@array/notification"
+            android:entryValues="@array/notificationValues"
+            android:key="notification_period"
+            android:summary="Check every..."
+            android:title="Check completed torrents every..." />
+    </PreferenceCategory>
+
     <PreferenceCategory
         android:key="timeous"
         android:title="@string/settings_qbittorrent_timeouts_category">

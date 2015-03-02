@@ -25,9 +25,10 @@ public class NotifierService extends BroadcastReceiver {
 
     public static String qb_version = "3.1.x";
     public static String downloading_hashes;
+    public static String completed_hashes;
     // Cookie (SID - Session ID)
     public static String cookie = null;
-    protected static HashMap<String, Torrent> completed, downloading, notify;
+    protected static HashMap<String, Torrent> last_completed, completed, downloading, notify;
     protected static String hostname;
     protected static String subfolder;
     protected static int port;
@@ -51,8 +52,6 @@ public class NotifierService extends BroadcastReceiver {
     private StringBuilder builderPrefs;
     private String qbQueryString = "query";
 
-    public static int notifiedCount = 0;
-
 
     public NotifierService() {
         super();
@@ -66,12 +65,12 @@ public class NotifierService extends BroadcastReceiver {
 
         getSettings();
 
-        Log.i("onReceive", "Cookie:" + cookie);
-        Log.i("onReceive", "hostname: " + hostname);
-        Log.i("onReceive", "port: " + port);
-        Log.i("onReceive", "usernmae: " + username);
-        Log.i("onReceive", "password: " + password);
-        Log.i("onReceive", "qb_version: " + qb_version);
+//        Log.i("onReceive", "Cookie:" + cookie);
+//        Log.i("onReceive", "hostname: " + hostname);
+//        Log.i("onReceive", "port: " + port);
+//        Log.i("onReceive", "usernmae: " + username);
+//        Log.i("onReceive", "password: " + password);
+//        Log.i("onReceive", "qb_version: " + qb_version);
 
         String state = "all";
 
@@ -95,7 +94,7 @@ public class NotifierService extends BroadcastReceiver {
                 new qBittorrentCookie().execute();
             }
 
-            Log.i("onReceive", "Cookie:" + cookie);
+//            Log.i("onReceive", "Cookie:" + cookie);
 
         }
 
@@ -174,8 +173,11 @@ public class NotifierService extends BroadcastReceiver {
         // Get last state
         lastState = sharedPrefs.getString("lastState", null);
 
-        // Get last state
+        // Get downloading hashes
         downloading_hashes = sharedPrefs.getString("downloading_hashes", "");
+
+        // Get completed hashes
+        completed_hashes = sharedPrefs.getString("completed_hashes", "");
 
     }
 
@@ -295,15 +297,28 @@ public class NotifierService extends BroadcastReceiver {
 
             Iterator it;
 
+            last_completed = new HashMap<String, Torrent>();
             completed = new HashMap<String, Torrent>();
             downloading = new HashMap<String, Torrent>();
             notify = new HashMap<String, Torrent>();
 
-            String[] hashesArray = downloading_hashes.split("\\|");
+            String[] downloadingHashesArray = downloading_hashes.split("\\|");
+            String[] completedHashesArray = completed_hashes.split("\\|");
+
             String downloadingHashes = null;
+            String completedHashes = null;
 
             String[] completedNames;
 
+
+            for (int i = 0; i < downloadingHashesArray.length; i++) {
+                Log.i("Getting", "Last Downloading - " + downloadingHashesArray[i]);
+            }
+
+            for (int i = 0; i < completedHashesArray.length; i++) {
+                Log.i("Getting", "Last completed - " + completedHashesArray[i]);
+                last_completed.put(completedHashesArray[i], null);
+            }
 
             if (torrents != null) {
 
@@ -315,7 +330,7 @@ public class NotifierService extends BroadcastReceiver {
 
                         downloading.put(torrents[i].getHash(), torrents[i]);
 
-                        // or build new hashes string here
+                        // Build  downloading hashes string here
                         if (downloadingHashes == null) {
                             downloadingHashes = torrents[i].getHash();
                         } else {
@@ -326,16 +341,24 @@ public class NotifierService extends BroadcastReceiver {
                     // Completed torrents
                     else {
                         completed.put(torrents[i].getHash(), torrents[i]);
+
+                        // Build  completed hashes string here
+                        if (completedHashes == null) {
+                            completedHashes = torrents[i].getHash();
+                        } else {
+                            completedHashes += "|" + torrents[i].getHash();
+                        }
                     }
                 }
 
 
-                // Save downloadingHashes
+                // Save downloadingHashes and completedHashes
                 sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
                 SharedPreferences.Editor editor = sharedPrefs.edit();
 
-                // Save key-values
+                // Save hashes
                 editor.putString("downloading_hashes", downloadingHashes);
+                editor.putString("completed_hashes", completedHashes);
 
 
                 // Commit changes
@@ -343,32 +366,51 @@ public class NotifierService extends BroadcastReceiver {
 
 
                 // Check last seen downloading torrents
-                for (int i = 0; hashesArray.length > i; i++) {
+                for (int i = 0; i < downloadingHashesArray.length; i++) {
 
-                    if (completed.containsKey(hashesArray[i])) {
+                    if (completed.containsKey(downloadingHashesArray[i])) {
                         // Add to notify (change it to notify torrents)
-                        notify.put(hashesArray[i], completed.get(hashesArray[i]));
+                        if (!notify.containsKey(downloadingHashesArray[i])) {
+                            notify.put(downloadingHashesArray[i], completed.get(downloadingHashesArray[i]));
+                        }
+                    }
+                }
+
+
+                // Check completed torrents not seen last time
+                it = completed.entrySet().iterator();
+
+
+                while (it.hasNext()) {
+
+                    HashMap.Entry pairs = (HashMap.Entry) it.next();
+
+                    String key = (String) pairs.getKey();
+                    Torrent torrent = (Torrent) pairs.getValue();
+
+
+                    if (!last_completed.containsKey(key)) {
+                        if (!notify.containsKey(key)) {
+                            notify.put(key, torrent);
+                        }
                     }
                 }
 
 
                 // Notify completed torrents
 
-                if (!notify.isEmpty()) {
+                if (notify.size() > 0) {
 
                     String info = "";
 
                     Log.i("Completed", "Downloads completed");
 
-                    notifiedCount += notify.size();
 
                     Intent intent = new Intent(context, MainActivity.class);
-                    intent.putExtra("from","NotifierService");
+                    intent.putExtra("from", "NotifierService");
                     PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
                     it = notify.entrySet().iterator();
-
-                    int i = 0;
 
                     while (it.hasNext()) {
 
@@ -376,15 +418,14 @@ public class NotifierService extends BroadcastReceiver {
 
                         Torrent t = (Torrent) pairs.getValue();
 
-                        if(info.equals("")){
+                        if (info.equals("")) {
                             info += t.getFile();
-                        }else{
+                        } else {
                             info += ", " + t.getFile();
                         }
 
-                        it.remove(); // avoids a ConcurrentModificationException
+//                        it.remove(); // avoids a ConcurrentModificationException
                     }
-
 
 
                     // Build notification
@@ -392,7 +433,7 @@ public class NotifierService extends BroadcastReceiver {
                     Notification.Builder builder = new Notification.Builder(context)
                             .setContentTitle("Completed torrents")
                             .setContentText(info)
-                            .setNumber(notifiedCount)
+                            .setNumber(notify.size())
                             .setSmallIcon(R.drawable.ic_notification)
                             .setContentIntent(pIntent)
                             .setAutoCancel(true);
@@ -401,7 +442,6 @@ public class NotifierService extends BroadcastReceiver {
                     NotificationManager notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
 
                     Notification notification;
-
 
 
                     if (android.os.Build.VERSION.SDK_INT >= 16) {
@@ -413,7 +453,7 @@ public class NotifierService extends BroadcastReceiver {
 
                         completedNames = info.split(",");
 
-                        for(int j=0; j < completedNames.length && j < 3; j++){
+                        for (int j = 0; j < completedNames.length && j < 3; j++) {
                             inbox.addLine(completedNames[j]);
                         }
 
@@ -428,11 +468,7 @@ public class NotifierService extends BroadcastReceiver {
                     notificationManager.notify(0, notification);
 
 
-//                    listener.notifyCompleted(notify);
-
                 }
-
-
 
 
             }
@@ -456,7 +492,7 @@ public class NotifierService extends BroadcastReceiver {
             String api = "";
 
 
-            Log.i("qBittorrentCookie =>", "qBittorrentCookie");
+//            Log.i("qBittorrentCookie =>", "qBittorrentCookie");
 
             try {
 

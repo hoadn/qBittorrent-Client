@@ -93,10 +93,8 @@ public class MainActivity extends FragmentActivity {
 
     // Cookie (SID - Session ID)
     public static String cookie = null;
-
-
+    public static String qb_version = "3.1.x";
     protected static JSONParser jParser;
-
     // Preferences properties
     protected static String hostname;
     protected static String subfolder;
@@ -113,8 +111,6 @@ public class MainActivity extends FragmentActivity {
     protected static boolean reverse_order;
     protected static boolean dark_ui;
     protected static String lastState;
-    public static String qb_version = "3.1.x";
-
     // Option
     protected static String global_max_num_connections;
     protected static String max_num_conn_per_torrent;
@@ -179,15 +175,28 @@ public class MainActivity extends FragmentActivity {
         // Get preferences
         getSettings();
 
-        // Set Alarm for checking completed torrents
-        alarmMgr = (AlarmManager) getApplication().getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(getApplication(), NotifierService.class);
-        alarmIntent = PendingIntent.getBroadcast(getApplication(), 0, intent, 0);
 
-        alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                1200000L,
-                120000L, alarmIntent);
+        // Set alarm for checking completed torrents, if not set
 
+
+        if (PendingIntent.getBroadcast(getApplication(), 0, new Intent(getApplication(), NotifierService.class), PendingIntent.FLAG_NO_CREATE) == null) {
+
+            // Set Alarm for checking completed torrents
+            alarmMgr = (AlarmManager) getApplication().getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(getApplication(), NotifierService.class);
+            alarmIntent = PendingIntent.getBroadcast(getApplication(), 0, intent, 0);
+
+            alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                    1200000L,
+                    120000L, alarmIntent);
+
+
+            Log.d("Alarm", "Alarm was set!");
+
+        } else {
+            Log.d("Alarm", "Alarm is already active");
+
+        }
 
         if (qb_version.equals("3.2.x")) {
             if (cookie == null || cookie.equals("")) {
@@ -237,39 +246,39 @@ public class MainActivity extends FragmentActivity {
 
 
         // Set selecction according to last state
-        if(lastState != null){
+        if (lastState != null) {
 
-            if(lastState.equals("all")){
-                drawerList.setItemChecked(0,true);
+            if (lastState.equals("all")) {
+                drawerList.setItemChecked(0, true);
                 setTitle(navigationDrawerItemTitles[0]);
             }
 
-            if(lastState.equals("downloading")){
-                drawerList.setItemChecked(1,true);
+            if (lastState.equals("downloading")) {
+                drawerList.setItemChecked(1, true);
                 setTitle(navigationDrawerItemTitles[1]);
             }
 
-            if(lastState.equals("completed")){
-                drawerList.setItemChecked(2,true);
+            if (lastState.equals("completed")) {
+                drawerList.setItemChecked(2, true);
                 setTitle(navigationDrawerItemTitles[2]);
             }
 
-            if(lastState.equals("paused")){
-                drawerList.setItemChecked(3,true);
+            if (lastState.equals("paused")) {
+                drawerList.setItemChecked(3, true);
                 setTitle(navigationDrawerItemTitles[3]);
             }
 
-            if(lastState.equals("active")){
-                drawerList.setItemChecked(4,true);
+            if (lastState.equals("active")) {
+                drawerList.setItemChecked(4, true);
                 setTitle(navigationDrawerItemTitles[4]);
             }
 
-            if(lastState.equals("inactive")){
-                drawerList.setItemChecked(5,true);
+            if (lastState.equals("inactive")) {
+                drawerList.setItemChecked(5, true);
                 setTitle(navigationDrawerItemTitles[5]);
             }
 
-        }else {
+        } else {
             // Set "All" checked
             drawerList.setItemChecked(0, true);
 
@@ -579,7 +588,7 @@ public class MainActivity extends FragmentActivity {
 
         if (qb_version.equals("3.2.x")) {
             qbQueryString = "query";
-            params[0] = qbQueryString + "/torrents?filter="+state;
+            params[0] = qbQueryString + "/torrents?filter=" + state;
 
             if (cookie == null || cookie.equals("")) {
                 new qBittorrentCookie().execute();
@@ -665,18 +674,16 @@ public class MainActivity extends FragmentActivity {
         try {
             if (intent.getStringExtra("from").equals("NotifierService")) {
 
-                //Refresh completed becase it
+
                 drawerList.setItemChecked(2, true);
                 setTitle(navigationDrawerItemTitles[2]);
                 refresh("completed");
 
             }
-        }catch(NullPointerException npe){
+        } catch (NullPointerException npe) {
 
         }
 
-
-        NotifierService.notifiedCount = 0;
 
 //        Log.i("Intent", "handleIntent caught it");
 
@@ -1251,41 +1258,12 @@ public class MainActivity extends FragmentActivity {
 
     }
 
-    private final Runnable m_Runnable = new Runnable() {
-        public void run()
-
-        {
-            // Toast.makeText(MainActivity.this, "Refresh period: " +
-            // refresh_period, Toast.LENGTH_SHORT).show();
-
-            if (auto_refresh == true && canrefresh == true && activityIsVisible == true) {
-
-                if (findViewById(R.id.fragment_container) != null) {
-                    refreshCurrent();
-                } else {
-
-                    FragmentManager fm = getFragmentManager();
-
-                    if (fm.findFragmentById(R.id.one_frame) instanceof ItemstFragment || fm.findFragmentById(R.id.one_frame) instanceof AboutFragment) {
-                        refreshCurrent();
-                    }
-
-                }
-            }
-
-            MainActivity.this.handler.postDelayed(m_Runnable, refresh_period);
-        }
-
-    };// runnable
-
     public void startTorrent(String hash) {
         // Execute the task in background
         qBittorrentCommand qtc = new qBittorrentCommand();
         qtc.execute(new String[]{"start", hash});
 
     }
-
-    // Drawer's method
 
     public void startSelectedTorrents(String hashes) {
         // Execute the task in background
@@ -1334,6 +1312,33 @@ public class MainActivity extends FragmentActivity {
         qtc.execute(new String[]{"delete", hash});
     }
 
+    private final Runnable m_Runnable = new Runnable() {
+        public void run()
+
+        {
+            // Toast.makeText(MainActivity.this, "Refresh period: " +
+            // refresh_period, Toast.LENGTH_SHORT).show();
+
+            if (auto_refresh == true && canrefresh == true && activityIsVisible == true) {
+
+                if (findViewById(R.id.fragment_container) != null) {
+                    refreshCurrent();
+                } else {
+
+                    FragmentManager fm = getFragmentManager();
+
+                    if (fm.findFragmentById(R.id.one_frame) instanceof ItemstFragment || fm.findFragmentById(R.id.one_frame) instanceof AboutFragment) {
+                        refreshCurrent();
+                    }
+
+                }
+            }
+
+            MainActivity.this.handler.postDelayed(m_Runnable, refresh_period);
+        }
+
+    };// runnable
+
     public void deleteSelectedTorrents(String hashes) {
         // Execute the task in background
         qBittorrentCommand qtc = new qBittorrentCommand();
@@ -1344,6 +1349,8 @@ public class MainActivity extends FragmentActivity {
         // Delay of 1 second
         refreshAfterCommand(1);
     }
+
+    // Drawer's method
 
     public void deleteDriveTorrent(String hash) {
         // Execute the task in background
@@ -1430,7 +1437,6 @@ public class MainActivity extends FragmentActivity {
         refreshAfterCommand(3);
     }
 
-
     public void toggleFirstLastPiecePrio(String hashes) {
         // Execute the task in background
         qBittorrentCommand qtc = new qBittorrentCommand();
@@ -1444,7 +1450,6 @@ public class MainActivity extends FragmentActivity {
         qtc.execute(new String[]{"toggleSequentialDownload", hashes});
 
     }
-
 
     public void setQBittorrentPrefefrences(String hash) {
         // Execute the task in background
@@ -1750,7 +1755,7 @@ public class MainActivity extends FragmentActivity {
         MainActivity.cookie = sharedPrefs.getString("qbCookie", null);
 
         // Get last state
-        lastState =  sharedPrefs.getString("lastState", null);
+        lastState = sharedPrefs.getString("lastState", null);
 
 
     }
@@ -1784,18 +1789,6 @@ public class MainActivity extends FragmentActivity {
         max_act_torrents = sharedPrefs.getString("max_act_torrents", "0");
 
     }
-
-//    // Print torrent list from Service
-//    protected void printTorrentList(Torrent[] torrents) {
-//
-//        try {
-//            for (int i = 0; i < torrents.length; i++) {
-//                Log.i("QBService", "Name: " + torrents[i].getFile());
-//            }
-//        } catch (Exception e) {
-//            Log.e("QBService", e.toString());
-//        }
-//    }
 
     protected void notifyCompleted(HashMap completedTorrents) {
 
@@ -1840,7 +1833,7 @@ public class MainActivity extends FragmentActivity {
 //        }
     }
 
-    private void saveLastState(String state){
+    private void saveLastState(String state) {
         // Save options locally
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
         Editor editor = sharedPrefs.edit();
@@ -1854,7 +1847,7 @@ public class MainActivity extends FragmentActivity {
 
     }
 
-    private void saveSortBy(String sortBy){
+    private void saveSortBy(String sortBy) {
         // Save options locally
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
         Editor editor = sharedPrefs.edit();
@@ -1928,8 +1921,6 @@ public class MainActivity extends FragmentActivity {
 
     }
 
-
-
     // Here is where the action happens
     private class qBittorrentCookie extends AsyncTask<Void, Integer, String[]> {
 
@@ -2001,6 +1992,18 @@ public class MainActivity extends FragmentActivity {
 
         }
     }
+
+//    // Print torrent list from Service
+//    protected void printTorrentList(Torrent[] torrents) {
+//
+//        try {
+//            for (int i = 0; i < torrents.length; i++) {
+//                Log.i("QBService", "Name: " + torrents[i].getFile());
+//            }
+//        } catch (Exception e) {
+//            Log.e("QBService", e.toString());
+//        }
+//    }
 
     // Here is where the action happens
     private class qBittorrentCommand extends AsyncTask<String, Integer, String> {
@@ -2331,7 +2334,7 @@ public class MainActivity extends FragmentActivity {
                 ArrayList<Torrent> torrentsFiltered;
 
                 if (qb_version.equals("3.2.x")) {
-                        torrentsFiltered = new ArrayList<Torrent>(Arrays.asList(result));
+                    torrentsFiltered = new ArrayList<Torrent>(Arrays.asList(result));
 
                 } else {
 
@@ -2687,10 +2690,5 @@ public class MainActivity extends FragmentActivity {
     }
 
 
-    // protected
-
-
-    // Handle Service State
-
-
 }
+
