@@ -24,11 +24,10 @@ import java.util.Iterator;
 public class NotifierService extends BroadcastReceiver {
 
     public static String qb_version = "3.1.x";
-    public static String downloading_hashes;
     public static String completed_hashes;
     // Cookie (SID - Session ID)
     public static String cookie = null;
-    protected static HashMap<String, Torrent> last_completed, completed, downloading, notify;
+    protected static HashMap<String, Torrent> last_completed, completed, notify;
     protected static String hostname;
     protected static String subfolder;
     protected static int port;
@@ -45,8 +44,11 @@ public class NotifierService extends BroadcastReceiver {
     protected static boolean dark_ui;
     protected static String lastState;
     protected static int httpStatusCode = 0;
+    protected static int currentServer;
+
     private static String[] params = new String[2];
     private static Context context;
+
     // Preferences fields
     private SharedPreferences sharedPrefs;
     private StringBuilder builderPrefs;
@@ -71,6 +73,7 @@ public class NotifierService extends BroadcastReceiver {
 //        Log.i("onReceive", "usernmae: " + username);
 //        Log.i("onReceive", "password: " + password);
 //        Log.i("onReceive", "qb_version: " + qb_version);
+//        Log.i("onReceive", "currentServer: " + currentServer);
 
         String state = "all";
 
@@ -114,6 +117,8 @@ public class NotifierService extends BroadcastReceiver {
         builderPrefs.append("\n" + sharedPrefs.getString("language", "NULL"));
 
         // Get values from preferences
+        currentServer =  Integer.parseInt(sharedPrefs.getString("currentServer", "1"));
+
         hostname = sharedPrefs.getString("hostname", "");
         subfolder = sharedPrefs.getString("subfolder", "");
 
@@ -173,11 +178,8 @@ public class NotifierService extends BroadcastReceiver {
         // Get last state
         lastState = sharedPrefs.getString("lastState", null);
 
-        // Get downloading hashes
-        downloading_hashes = sharedPrefs.getString("downloading_hashes", "");
-
         // Get completed hashes
-        completed_hashes = sharedPrefs.getString("completed_hashes", "");
+        completed_hashes = sharedPrefs.getString("completed_hashes"+currentServer, "");
 
     }
 
@@ -299,21 +301,14 @@ public class NotifierService extends BroadcastReceiver {
 
             last_completed = new HashMap<String, Torrent>();
             completed = new HashMap<String, Torrent>();
-            downloading = new HashMap<String, Torrent>();
             notify = new HashMap<String, Torrent>();
 
-            String[] downloadingHashesArray = downloading_hashes.split("\\|");
             String[] completedHashesArray = completed_hashes.split("\\|");
 
-            String downloadingHashes = null;
             String completedHashes = null;
 
             String[] completedNames;
 
-
-            for (int i = 0; i < downloadingHashesArray.length; i++) {
-                Log.i("Getting", "Last Downloading - " + downloadingHashesArray[i]);
-            }
 
             for (int i = 0; i < completedHashesArray.length; i++) {
                 Log.i("Getting", "Last completed - " + completedHashesArray[i]);
@@ -325,21 +320,10 @@ public class NotifierService extends BroadcastReceiver {
                 // Check torrents
                 for (int i = 0; i < torrents.length; i++) {
 
-                    // Downloading torrents
-                    if (!(torrents[i].getPercentage().equals("100"))) {
-
-                        downloading.put(torrents[i].getHash(), torrents[i]);
-
-                        // Build  downloading hashes string here
-                        if (downloadingHashes == null) {
-                            downloadingHashes = torrents[i].getHash();
-                        } else {
-                            downloadingHashes += "|" + torrents[i].getHash();
-                        }
-
-                    }
                     // Completed torrents
-                    else {
+                    if (torrents[i].getPercentage().equals("100")) {
+
+
                         completed.put(torrents[i].getHash(), torrents[i]);
 
                         // Build  completed hashes string here
@@ -352,29 +336,16 @@ public class NotifierService extends BroadcastReceiver {
                 }
 
 
-                // Save downloadingHashes and completedHashes
+                // Save completedHashes
                 sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
                 SharedPreferences.Editor editor = sharedPrefs.edit();
 
                 // Save hashes
-                editor.putString("downloading_hashes", downloadingHashes);
                 editor.putString("completed_hashes", completedHashes);
 
 
                 // Commit changes
                 editor.apply();
-
-
-                // Check last seen downloading torrents
-                for (int i = 0; i < downloadingHashesArray.length; i++) {
-
-                    if (completed.containsKey(downloadingHashesArray[i])) {
-                        // Add to notify (change it to notify torrents)
-                        if (!notify.containsKey(downloadingHashesArray[i])) {
-                            notify.put(downloadingHashesArray[i], completed.get(downloadingHashesArray[i]));
-                        }
-                    }
-                }
 
 
                 // Check completed torrents not seen last time

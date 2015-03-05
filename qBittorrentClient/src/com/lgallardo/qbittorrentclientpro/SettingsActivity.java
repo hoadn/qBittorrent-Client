@@ -29,7 +29,6 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
     private EditTextPreference port;
     private EditTextPreference username;
     private EditTextPreference password;
-//    private CheckBoxPreference old_version;
     private String currentServerValue;
 
     private CheckBoxPreference auto_refresh;
@@ -44,6 +43,9 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
     private CheckBoxPreference dark_ui;
 
     private ListPreference qb_version;
+
+    private CheckBoxPreference enable_notifications;
+    private ListPreference notification_period;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +81,10 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
         dark_ui = (CheckBoxPreference) findPreference("dark_ui");
 
         qb_version = (ListPreference) findPreference("qb_version");
+
+
+        enable_notifications = (CheckBoxPreference) findPreference("enable_notifications");
+        notification_period = (ListPreference) findPreference("notification_period");
 
 
         // Get values for server
@@ -188,6 +194,13 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
         qb_version.setSummary(qb_version.getEntry());
 
 
+        if (notification_period.getEntry() == null) {
+            notification_period.setValueIndex(2);
+        }
+
+        notification_period.setSummary(notification_period.getEntry());
+
+
     }
 
     public void refreshScreenValues() {
@@ -200,6 +213,7 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
         refresh_period.setSummary(refresh_period.getEntry());
         sortBy.setSummary(sortBy.getEntry());
         qb_version.setSummary(qb_version.getEntry());
+        notification_period.setSummary(notification_period.getEntry());
 
     }
 

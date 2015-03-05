@@ -111,6 +111,7 @@ public class MainActivity extends FragmentActivity {
     protected static boolean reverse_order;
     protected static boolean dark_ui;
     protected static String lastState;
+    protected static long notification_period;
     // Option
     protected static String global_max_num_connections;
     protected static String max_num_conn_per_torrent;
@@ -187,8 +188,8 @@ public class MainActivity extends FragmentActivity {
             alarmIntent = PendingIntent.getBroadcast(getApplication(), 0, intent, 0);
 
             alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                    1200000L,
-                    120000L, alarmIntent);
+                    notification_period,
+                    notification_period, alarmIntent);
 
 
             Log.d("Alarm", "Alarm was set!");
@@ -1140,6 +1141,16 @@ public class MainActivity extends FragmentActivity {
             // Now it can be refreshed
             canrefresh = true;
 
+            // Set notification alarm service
+            // Set Alarm for checking completed torrents
+            alarmMgr = (AlarmManager) getApplication().getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(getApplication(), NotifierService.class);
+            alarmIntent = PendingIntent.getBroadcast(getApplication(), 0, intent, 0);
+
+            alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                    notification_period,
+                    notification_period, alarmIntent);
+
         }
 
         if (requestCode == OPTION_CODE) {
@@ -1756,6 +1767,13 @@ public class MainActivity extends FragmentActivity {
 
         // Get last state
         lastState = sharedPrefs.getString("lastState", null);
+
+        // Notification check
+        try {
+            notification_period = Long.parseLong(sharedPrefs.getString("notification_period", "1200000L"));
+        } catch (NumberFormatException e) {
+            notification_period = 1200000L;
+        }
 
 
     }

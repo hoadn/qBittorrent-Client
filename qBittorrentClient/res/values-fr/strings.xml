@@ -183,5 +183,10 @@
     <string name="sortby_menu_upload_speed">Vitesse UP</string>
     <string name="torrentstoggleSequentialDownload">Modification de téléchargement séquentielle!</string>
     <string name="torrentstogglefisrtLastPiecePrio">Modification de la priorité!</string>
+    <string name="settings_qbittorrent_notifications_category">Notifications+</string>
+    <string name="settings_qbittorrent_notifications_period_summary">Vérifiez tous...</string>
+    <string name="settings_qbittorrent_notifications_period_title">Vérifiez torrents toutes...</string>
+    <string name="settings_qbittorrent_notifications_summary">Activer la vérification de fond</string>
+    <string name="settings_qbittorrent_notifications_title">Activer les notifications</string>
 
 </resources>

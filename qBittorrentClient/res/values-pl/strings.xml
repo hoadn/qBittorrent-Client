@@ -183,5 +183,10 @@
     <string name="sortby_menu_upload_speed">Prędkość wysyłania</string>
     <string name="torrentstoggleSequentialDownload">Zmiana sekwencyjny pobrania!</string>
     <string name="torrentstogglefisrtLastPiecePrio">Zmiana priorytetu!</string>
+    <string name="settings_qbittorrent_notifications_category">Powiadomienia</string>
+    <string name="settings_qbittorrent_notifications_period_summary">Sprawdź co...</string>
+    <string name="settings_qbittorrent_notifications_period_title">Sprawdź torrenty co...</string>
+    <string name="settings_qbittorrent_notifications_summary">Aktywuj tło weryfikacji</string>
+    <string name="settings_qbittorrent_notifications_title">Włącz powiadomienia</string>
 
 </resources>

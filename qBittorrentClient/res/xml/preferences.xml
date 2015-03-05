@@ -61,13 +61,6 @@
             android:summary="@string/settings_qbittorrent_password_summary"
             android:title="@string/settings_qbittorrent_password_title" />
 
-        <!-- CheckBoxPreference
-            android:defaultValue="false"
-            android:key="old_version"
-            android:summary="@string/settings_qbittorrent_version_summary"
-            android:title="@string/settings_qbittorrent_version_title" / -->
-
-
         <ListPreference
             android:defaultValue="3.1.x"
             android:entries="@array/qbVersion"
@@ -99,21 +92,21 @@
 
     <PreferenceCategory
         android:key="Notifications"
-        android:title="Notifications">
+        android:title="@string/settings_qbittorrent_notifications_category">
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="enable_notifications"
-            android:summary="Enable backgroud checking"
-            android:title="Enable notifications" />
+            android:summary="@string/settings_qbittorrent_notifications_summary"
+            android:title="@string/settings_qbittorrent_notifications_title" />
 
         <ListPreference
-            android:defaultValue="2 minutos"
+            android:defaultValue="2"
             android:dependency="enable_notifications"
             android:entries="@array/notification"
             android:entryValues="@array/notificationValues"
             android:key="notification_period"
-            android:summary="Check every..."
-            android:title="Check completed torrents every..." />
+            android:summary="@string/settings_qbittorrent_notifications_period_summary"
+            android:title="@string/settings_qbittorrent_notifications_period_title" />
     </PreferenceCategory>
 
     <PreferenceCategory
