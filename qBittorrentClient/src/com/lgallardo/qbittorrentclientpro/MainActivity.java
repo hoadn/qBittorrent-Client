@@ -2049,7 +2049,7 @@ public class MainActivity extends FragmentActivity {
             } catch (JSONParserStatusCodeException e) {
 
                 httpStatusCode = e.getCode();
-                Log.e("JSONParserStatusCodeException", e.toString());
+                Log.e("JSONParserStatusCode", e.toString());
 
             }
 
@@ -2298,7 +2298,7 @@ public class MainActivity extends FragmentActivity {
             } catch (JSONParserStatusCodeException e) {
                 httpStatusCode = e.getCode();
                 torrents = null;
-                Log.e("JSONParserStatusCodeException", e.toString());
+                Log.e("JSONParserStatusCode", e.toString());
 
             } catch (Exception e) {
                 torrents = null;
@@ -2599,7 +2599,7 @@ public class MainActivity extends FragmentActivity {
             } catch (JSONParserStatusCodeException e) {
 
                 httpStatusCode = e.getCode();
-                Log.e("JSONParserStatusCodeException", e.toString());
+                Log.e("JSONParserStatusCode", e.toString());
             }
 
             if (json != null) {
