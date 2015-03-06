@@ -195,7 +195,7 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
 
 
         if (notification_period.getEntry() == null) {
-            notification_period.setValueIndex(2);
+            notification_period.setValueIndex(1);
         }
 
         notification_period.setSummary(notification_period.getEntry());

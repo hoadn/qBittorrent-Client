@@ -188,14 +188,18 @@ public class MainActivity extends FragmentActivity {
             alarmIntent = PendingIntent.getBroadcast(getApplication(), 0, intent, 0);
 
             alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                    notification_period,
+                    System.currentTimeMillis(),
                     notification_period, alarmIntent);
 
 
-            Log.d("Alarm", "Alarm was set!");
+            Log.d("Notifier", "Alarm was set!");
+            Log.d("Notifier", "notification_period: " + notification_period);
+
 
         } else {
-            Log.d("Alarm", "Alarm is already active");
+            Log.d("Notifier", "Alarm is already active");
+            Log.d("Notifier", "notification_period: " + notification_period);
+
 
         }
 
@@ -1160,8 +1164,12 @@ public class MainActivity extends FragmentActivity {
             alarmIntent = PendingIntent.getBroadcast(getApplication(), 0, intent, 0);
 
             alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                    notification_period,
+                    System.currentTimeMillis(),
                     notification_period, alarmIntent);
+
+
+            Log.d("Notifier", "notification_period 2: " + notification_period);
+
 
         }
 

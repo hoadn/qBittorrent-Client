@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import java.util.HashMap;
 
@@ -38,6 +39,7 @@ public class DeviceBootReceiver extends BroadcastReceiver {
     protected static boolean reverse_order;
     protected static boolean dark_ui;
     protected static String lastState;
+    protected static long notification_period;
 
     // Preferences fields
     private SharedPreferences sharedPrefs;
@@ -68,9 +70,12 @@ public class DeviceBootReceiver extends BroadcastReceiver {
             alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
 
             alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                    1200000L,
-                    120000L, alarmIntent);
+                    System.currentTimeMillis(),
+                    notification_period, alarmIntent);
 
+
+            Log.d("Notifier", "Alarm was set on boot!");
+            Log.d("Notifier", "notification_period: " + notification_period);
         }
     }
 
@@ -142,6 +147,13 @@ public class DeviceBootReceiver extends BroadcastReceiver {
 
         // Get last state
         lastState = sharedPrefs.getString("lastState", null);
+
+        // Notification check
+        try {
+            notification_period = Long.parseLong(sharedPrefs.getString("notification_period", "1200000L"));
+        } catch (NumberFormatException e) {
+            notification_period = 1200000L;
+        }
 
 
     }

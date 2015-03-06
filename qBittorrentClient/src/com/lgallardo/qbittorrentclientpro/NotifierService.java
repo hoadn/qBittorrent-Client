@@ -45,6 +45,7 @@ public class NotifierService extends BroadcastReceiver {
     protected static String lastState;
     protected static int httpStatusCode = 0;
     protected static int currentServer;
+    protected static boolean enable_notifications;
 
     private static String[] params = new String[2];
     private static Context context;
@@ -67,44 +68,48 @@ public class NotifierService extends BroadcastReceiver {
 
         getSettings();
 
-//        Log.i("onReceive", "Cookie:" + cookie);
-//        Log.i("onReceive", "hostname: " + hostname);
-//        Log.i("onReceive", "port: " + port);
-//        Log.i("onReceive", "usernmae: " + username);
-//        Log.i("onReceive", "password: " + password);
-//        Log.i("onReceive", "qb_version: " + qb_version);
-//        Log.i("onReceive", "currentServer: " + currentServer);
+//        Log.i("Notifier", "Cookie:" + cookie);
+//        Log.i("Notifier", "hostname: " + hostname);
+//        Log.i("Notifier", "port: " + port);
+//        Log.i("Notifier", "usernmae: " + username);
+//        Log.i("Notifier", "password: " + password);
+//        Log.i("Notifier", "qb_version: " + qb_version);
+//        Log.i("Notifier", "currentServer: " + currentServer);
 
-        String state = "all";
+        if (enable_notifications) {
 
-        // Get Settings thr params?
+            String state = "all";
 
-        if (qb_version.equals("2.x")) {
-            qbQueryString = "json";
-            params[0] = qbQueryString + "/events";
-        }
+            // Get Settings thr params?
 
-        if (qb_version.equals("3.1.x")) {
-            qbQueryString = "json";
-            params[0] = qbQueryString + "/torrents";
-        }
-
-        if (qb_version.equals("3.2.x")) {
-            qbQueryString = "query";
-            params[0] = qbQueryString + "/torrents?filter=" + state;
-
-            if (cookie == null || cookie.equals("")) {
-                new qBittorrentCookie().execute();
+            if (qb_version.equals("2.x")) {
+                qbQueryString = "json";
+                params[0] = qbQueryString + "/events";
             }
+
+            if (qb_version.equals("3.1.x")) {
+                qbQueryString = "json";
+                params[0] = qbQueryString + "/torrents";
+            }
+
+            if (qb_version.equals("3.2.x")) {
+                qbQueryString = "query";
+                params[0] = qbQueryString + "/torrents?filter=" + state;
+
+                if (cookie == null || cookie.equals("")) {
+                    new qBittorrentCookie().execute();
+                }
 
 //            Log.i("onReceive", "Cookie:" + cookie);
 
+            }
+
+            params[1] = state;
+
+            Log.i("Notifier", "onReceive reached");
+            new FetchTorrentListTask().execute(params);
+
         }
-
-        params[1] = state;
-
-        Log.i("onReceive", "onReceive reached");
-        new FetchTorrentListTask().execute(params);
 
     }
 
@@ -117,7 +122,7 @@ public class NotifierService extends BroadcastReceiver {
         builderPrefs.append("\n" + sharedPrefs.getString("language", "NULL"));
 
         // Get values from preferences
-        currentServer =  Integer.parseInt(sharedPrefs.getString("currentServer", "1"));
+        currentServer = Integer.parseInt(sharedPrefs.getString("currentServer", "1"));
 
         hostname = sharedPrefs.getString("hostname", "");
         subfolder = sharedPrefs.getString("subfolder", "");
@@ -178,8 +183,10 @@ public class NotifierService extends BroadcastReceiver {
         // Get last state
         lastState = sharedPrefs.getString("lastState", null);
 
-        // Get completed hashes
-        completed_hashes = sharedPrefs.getString("completed_hashes"+currentServer, "");
+        // Notifications
+        enable_notifications = sharedPrefs.getBoolean("enable_notifications", false);
+        completed_hashes = sharedPrefs.getString("completed_hashes" + currentServer, "");
+
 
     }
 
@@ -213,7 +220,7 @@ public class NotifierService extends BroadcastReceiver {
 
             int httpStatusCode = 0;
 
-            Log.i("TorrentsCompleted", "Getting torrents");
+            Log.i("Notifier", "Getting torrents");
 
             try {
                 // Creating new JSON Parser
@@ -275,11 +282,11 @@ public class NotifierService extends BroadcastReceiver {
             } catch (JSONParserStatusCodeException e) {
                 httpStatusCode = e.getCode();
                 torrents = null;
-                Log.e("JSONParserStatusCode2", e.toString());
+                Log.e("Notifier", e.toString());
 
             } catch (Exception e) {
                 torrents = null;
-                Log.e("Binder:", e.toString());
+                Log.e("Notifier:", e.toString());
             }
 
             return torrents;
@@ -303,13 +310,14 @@ public class NotifierService extends BroadcastReceiver {
 
 
             for (int i = 0; i < completedHashesArray.length; i++) {
-                Log.i("Getting", "Last completed - " + completedHashesArray[i]);
+                Log.i("Notifier", "Last completed - " + completedHashesArray[i]);
                 last_completed.put(completedHashesArray[i], null);
             }
 
-			Log.i("LastCompleted", "Size: "+ last_completed.size());
-			
-            if (torrents != null && !completed_hashes.equals("") ) {
+            Log.i("Notifier", "LastCompleted Size: " + last_completed.size());
+            Log.i("Notifier", "LastCompleted Hashes: " + completed_hashes);
+
+            if (torrents != null) {
 
                 // Check torrents
                 for (int i = 0; i < torrents.length; i++) {
@@ -335,12 +343,15 @@ public class NotifierService extends BroadcastReceiver {
                 SharedPreferences.Editor editor = sharedPrefs.edit();
 
                 // Save hashes
-                editor.putString("completed_hashes", completedHashes);
+                editor.putString("completed_hashes" + currentServer, completedHashes);
 
 
                 // Commit changes
                 editor.apply();
 
+                if (completed_hashes.equals("")) {
+                    last_completed = completed;
+                }
 
                 // Check completed torrents not seen last time
                 it = completed.entrySet().iterator();
@@ -368,7 +379,7 @@ public class NotifierService extends BroadcastReceiver {
 
                     String info = "";
 
-                    Log.i("Completed", "Downloads completed");
+                    Log.i("Notifier", "Downloads completed");
 
 
                     Intent intent = new Intent(context, MainActivity.class);
@@ -457,8 +468,6 @@ public class NotifierService extends BroadcastReceiver {
             String api = "";
 
 
-//            Log.i("qBittorrentCookie =>", "qBittorrentCookie");
-
             try {
 
                 cookie = jParser.getNewCookie();
@@ -467,9 +476,7 @@ public class NotifierService extends BroadcastReceiver {
             } catch (JSONParserStatusCodeException e) {
 
                 httpStatusCode = e.getCode();
-
-                Log.i("onReceive", "httpStatusCode: " + httpStatusCode);
-//                Log.e("qBittorrentCookie", e.toString());
+                Log.i("Notifier", "httpStatusCode: " + httpStatusCode);
 
             }
 
@@ -482,9 +489,6 @@ public class NotifierService extends BroadcastReceiver {
                 api = "";
 
             }
-//
-//            Log.i("qBittorrentCookie", "COOKIE: " + ">" + cookie + "<");
-//            Log.i("qBittorrentCookie", "API: >" + api + "<");
 
             return new String[]{cookie, api};
 
@@ -492,7 +496,6 @@ public class NotifierService extends BroadcastReceiver {
 
         @Override
         protected void onPostExecute(String[] result) {
-//            Log.i("qBittorrentCookie", "httpStatusCode:" + httpStatusCode);
 
 
             cookie = result[0];

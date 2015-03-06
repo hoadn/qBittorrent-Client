@@ -45,14 +45,14 @@
         <item name="8">1 dag</item>
     </string-array>
     <string-array name="notificationValues">
-        <item name="1">1200000</item>
-        <item name="2">3000000</item>
-        <item name="3">9000000</item>
-        <item name="4">18000000</item>
-        <item name="5">36000000</item>
-        <item name="6">216000000</item>
-        <item name="7">432000000</item>
-        <item name="8">864000000</item>
+        <item name="1">120000</item>
+        <item name="2">300000</item>
+        <item name="3">900000</item>
+        <item name="4">1800000</item>
+        <item name="5">3600000</item>
+        <item name="6">21600000</item>
+        <item name="7">43200000</item>
+        <item name="8">86400000</item>
     </string-array>
     <string-array name="sortBy">
         <item name="1">Namn</item>
