@@ -198,12 +198,6 @@ public class NotifierService extends BroadcastReceiver {
         protected static final String TAG_RATIO = "ratio";
         protected static final String TAG_PRIORITY = "priority";
         protected static final String TAG_ETA = "eta";
-//        QBServiceListener listener;
-
-//
-//        FetchTorrentListTask(QBServiceListener listener) {
-//            this.listener = listener;
-//        }
 
         @Override
         protected Torrent[] doInBackground(String... params) {
@@ -234,7 +228,6 @@ public class NotifierService extends BroadcastReceiver {
 
                     torrents = new Torrent[jArray.length()];
 
-//                    tivity.names = new String[jArray.length()];
 
                     for (int i = 0; i < jArray.length(); i++) {
 
@@ -257,7 +250,6 @@ public class NotifierService extends BroadcastReceiver {
 
                         torrents[i] = new Torrent(name, size, state, hash, info, ratio, progress, leechs, seeds, priority, eta, downloadSpeed, uploadSpeed, false, false);
 
-//                        MainActivity.names[i] = name;
 
                         // Get torrent generic properties
 
@@ -315,7 +307,9 @@ public class NotifierService extends BroadcastReceiver {
                 last_completed.put(completedHashesArray[i], null);
             }
 
-            if (torrents != null) {
+			Log.i("LastCompleted", "Size: "+ last_completed.size());
+			
+            if (torrents != null && !completed_hashes.equals("") ) {
 
                 // Check torrents
                 for (int i = 0; i < torrents.length; i++) {

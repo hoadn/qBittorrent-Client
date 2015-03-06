@@ -1143,7 +1143,19 @@ public class MainActivity extends FragmentActivity {
 
             // Set notification alarm service
             // Set Alarm for checking completed torrents
-            alarmMgr = (AlarmManager) getApplication().getSystemService(Context.ALARM_SERVICE);
+            
+			// Save completedHashes
+			sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+			SharedPreferences.Editor editor = sharedPrefs.edit();
+
+			// Save hashes
+			editor.putString("completed_hashes", "");
+
+
+			// Commit changes
+			editor.apply();
+			
+			alarmMgr = (AlarmManager) getApplication().getSystemService(Context.ALARM_SERVICE);
             Intent intent = new Intent(getApplication(), NotifierService.class);
             alarmIntent = PendingIntent.getBroadcast(getApplication(), 0, intent, 0);
 
