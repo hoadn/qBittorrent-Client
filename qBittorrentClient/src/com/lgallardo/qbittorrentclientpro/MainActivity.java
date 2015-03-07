@@ -30,6 +30,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
@@ -188,18 +189,16 @@ public class MainActivity extends FragmentActivity {
             alarmIntent = PendingIntent.getBroadcast(getApplication(), 0, intent, 0);
 
             alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                    System.currentTimeMillis(),
+                    SystemClock.elapsedRealtime() + 5000,
                     notification_period, alarmIntent);
 
-
-            Log.d("Notifier", "Alarm was set!");
-            Log.d("Notifier", "notification_period: " + notification_period);
+//            Log.d("Notifier", "Alarm was set!");
+//            Log.d("Notifier", "notification_period: " + notification_period);
 
 
         } else {
-            Log.d("Notifier", "Alarm is already active");
-            Log.d("Notifier", "notification_period: " + notification_period);
-
+//            Log.d("Notifier", "Alarm is already active");
+//            Log.d("Notifier", "notification_period: " + notification_period);
 
         }
 
@@ -679,7 +678,6 @@ public class MainActivity extends FragmentActivity {
         try {
             if (intent.getStringExtra("from").equals("NotifierService")) {
 
-
                 drawerList.setItemChecked(2, true);
                 setTitle(navigationDrawerItemTitles[2]);
                 refresh("completed");
@@ -688,9 +686,6 @@ public class MainActivity extends FragmentActivity {
         } catch (NullPointerException npe) {
 
         }
-
-
-//        Log.i("Intent", "handleIntent caught it");
 
     }
 
@@ -712,6 +707,21 @@ public class MainActivity extends FragmentActivity {
             }
 
         }
+
+        try {
+            if (intent.getStringExtra("from").equals("NotifierService")) {
+//                Log.d("Notifier", "addTorrentByIntent ok");
+
+                drawerList.setItemChecked(2, true);
+                setTitle(navigationDrawerItemTitles[2]);
+                refresh("completed");
+
+            }
+        } catch (NullPointerException npe) {
+
+        }
+
+//        Log.d("Notifier", "addTorrentByIntent oO");
 
     }
 
@@ -1164,11 +1174,11 @@ public class MainActivity extends FragmentActivity {
             alarmIntent = PendingIntent.getBroadcast(getApplication(), 0, intent, 0);
 
             alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                    System.currentTimeMillis(),
+                    SystemClock.elapsedRealtime() + 5000,
                     notification_period, alarmIntent);
 
 
-            Log.d("Notifier", "notification_period 2: " + notification_period);
+//            Log.d("Notifier", "notification_period 2: " + notification_period);
 
 
         }
@@ -1753,7 +1763,7 @@ public class MainActivity extends FragmentActivity {
             protocol = "http";
         }
 
-        // Get refresg info
+        // Get refresh info
         auto_refresh = sharedPrefs.getBoolean("auto_refresh", true);
 
         try {

@@ -186,7 +186,9 @@
     <string name="settings_qbittorrent_notifications_category">Notifiche</string>
     <string name="settings_qbittorrent_notifications_period_summary">Verificare ogni...</string>
     <string name="settings_qbittorrent_notifications_period_title">Verificare torrenti ogni...</string>
-    <string name="settings_qbittorrent_notifications_summary">Attivare sfondo verifica</string>
+    <string name="settings_qbittorrent_notifications_summary">Controllo dei precedenti</string>
     <string name="settings_qbittorrent_notifications_title">Attiva notifiche</string>
+    <string name="notifications_total">Totale</string>
+    <string name="notifications_completed_torrents">Torrents completato</string>
 
 </resources>

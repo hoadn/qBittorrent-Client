@@ -10,8 +10,8 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.lgallardo.qbittorrentclientpro"
-    android:versionCode="364"
-    android:versionName="3.6.4">
+    android:versionCode="370"
+    android:versionName="3.7.0">
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -151,11 +151,11 @@
             android:label="Options"
             android:theme="@style/Theme_Light"></activity>
 
-        <receiver android:name=".NotifierService"></receiver>
+        <receiver android:name="com.lgallardo.qbittorrentclientpro.NotifierService"></receiver>
 
         <!--Set alarm on boot -->
         <receiver
-            android:name=".DeviceBootReceiver"
+            android:name="com.lgallardo.qbittorrentclientpro.DeviceBootReceiver"
             android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

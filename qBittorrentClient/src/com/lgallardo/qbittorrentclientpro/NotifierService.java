@@ -35,13 +35,11 @@ public class NotifierService extends BroadcastReceiver {
     protected static String username;
     protected static String password;
     protected static boolean https;
-    protected static boolean auto_refresh;
-    protected static int refresh_period;
+
     protected static int connection_timeout;
     protected static int data_timeout;
     protected static String sortby;
-    protected static boolean reverse_order;
-    protected static boolean dark_ui;
+
     protected static String lastState;
     protected static int httpStatusCode = 0;
     protected static int currentServer;
@@ -75,6 +73,7 @@ public class NotifierService extends BroadcastReceiver {
 //        Log.i("Notifier", "password: " + password);
 //        Log.i("Notifier", "qb_version: " + qb_version);
 //        Log.i("Notifier", "currentServer: " + currentServer);
+//        Log.i("Notifier", "enable_notifications: " + enable_notifications);
 
         if (enable_notifications) {
 
@@ -106,7 +105,7 @@ public class NotifierService extends BroadcastReceiver {
 
             params[1] = state;
 
-            Log.i("Notifier", "onReceive reached");
+//            Log.i("Notifier", "onReceive reached");
             new FetchTorrentListTask().execute(params);
 
         }
@@ -148,14 +147,6 @@ public class NotifierService extends BroadcastReceiver {
             protocol = "http";
         }
 
-        // Get refresg info
-        auto_refresh = sharedPrefs.getBoolean("auto_refresh", true);
-
-        try {
-            refresh_period = Integer.parseInt(sharedPrefs.getString("refresh_period", "120000"));
-        } catch (NumberFormatException e) {
-            refresh_period = 120000;
-        }
 
         // Get connection and data timeouts
         try {
@@ -170,10 +161,6 @@ public class NotifierService extends BroadcastReceiver {
             data_timeout = 8;
         }
 
-        sortby = sharedPrefs.getString("sortby", "NULL");
-        reverse_order = sharedPrefs.getBoolean("reverse_order", false);
-
-        dark_ui = sharedPrefs.getBoolean("dark_ui", false);
 
         qb_version = sharedPrefs.getString("qb_version", "3.1.x");
 
@@ -220,7 +207,7 @@ public class NotifierService extends BroadcastReceiver {
 
             int httpStatusCode = 0;
 
-            Log.i("Notifier", "Getting torrents");
+//            Log.i("Notifier", "Getting torrents");
 
             try {
                 // Creating new JSON Parser
@@ -310,12 +297,12 @@ public class NotifierService extends BroadcastReceiver {
 
 
             for (int i = 0; i < completedHashesArray.length; i++) {
-                Log.i("Notifier", "Last completed - " + completedHashesArray[i]);
+//                Log.i("Notifier", "Last completed - " + completedHashesArray[i]);
                 last_completed.put(completedHashesArray[i], null);
             }
 
-            Log.i("Notifier", "LastCompleted Size: " + last_completed.size());
-            Log.i("Notifier", "LastCompleted Hashes: " + completed_hashes);
+//            Log.i("Notifier", "LastCompleted Size: " + last_completed.size());
+//            Log.i("Notifier", "LastCompleted Hashes: " + completed_hashes);
 
             if (torrents != null) {
 
@@ -379,7 +366,7 @@ public class NotifierService extends BroadcastReceiver {
 
                     String info = "";
 
-                    Log.i("Notifier", "Downloads completed");
+//                    Log.i("Notifier", "Downloads completed");
 
 
                     Intent intent = new Intent(context, MainActivity.class);
@@ -407,7 +394,7 @@ public class NotifierService extends BroadcastReceiver {
                     // Build notification
                     // the addAction re-use the same intent to keep the example short
                     Notification.Builder builder = new Notification.Builder(context)
-                            .setContentTitle("Completed torrents")
+                            .setContentTitle(NotifierService.context.getString(R.string.notifications_completed_torrents))
                             .setContentText(info)
                             .setNumber(notify.size())
                             .setSmallIcon(R.drawable.ic_notification)
@@ -425,15 +412,15 @@ public class NotifierService extends BroadcastReceiver {
                         // Define and Inbox
                         InboxStyle inbox = new Notification.InboxStyle(builder);
 
-                        inbox.setBigContentTitle("Completed torrents");
+                        inbox.setBigContentTitle(NotifierService.context.getString(R.string.notifications_completed_torrents));
 
                         completedNames = info.split(",");
 
-                        for (int j = 0; j < completedNames.length && j < 3; j++) {
-                            inbox.addLine(completedNames[j]);
+                        for (int j = 0; j < completedNames.length && j < 4; j++) {
+                            inbox.addLine(completedNames[j].trim());
                         }
 
-                        inbox.setSummaryText("Total");
+                        inbox.setSummaryText(NotifierService.context.getString(R.string.notifications_total));
 
                         notification = inbox.build();
                     } else {

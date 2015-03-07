@@ -6,8 +6,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import java.util.HashMap;
 
@@ -31,13 +31,10 @@ public class DeviceBootReceiver extends BroadcastReceiver {
     protected static String username;
     protected static String password;
     protected static boolean https;
-    protected static boolean auto_refresh;
-    protected static int refresh_period;
+
     protected static int connection_timeout;
     protected static int data_timeout;
-    protected static String sortby;
-    protected static boolean reverse_order;
-    protected static boolean dark_ui;
+
     protected static String lastState;
     protected static long notification_period;
 
@@ -70,12 +67,8 @@ public class DeviceBootReceiver extends BroadcastReceiver {
             alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
 
             alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                    System.currentTimeMillis(),
+                    SystemClock.elapsedRealtime() + 1000 * 60,
                     notification_period, alarmIntent);
-
-
-            Log.d("Notifier", "Alarm was set on boot!");
-            Log.d("Notifier", "notification_period: " + notification_period);
         }
     }
 
@@ -113,15 +106,6 @@ public class DeviceBootReceiver extends BroadcastReceiver {
             protocol = "http";
         }
 
-        // Get refresg info
-        auto_refresh = sharedPrefs.getBoolean("auto_refresh", true);
-
-        try {
-            refresh_period = Integer.parseInt(sharedPrefs.getString("refresh_period", "120000"));
-        } catch (NumberFormatException e) {
-            refresh_period = 120000;
-        }
-
         // Get connection and data timeouts
         try {
             connection_timeout = Integer.parseInt(sharedPrefs.getString("connection_timeout", "5"));
@@ -134,11 +118,6 @@ public class DeviceBootReceiver extends BroadcastReceiver {
         } catch (NumberFormatException e) {
             data_timeout = 8;
         }
-
-        sortby = sharedPrefs.getString("sortby", "NULL");
-        reverse_order = sharedPrefs.getBoolean("reverse_order", false);
-
-        dark_ui = sharedPrefs.getBoolean("dark_ui", false);
 
         qb_version = sharedPrefs.getString("qb_version", "3.1.x");
 
