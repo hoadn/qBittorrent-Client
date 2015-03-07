@@ -192,7 +192,7 @@ public class MainActivity extends FragmentActivity {
                     SystemClock.elapsedRealtime() + 5000,
                     notification_period, alarmIntent);
 
-//            Log.d("Notifier", "Alarm was set!");
+            Log.d("Debug", "Alarm was set!");
 //            Log.d("Notifier", "notification_period: " + notification_period);
 
 

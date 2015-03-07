@@ -51,6 +51,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
 import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.Date;
@@ -95,7 +96,7 @@ public class JSONParser {
 
     }
 
-    public void setCookie(String cookie){
+    public void setCookie(String cookie) {
         this.cookie = cookie;
     }
 
@@ -143,7 +144,7 @@ public class JSONParser {
 
             HttpGet httpget = new HttpGet(url);
 
-            if(this.cookie != null){
+            if (this.cookie != null) {
 
                 httpget.setHeader("Cookie", this.cookie);
             }
@@ -250,7 +251,7 @@ public class JSONParser {
 
             HttpGet httpget = new HttpGet(url);
 
-            if(this.cookie != null){
+            if (this.cookie != null) {
 
                 httpget.setHeader("Cookie", this.cookie);
 //                Log.i("getJSONArrayFromUrl", "Cookie: " + this.cookie);
@@ -412,7 +413,7 @@ public class JSONParser {
             limit = tmpString[1];
         }
 
-        if ("recheckSelected".equals(command) ) {
+        if ("recheckSelected".equals(command)) {
             url = "command/recheck";
         }
 
@@ -455,6 +456,13 @@ public class JSONParser {
 //            Log.i("postCommand", "key: " + key);
 //            Log.i("postCommand", "hash(es): " + hash);
 
+            if ("addTorrent".equals(command)) {
+
+                URI hash_uri = new URI(hash);
+                hash = hash_uri.toString();
+
+            }
+
             BasicNameValuePair bnvp = new BasicNameValuePair(key, hash);
 
             List<NameValuePair> nvps = new ArrayList<NameValuePair>();
@@ -468,19 +476,66 @@ public class JSONParser {
 
             httpget.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
 
+
+//            if ("addTorrent".equals(command)) {
+//
+////                hash = URLEncoder.encode(hash, "UTF-8");
+//
+//                Log.d("Debug", "Hash_0: >" + hash + "<");
+//
+//                URI hash_uri = new URI(hash);
+//
+//                URL hash_uri_url = hash_uri.toURL();
+//
+//                Log.d("Debug", "Hash_uri: " + hash_uri.toASCIIString());
+//                Log.d("Debug", "Hash_uri_url: " + hash_uri_url);
+//                Log.d("Debug", "Hash_uri_toString: " + hash_uri.toString());
+//
+//                URL hash_url = new URL(hash);
+//                String url_protocol = hash_url.getProtocol();
+//                String url_path = hash_url.getPath();
+//
+//                hash = url_protocol + "://" + hash_url.getHost() + URLEncoder.encode(url_path, "UTF-8");
+//
+//                Log.d("Debug", "Hash_1: " + hash);
+//                Log.d("Debug", "Path_1: " + hash_url.getPath());
+//                Log.d("Debug", "Protocol_1: " + hash_url.getProtocol());
+//
+//                hash = hash_uri.toString();
+
+//            }
+
             // Set content type and urls
             if ("addTorrent".equals(command) || "increasePrio".equals(command) || "decreasePrio".equals(command) || "maxPrio".equals(command)) {
                 httpget.setHeader("Content-Type", urlContentType);
 
             }
 
+//            // Set content type and urls
+//            if ("addTorrent".equals(command)) {
+//
+//                URL new_url = new URL(hash);
+//                ;
+//
+//                String encodedurl = URLEncoder.encode(hash, "UTF-8");
+//
+//                Log.d("Debug", "Path: " + new_url.getPath());
+//                Log.d("Debug", "Protocol: " + new_url.getProtocol());
+//                Log.d("Debug", "Hash encoded: " + encodedurl);
+//                Log.d("Debug", "Hash: " + hash);
+//                Log.d("Debug", "Key: " + key);
+//                Log.d("Debug", "url: " + url);
+//                Log.d("Debug", "Header - Content-Type: " + httpget.getHeaders("Content-Type").toString());
+//            }
 
-            if(this.cookie != null){
+
+            if (this.cookie != null) {
 
                 httpget.setHeader("Cookie", this.cookie);
 
 //                Log.i("postCommand", "Cookie set to " + this.cookie);
             }
+//            Log.d("Debug", "Command: " + command);
 
             // Set content type and urls
             if ("addTorrentFile".equals(command)) {
@@ -512,6 +567,8 @@ public class JSONParser {
                 // Set entity to http post
                 httpget.setEntity(entity);
 
+//                Log.d("Debug", "Torrent sent 0");
+
             }
 
             httpResponse = httpclient.execute(targetHost, httpget);
@@ -520,11 +577,14 @@ public class JSONParser {
 
             int mStatusCode = statusLine.getStatusCode();
 
+//            Log.d("Debug", "Torrent sent 1");
+
             if (mStatusCode != 200) {
                 httpclient.getConnectionManager().shutdown();
                 throw new JSONParserStatusCodeException(mStatusCode);
             }
 
+//            Log.d("Debug", "Torrent sent 2");
             HttpEntity httpEntity = httpResponse.getEntity();
 
             is = httpEntity.getContent();
@@ -533,9 +593,9 @@ public class JSONParser {
         } catch (UnsupportedEncodingException e) {
 
         } catch (ClientProtocolException e) {
-            Log.e("qbittorrent", "Client: " + e.toString());
+            Log.e("Debug", "Client: " + e.toString());
         } catch (IOException e) {
-            Log.e("qbittorrent", "IO: " + e.toString());
+            Log.e("Debug", "IO: " + e.toString());
             // e.printStackTrace();
             httpclient.getConnectionManager().shutdown();
             throw new JSONParserStatusCodeException(TIMEOUT_ERROR);
@@ -543,7 +603,7 @@ public class JSONParser {
             httpclient.getConnectionManager().shutdown();
             throw new JSONParserStatusCodeException(e.getCode());
         } catch (Exception e) {
-            Log.e("qbittorrent", "Generic: " + e.toString());
+            Log.e("Debug", "Generic: " + e.toString());
         } finally {
             // When HttpClient instance is no longer needed,
             // shut down the connection manager to ensure
@@ -553,7 +613,7 @@ public class JSONParser {
 
     }
 
-        // https
+    // https
 
     public DefaultHttpClient getNewHttpClient() {
         try {
@@ -581,7 +641,7 @@ public class JSONParser {
     }
 
     // Cookies
-    public String getNewCookie() throws JSONParserStatusCodeException  {
+    public String getNewCookie() throws JSONParserStatusCodeException {
 
 
         String url = "/login";
@@ -677,7 +737,6 @@ public class JSONParser {
             }
 
 
-
             // When HttpClient instance is no longer needed,
             // shut down the connection manager to ensure
             // immediate deallocation of all system resources
@@ -688,7 +747,7 @@ public class JSONParser {
 //            Log.i("Cookies", "Exception " + e.toString());
         }
 
-        if(cookieString == null){
+        if (cookieString == null) {
             cookieString = "";
         }
         return cookieString;
@@ -748,7 +807,7 @@ public class JSONParser {
 
                 // Save API
 
-                 APIVersionString = EntityUtils.toString(response.getEntity());
+                APIVersionString = EntityUtils.toString(response.getEntity());
 
             }
 
@@ -774,5 +833,4 @@ public class JSONParser {
     }
 
 
-
-    }
+}
