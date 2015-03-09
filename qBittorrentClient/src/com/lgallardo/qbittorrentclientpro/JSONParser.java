@@ -451,18 +451,16 @@ public class JSONParser {
 
             HttpPost httpget = new HttpPost(url);
 
-            // In order to pass the has we must set the pair name value
 
 //            Log.i("postCommand", "key: " + key);
 //            Log.i("postCommand", "hash(es): " + hash);
 
             if ("addTorrent".equals(command)) {
-
                 URI hash_uri = new URI(hash);
                 hash = hash_uri.toString();
-
             }
 
+            // In order to pass the has we must set the pair name value
             BasicNameValuePair bnvp = new BasicNameValuePair(key, hash);
 
             List<NameValuePair> nvps = new ArrayList<NameValuePair>();

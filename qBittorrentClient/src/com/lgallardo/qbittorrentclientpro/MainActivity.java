@@ -179,8 +179,6 @@ public class MainActivity extends FragmentActivity {
 
 
         // Set alarm for checking completed torrents, if not set
-
-
         if (PendingIntent.getBroadcast(getApplication(), 0, new Intent(getApplication(), NotifierService.class), PendingIntent.FLAG_NO_CREATE) == null) {
 
             // Set Alarm for checking completed torrents
@@ -1800,9 +1798,9 @@ public class MainActivity extends FragmentActivity {
 
         // Notification check
         try {
-            notification_period = Long.parseLong(sharedPrefs.getString("notification_period", "1200000L"));
+            notification_period = Long.parseLong(sharedPrefs.getString("notification_period", "120000L"));
         } catch (NumberFormatException e) {
-            notification_period = 1200000L;
+            notification_period = 120000L;
         }
 
 

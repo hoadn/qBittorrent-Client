@@ -82,7 +82,6 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
 
         qb_version = (ListPreference) findPreference("qb_version");
 
-
         enable_notifications = (CheckBoxPreference) findPreference("enable_notifications");
         notification_period = (ListPreference) findPreference("notification_period");
 
@@ -160,7 +159,6 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
         username.setSummary(sharedPrefs.getString("username" + value, "admin"));
 
         password.setText(sharedPrefs.getString("password" + value, "adminadmin"));
-//        old_version.setChecked(sharedPrefs.getBoolean("old_version" + value, false));
 
         if (refresh_period.getEntry() == null) {
             refresh_period.setValueIndex(6);
@@ -183,11 +181,6 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
         if (qb_version.getEntry() == null) {
             qb_version.setValueIndex(1);
         }else{
-
-//            Log.i("GettingPrefs", "qb_version_server" + "qb_version" + value);
-//            Log.i("GettingPrefs", "qb_version_pref" + sharedPrefs.getString("qb_version" + value, "NOPE"));
-//            Log.i("GettingPrefs", "qb_version_index" + qb_version.findIndexOfValue(sharedPrefs.getString("qb_version" + value, "3.1.x")));
-
             qb_version.setValueIndex(qb_version.findIndexOfValue(sharedPrefs.getString("qb_version" + value, "3.1.x")));
         }
 
@@ -224,8 +217,6 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
         // Save options locally
         SharedPreferences sharedPrefs = getPreferenceManager().getSharedPreferences();
 
-        // SharedPreferences sharedPrefs =
-        // PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         Editor editor = sharedPrefs.edit();
 
         if (hostname.getText().toString() != null && hostname.getText().toString() != "") {
@@ -253,8 +244,6 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
             editor.putString("password" + currentServerValue, password.getText().toString());
         }
 
-//        editor.putBoolean("old_version" + currentServerValue, old_version.isChecked());
-
         if (connection_timeout.getText().toString() != null && connection_timeout.getText().toString() != "") {
             editor.putString("connection_timeout" + currentServerValue, connection_timeout.getText().toString());
         }
@@ -265,13 +254,9 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
 
         editor.putBoolean("revserse_order" + currentServerValue, reverse_order.isChecked());
 
-
-//        Log.i("SavingPrefs", "qb_version" + currentServerValue +": " +qb_version.getValue());
-
         editor.putBoolean("dark_ui" + currentServerValue, dark_ui.isChecked());
 
         editor.putString("qb_version" + currentServerValue, qb_version.getValue());
-
 
         // Commit changes
         editor.commit();
