@@ -157,8 +157,10 @@
     <string name="settings_qbittorrent_reverse_order_summary">Reverse order</string>
     <string name="settings_qbittorrent_reverse_order_dialog_title">Reverse order?</string>
 
-    <string name="settings_qbittorrent_darkui_category">Dark Theme</string>
-    <string name="settings_qbittorrent_darkui_dialog_title">Use dark theme </string>
+    <string name="settings_qbittorrent_appearance_category">Appearance</string>
+    <string name="settings_qbittorrent_darkui_dialog_title">Use dark theme</string>
+    <string name="settings_qbittorrent_header_dialog_title">Show speeds and totals</string>
+    <string name="settings_qbittorrent_header_dialog_sumary">Upload/download speeds and totals</string>
 
     <string name="options_qbittorrent_connections_limits_category">Connections Limits</string>
     <string name="options_qbittorrent_global_max_connections_title">Global max connections</string>

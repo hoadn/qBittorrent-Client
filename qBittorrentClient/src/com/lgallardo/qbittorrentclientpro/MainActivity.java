@@ -43,6 +43,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
@@ -113,6 +114,8 @@ public class MainActivity extends FragmentActivity {
     protected static boolean dark_ui;
     protected static String lastState;
     protected static long notification_period;
+    protected static boolean header;
+
     // Option
     protected static String global_max_num_connections;
     protected static String max_num_conn_per_torrent;
@@ -170,6 +173,14 @@ public class MainActivity extends FragmentActivity {
     private AlarmManager alarmMgr;
     private PendingIntent alarmIntent;
 
+    protected static long uploadSpeedCount;
+    protected static long downloadSpeedCount;
+
+    protected static int uploadCount;
+    protected static int downloadCount;
+
+    public static LinearLayout headerInfo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -190,7 +201,7 @@ public class MainActivity extends FragmentActivity {
                     SystemClock.elapsedRealtime() + 5000,
                     notification_period, alarmIntent);
 
-            Log.d("Debug", "Alarm was set!");
+//            Log.d("Debug", "Alarm was set!");
 //            Log.d("Notifier", "notification_period: " + notification_period);
 
 
@@ -1155,7 +1166,7 @@ public class MainActivity extends FragmentActivity {
 
             // Set notification alarm service
             // Set Alarm for checking completed torrents
-            
+
 			// Save completedHashes
 			sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 			SharedPreferences.Editor editor = sharedPrefs.edit();
@@ -1166,7 +1177,7 @@ public class MainActivity extends FragmentActivity {
 
 			// Commit changes
 			editor.apply();
-			
+
 			alarmMgr = (AlarmManager) getApplication().getSystemService(Context.ALARM_SERVICE);
             Intent intent = new Intent(getApplication(), NotifierService.class);
             alarmIntent = PendingIntent.getBroadcast(getApplication(), 0, intent, 0);
@@ -1803,6 +1814,7 @@ public class MainActivity extends FragmentActivity {
             notification_period = 120000L;
         }
 
+        header = sharedPrefs.getBoolean("header", true);
 
     }
 
@@ -2466,6 +2478,12 @@ public class MainActivity extends FragmentActivity {
                 MainActivity.names = new String[torrentsFiltered.size()];
                 MainActivity.lines = new Torrent[torrentsFiltered.size()];
 
+                uploadSpeedCount = 0;
+                downloadSpeedCount = 0;
+
+                uploadCount = 0;
+                downloadCount = 0;
+
                 try {
 
                     for (int i = 0; i < torrentsFiltered.size(); i++) {
@@ -2474,7 +2492,38 @@ public class MainActivity extends FragmentActivity {
 
                         MainActivity.names[i] = torrent.getFile();
                         MainActivity.lines[i] = torrent;
+
+                        uploadSpeedCount += (int) Common.humanSizeToBytes(torrent.getUploadSpeed());
+                        downloadSpeedCount += (int) Common.humanSizeToBytes(torrent.getDownloadSpeed());
+
+                        if ("uploading".equals(torrent.getState())){
+                            uploadCount = uploadCount +1;
+                        }
+
+                        if ("downloading".equals(torrent.getState())){
+                            downloadCount = downloadCount + 1;
+                        }
+
+//                        Log.d("Debug", torrent.getFile() + " - UP: " + torrent.getUploadSpeed());
+//                        Log.d("Debug", torrent.getFile() + " - DW: " + torrent.getDownloadSpeed());
+//                        Log.d("Debug", torrent.getFile() + " - UP2: " + Common.humanSizeToBytes(torrent.getUploadSpeed()));
+//                        Log.d("Debug", torrent.getFile() + " - DW2: " + Common.humanSizeToBytes(torrent.getDownloadSpeed()));
+
                     }
+//
+//                    Log.d("Debug", "Total upload: " +uploadSpeedCount);
+//                    Log.d("Debug", "Total Download: " +downloadSpeedCount);
+//
+//                    Log.d("Debug", "Total upload: " + Common.calculateSize(""+uploadSpeedCount) + "/s");
+//                    Log.d("Debug", "Total Download: " + Common.calculateSize(""+downloadSpeedCount) + "/s");
+
+
+//                    uploadCountTextView.setText(uploadCount  + " " + Character.toString('\u2191'));
+//                    downloadCountTextView.setText(downloadCount + " "  + Character.toString('\u2193') );
+
+
+
+
 
                     // if (findViewById(R.id.one_frame) != null) {
                     //
@@ -2495,6 +2544,9 @@ public class MainActivity extends FragmentActivity {
                     myadapter.notifyDataSetChanged();
 
 //                    }
+
+
+
 
 
                     // Create the about fragment
@@ -2576,6 +2628,31 @@ public class MainActivity extends FragmentActivity {
 
                     // Commit
                     fragmentTransaction.commit();
+
+
+                    // Set headerInfo
+
+                    //                    TextView uploadCountTextView = (TextView) findViewById(R.id.uploadCount);
+//                    TextView downloadCountTextView = (TextView) findViewById(R.id.downloadCount);
+
+
+                    TextView uploadSpeedTextView = (TextView) findViewById(R.id.uploadSpeed);
+                    TextView downloadSpeedTextView = (TextView) findViewById(R.id.downloadSpeed);
+
+
+                    headerInfo = (LinearLayout) findViewById(R.id.header);
+
+
+                    if (header) {
+                        headerInfo.setVisibility(View.VISIBLE);
+                    } else {
+                        headerInfo.setVisibility(View.GONE);
+                    }
+
+
+                    uploadSpeedTextView.setText(Character.toString('\u2191') + " " + Common.calculateSize(""+uploadSpeedCount) + "/s " + "(" + uploadCount +")");
+                    downloadSpeedTextView.setText(Character.toString('\u2193') + " " + Common.calculateSize(""+downloadSpeedCount) + "/s "  + "(" + downloadCount +")" );
+
 
                 }
                 // catch(IllegalStateException le){

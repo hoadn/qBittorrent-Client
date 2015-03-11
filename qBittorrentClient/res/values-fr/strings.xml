@@ -166,7 +166,7 @@
     <string name="priorityUpdated">Priorité mis à jour!</string>
     <string name="settings_qbittorrent_darkui_summary">Redémarrez l\'application pour appliquer le thème</string>
     <string name="settings_qbittorrent_darkui_dialog_title">Utilisez thème sombre</string>
-    <string name="settings_qbittorrent_darkui_category">Thème sombre</string>
+    <string name="settings_qbittorrent_appearance_category">Apparence</string>
     <string name="action_force_recheck">Forcer revérification</string>
     <string name="torrentsRecheck">Vérification lancé</string>
     <string name="torrent_details_torrent_first_last_piece_first">Commencez par télécharger le premier et le dernier morceau</string>
@@ -190,5 +190,7 @@
     <string name="settings_qbittorrent_notifications_title">Activer les notifications</string>
     <string name="notifications_total">Total</string>
     <string name="notifications_completed_torrents">Torrents terminées</string>
+    <string name="settings_qbittorrent_header_dialog_title">Afficher les vitesses et les totaux</string>
+    <string name="settings_qbittorrent_header_dialog_sumary">Transférer/vitesses de téléchargement et les totaux</string>
 
 </resources>

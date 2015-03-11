@@ -146,14 +146,21 @@
             android:title="@string/settings_qbittorrent_reverse_order_dialog_title" />
     </PreferenceCategory>
     <PreferenceCategory
-        android:key="darui"
-        android:title="@string/settings_qbittorrent_darkui_category">
+        android:key="appearance"
+        android:title="@string/settings_qbittorrent_appearance_category">
 
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="dark_ui"
             android:summary="@string/settings_qbittorrent_darkui_summary"
             android:title="@string/settings_qbittorrent_darkui_dialog_title" />
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="header"
+            android:summary="@string/settings_qbittorrent_header_dialog_sumary"
+            android:title="@string/settings_qbittorrent_header_dialog_title" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>

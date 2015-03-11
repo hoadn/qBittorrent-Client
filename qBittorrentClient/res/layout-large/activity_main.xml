@@ -17,7 +17,7 @@
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <ProgressBar
             android:id="@+id/progressBarConnecting"
@@ -28,12 +28,59 @@
             android:visibility="invisible" />
 
         <LinearLayout
+            android:id="@+id/header"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/progressBarConnecting"
+            android:gravity="end"
+            android:orientation="horizontal"
+            android:paddingBottom="5dp">
+
+
+            <LinearLayout
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:orientation="horizontal"
+
+                android:paddingEnd="5dp"
+                android:paddingRight="5dp">
+
+                <TextView
+                    android:id="@+id/uploadSpeed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:paddingEnd="5dp"
+                    android:paddingRight="5dp" />
+
+                <TextView
+                    android:id="@+id/downloadSpeed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/emptyText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:paddingEnd="5dp"
+                android:paddingRight="5dp" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
             android:id="@+id/linearLayout1"
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/progressBarConnecting"
+            android:layout_below="@+id/header"
             android:baselineAligned="false"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <FrameLayout
                 android:id="@+id/list_frame"
@@ -45,7 +92,7 @@
                 android:layout_width="1dp"
                 android:layout_height="fill_parent"
                 android:layout_marginLeft="5dp"
-				android:layout_marginRight="5dp"
+                android:layout_marginRight="5dp"
                 android:background="@android:color/darker_gray" />
 
             <FrameLayout

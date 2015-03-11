@@ -165,7 +165,7 @@
     <string name="action_maximum_priority">Flytta till toppen</string>
     <string name="priorityUpdated">Prioritet uppdaterad!</string>
     <string name="settings_qbittorrent_darkui_summary">Starta appen att tillämpa temat</string>
-    <string name="settings_qbittorrent_darkui_category">Mörkt tema</string>
+    <string name="settings_qbittorrent_appearance_category">Utseende</string>
     <string name="settings_qbittorrent_darkui_dialog_title">Använd mörkt tema</string>
     <string name="action_force_recheck">Tvinga återkontroll</string>
     <string name="torrentsRecheck">Verifiering initieras</string>
@@ -190,5 +190,7 @@
     <string name="settings_qbittorrent_notifications_title">Aktivera aviseringar</string>
     <string name="notifications_total">Totalt</string>
     <string name="notifications_completed_torrents">Torrents förts</string>
+    <string name="settings_qbittorrent_header_dialog_title">Visa hastigheter och summor</string>
+    <string name="settings_qbittorrent_header_dialog_sumary">Lägg upp/nedladdningshastighet och summor</string>
 
 </resources>
