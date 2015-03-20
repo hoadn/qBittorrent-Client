@@ -192,5 +192,12 @@
     <string name="notifications_completed_torrents">Torrents terminées</string>
     <string name="settings_qbittorrent_header_dialog_title">Afficher les vitesses et les totaux</string>
     <string name="settings_qbittorrent_header_dialog_sumary">Transférer/vitesses de téléchargement et les totaux</string>
+    <string name="help_about_title">A propos </string>
+    <string name="help_category">Aide</string>
+    <string name="help_documentation_summary">Disponible sur GitHub</string>
+    <string name="help_documentation_title">Documentation en ligne</string>
+    <string name="help_version_title">Version</string>
+    <string name="help_contributors">Collaborateurs:</string>
+    <string name="help_license">© Luis M. Gallardo D. \n\nPublished under GPL v3</string>
 
 </resources>

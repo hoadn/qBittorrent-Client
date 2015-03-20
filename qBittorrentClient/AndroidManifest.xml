@@ -150,6 +150,13 @@
             android:name="com.lgallardo.qbittorrentclientpro.OptionsActivity"
             android:label="Options"
             android:theme="@style/Theme_Light"></activity>
+        <activity android:name=".HelpActivity" />
+        <activity android:name=".AboutActivity">
+            <intent-filter>
+                <action android:name=".AboutActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
         <receiver android:name="com.lgallardo.qbittorrentclientpro.NotifierService"></receiver>
 

@@ -242,7 +242,7 @@ public class MainActivity extends FragmentActivity {
         drawerList = (ListView) findViewById(R.id.left_drawer);
 
         // Drawer item list objects
-        ObjectDrawerItem[] drawerItem = new ObjectDrawerItem[8];
+        ObjectDrawerItem[] drawerItem = new ObjectDrawerItem[9];
 
         drawerItem[0] = new ObjectDrawerItem(R.drawable.ic_drawer_all, navigationDrawerItemTitles[0]);
         drawerItem[1] = new ObjectDrawerItem(R.drawable.ic_drawer_downloading, navigationDrawerItemTitles[1]);
@@ -252,6 +252,7 @@ public class MainActivity extends FragmentActivity {
         drawerItem[5] = new ObjectDrawerItem(R.drawable.ic_drawer_inactive, navigationDrawerItemTitles[5]);
         drawerItem[6] = new ObjectDrawerItem(R.drawable.ic_action_options, navigationDrawerItemTitles[6]);
         drawerItem[7] = new ObjectDrawerItem(R.drawable.ic_drawer_settings, navigationDrawerItemTitles[7]);
+        drawerItem[8] = new ObjectDrawerItem(R.drawable.ic_drawer_help, navigationDrawerItemTitles[8]);
 
         // Create object for drawer item OnbjectDrawerItem
         DrawerItemCustomAdapter adapter = new DrawerItemCustomAdapter(this, R.layout.listview_item_row, drawerItem);
@@ -1300,6 +1301,15 @@ public class MainActivity extends FragmentActivity {
 
     }
 
+    private void openHelp() {
+        canrefresh = false;
+
+        Intent intent = new Intent(getBaseContext(), HelpActivity.class);
+        startActivity(intent);
+//        startActivityForResult(intent, SETTINGS_CODE);
+
+    }
+
     private void openOptions() {
         // Retrieve preferences for options
         canrefresh = false;
@@ -1957,6 +1967,9 @@ public class MainActivity extends FragmentActivity {
             case 7:
                 // Settings
                 openSettings();
+                break;
+            case 8:
+                openHelp();
                 break;
             default:
                 break;

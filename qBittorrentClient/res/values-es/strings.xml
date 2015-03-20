@@ -201,5 +201,12 @@
     <string name="notifications_completed_torrents">Torrents completados</string>
     <string name="settings_qbittorrent_header_dialog_title">Mostrar velocidad y totales</string>
     <string name="settings_qbittorrent_header_dialog_sumary">Velocidades y totales de subida/bajada</string>
+    <string name="help_about_title">Acerca de</string>
+    <string name="help_category">Ayuda</string>
+    <string name="help_documentation_summary">Disponible en GitHub</string>
+    <string name="help_documentation_title">Documentación en línea</string>
+    <string name="help_version_title">Versión</string>
+    <string name="help_contributors">Colaboradores:</string>
+    <string name="help_license">© Luis M. Gallardo D. \n\nPublicado bajo licencia GPL v3</string>
 
 </resources>

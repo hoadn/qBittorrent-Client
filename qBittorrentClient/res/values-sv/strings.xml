@@ -192,5 +192,12 @@
     <string name="notifications_completed_torrents">Torrents förts</string>
     <string name="settings_qbittorrent_header_dialog_title">Visa hastigheter och summor</string>
     <string name="settings_qbittorrent_header_dialog_sumary">Lägg upp/nedladdningshastighet och summor</string>
+    <string name="help_about_title">Om</string>
+    <string name="help_category">Hjälp</string>
+    <string name="help_documentation_summary">Tillgängligt på GitHub</string>
+    <string name="help_documentation_title">Online-dokumentationen</string>
+    <string name="help_version_title">Version</string>
+    <string name="help_contributors">Bidragande:</string>
+    <string name="help_license">© Luis M. Gallardo D. \n\nPublicerad under GPL v3</string>
 
 </resources>
