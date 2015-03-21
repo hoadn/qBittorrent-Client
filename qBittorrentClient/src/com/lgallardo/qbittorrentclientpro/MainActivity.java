@@ -639,7 +639,7 @@ public class MainActivity extends FragmentActivity {
             } else {
 
                 // Show progressBar
-                if (progressBar != null) {
+                if (progressBar != null && refresh_period != 1000) {
                     progressBar.setVisibility(View.VISIBLE);
                 }
 
