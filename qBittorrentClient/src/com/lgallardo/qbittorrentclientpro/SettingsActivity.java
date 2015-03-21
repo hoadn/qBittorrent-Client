@@ -10,6 +10,8 @@
  ******************************************************************************/
 package com.lgallardo.qbittorrentclientpro;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
@@ -85,7 +87,6 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
         enable_notifications = (CheckBoxPreference) findPreference("enable_notifications");
         notification_period = (ListPreference) findPreference("notification_period");
 
-
         // Get values for server
         getQBittorrentServerValues(currentServer.getValue());
 
@@ -101,6 +102,12 @@ public class SettingsActivity extends PreferenceActivity implements android.cont
                 return true;
             }
         });
+
+        // Set last state in intent result
+        Intent result = new Intent();
+        result.putExtra("currentState", MainActivity.currentState);
+        setResult(Activity.RESULT_OK, result);
+
 
 
     }

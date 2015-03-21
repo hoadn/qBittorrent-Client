@@ -10,6 +10,8 @@
  ******************************************************************************/
 package com.lgallardo.qbittorrentclientpro;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -38,6 +40,13 @@ public class HelpActivity extends PreferenceActivity {
         version = (Preference) findPreference("version");
 
         version.setSummary(pInfo.versionName);
+
+
+        // Set last state in intent result
+        Intent result = new Intent();
+        result.putExtra("currentState", MainActivity.currentState);
+        setResult(Activity.RESULT_OK, result);
+
     }
 
     @Override

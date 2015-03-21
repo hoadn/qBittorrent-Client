@@ -92,10 +92,12 @@ public class MainActivity extends FragmentActivity {
     protected static final String TAG_URL = "url";
     protected static final int SETTINGS_CODE = 0;
     protected static final int OPTION_CODE = 1;
+    protected static final int HELP_CODE = 2;
 
     // Cookie (SID - Session ID)
     public static String cookie = null;
     public static String qb_version = "3.1.x";
+    public static LinearLayout headerInfo;
     protected static JSONParser jParser;
     // Preferences properties
     protected static String hostname;
@@ -115,7 +117,6 @@ public class MainActivity extends FragmentActivity {
     protected static String lastState;
     protected static long notification_period;
     protected static boolean header;
-
     // Option
     protected static String global_max_num_connections;
     protected static String max_num_conn_per_torrent;
@@ -129,6 +130,10 @@ public class MainActivity extends FragmentActivity {
     protected static String max_act_uploads;
     protected static String max_act_torrents;
     protected static ProgressBar progressBar;
+    protected static long uploadSpeedCount;
+    protected static long downloadSpeedCount;
+    protected static int uploadCount;
+    protected static int downloadCount;
     static Torrent[] lines;
     static String[] names;
     // Params to get JSON Array
@@ -140,11 +145,9 @@ public class MainActivity extends FragmentActivity {
     public int httpStatusCode = 0;
     protected DrawerLayout drawerLayout;
     TextView name1, size1;
-
     // Preferences fields
     private SharedPreferences sharedPrefs;
     private StringBuilder builderPrefs;
-
     // Drawer properties
     private String[] navigationDrawerItemTitles;
     private ListView drawerList;
@@ -166,20 +169,13 @@ public class MainActivity extends FragmentActivity {
     private int itemPosition = 0;
     // Searching field
     private String searchField = "";
-
     private String qbQueryString = "query";
-
     // Alarm manager
     private AlarmManager alarmMgr;
     private PendingIntent alarmIntent;
 
-    protected static long uploadSpeedCount;
-    protected static long downloadSpeedCount;
-
-    protected static int uploadCount;
-    protected static int downloadCount;
-
-    public static LinearLayout headerInfo;
+    // Current state
+    public static String currentState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -202,12 +198,12 @@ public class MainActivity extends FragmentActivity {
                     notification_period, alarmIntent);
 
 //            Log.d("Debug", "Alarm was set!");
-//            Log.d("Notifier", "notification_period: " + notification_period);
+//            Log.d("Debug", "notification_period: " + notification_period);
 
 
         } else {
-//            Log.d("Notifier", "Alarm is already active");
-//            Log.d("Notifier", "notification_period: " + notification_period);
+//            Log.d("Debug", "Alarm is already active");
+//            Log.d("Debug", "notification_period: " + notification_period);
 
         }
 
@@ -259,46 +255,9 @@ public class MainActivity extends FragmentActivity {
         drawerList.setAdapter(adapter);
 
 
-        // Set selecction according to last state
-        if (lastState != null) {
+        // Set selection according to last state
+        setSelectionAndTitle(lastState);
 
-            if (lastState.equals("all")) {
-                drawerList.setItemChecked(0, true);
-                setTitle(navigationDrawerItemTitles[0]);
-            }
-
-            if (lastState.equals("downloading")) {
-                drawerList.setItemChecked(1, true);
-                setTitle(navigationDrawerItemTitles[1]);
-            }
-
-            if (lastState.equals("completed")) {
-                drawerList.setItemChecked(2, true);
-                setTitle(navigationDrawerItemTitles[2]);
-            }
-
-            if (lastState.equals("paused")) {
-                drawerList.setItemChecked(3, true);
-                setTitle(navigationDrawerItemTitles[3]);
-            }
-
-            if (lastState.equals("active")) {
-                drawerList.setItemChecked(4, true);
-                setTitle(navigationDrawerItemTitles[4]);
-            }
-
-            if (lastState.equals("inactive")) {
-                drawerList.setItemChecked(5, true);
-                setTitle(navigationDrawerItemTitles[5]);
-            }
-
-        } else {
-            // Set "All" checked
-            drawerList.setItemChecked(0, true);
-
-            // Set title to All
-            setTitle(navigationDrawerItemTitles[0]);
-        }
         // Set the item click listener
         drawerList.setOnItemClickListener(new DrawerItemClickListener());
 
@@ -457,6 +416,52 @@ public class MainActivity extends FragmentActivity {
         handler = new Handler();
         handler.postDelayed(m_Runnable, refresh_period);
 
+    }
+
+    // Set selection and title on drawer
+    public void setSelectionAndTitle(String state) {
+        // Set selection according to last state
+        if (state != null) {
+
+            currentState = state;
+
+            if (state.equals("all")) {
+                drawerList.setItemChecked(0, true);
+                setTitle(navigationDrawerItemTitles[0]);
+            }
+
+            if (state.equals("downloading")) {
+                drawerList.setItemChecked(1, true);
+                setTitle(navigationDrawerItemTitles[1]);
+            }
+
+            if (state.equals("completed")) {
+                drawerList.setItemChecked(2, true);
+                setTitle(navigationDrawerItemTitles[2]);
+            }
+
+            if (state.equals("paused")) {
+                drawerList.setItemChecked(3, true);
+                setTitle(navigationDrawerItemTitles[3]);
+            }
+
+            if (state.equals("active")) {
+                drawerList.setItemChecked(4, true);
+                setTitle(navigationDrawerItemTitles[4]);
+            }
+
+            if (state.equals("inactive")) {
+                drawerList.setItemChecked(5, true);
+                setTitle(navigationDrawerItemTitles[5]);
+            }
+
+        } else {
+            // Set "All" checked
+            drawerList.setItemChecked(0, true);
+
+            // Set title to All
+            setTitle(navigationDrawerItemTitles[0]);
+        }
     }
 
 
@@ -1153,7 +1158,7 @@ public class MainActivity extends FragmentActivity {
 
             // Select "All" torrents list
 //            selectItem(0);
-            refresh();
+//            refresh();
 
 
             // Get options from server and save them as shared preferences
@@ -1168,18 +1173,18 @@ public class MainActivity extends FragmentActivity {
             // Set notification alarm service
             // Set Alarm for checking completed torrents
 
-			// Save completedHashes
-			sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-			SharedPreferences.Editor editor = sharedPrefs.edit();
+            // Save completedHashes
+            sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences.Editor editor = sharedPrefs.edit();
 
-			// Save hashes
-			editor.putString("completed_hashes", "");
+            // Save hashes
+            editor.putString("completed_hashes", "");
 
 
-			// Commit changes
-			editor.apply();
+            // Commit changes
+            editor.apply();
 
-			alarmMgr = (AlarmManager) getApplication().getSystemService(Context.ALARM_SERVICE);
+            alarmMgr = (AlarmManager) getApplication().getSystemService(Context.ALARM_SERVICE);
             Intent intent = new Intent(getApplication(), NotifierService.class);
             alarmIntent = PendingIntent.getBroadcast(getApplication(), 0, intent, 0);
 
@@ -1250,6 +1255,36 @@ public class MainActivity extends FragmentActivity {
 
         }
 
+        if (requestCode == HELP_CODE) {
+
+            // Now it can be refreshed
+            canrefresh = true;
+
+        }
+
+        if (resultCode == RESULT_OK) {
+//            Log.d("Debug", "CurrentState: " + data.getStringExtra("currentState"));
+
+            String stateBefore = data.getStringExtra("currentState");
+
+            if (stateBefore != null) {
+
+                // Set selection according to last state
+                setSelectionAndTitle(stateBefore);
+
+                // Refresh state
+                refresh(stateBefore);
+            }
+
+        }
+        if (resultCode == RESULT_CANCELED) {
+            //Write your code if there's no result
+//            Log.d("Debug", "No result");
+
+            // Refresh
+            refresh();
+        }
+
     }
 
     private void addUrlTorrent() {
@@ -1305,8 +1340,9 @@ public class MainActivity extends FragmentActivity {
         canrefresh = false;
 
         Intent intent = new Intent(getBaseContext(), HelpActivity.class);
-        startActivity(intent);
-//        startActivityForResult(intent, SETTINGS_CODE);
+        intent.putExtra("current", lastState);
+//        startActivity(intent);
+        startActivityForResult(intent, HELP_CODE);
 
     }
 
@@ -1372,6 +1408,17 @@ public class MainActivity extends FragmentActivity {
         qtc.execute(new String[]{"delete", hash});
     }
 
+    public void deleteSelectedTorrents(String hashes) {
+        // Execute the task in background
+        qBittorrentCommand qtc = new qBittorrentCommand();
+        qtc.execute(new String[]{"deleteSelected", hashes});
+
+        Toast.makeText(getApplicationContext(), R.string.torrentsSelectedDeleted, Toast.LENGTH_SHORT).show();
+
+        // Delay of 1 second
+        refreshAfterCommand(1);
+    }
+
     private final Runnable m_Runnable = new Runnable() {
         public void run()
 
@@ -1399,24 +1446,13 @@ public class MainActivity extends FragmentActivity {
 
     };// runnable
 
-    public void deleteSelectedTorrents(String hashes) {
-        // Execute the task in background
-        qBittorrentCommand qtc = new qBittorrentCommand();
-        qtc.execute(new String[]{"deleteSelected", hashes});
-
-        Toast.makeText(getApplicationContext(), R.string.torrentsSelectedDeleted, Toast.LENGTH_SHORT).show();
-
-        // Delay of 1 second
-        refreshAfterCommand(1);
-    }
-
-    // Drawer's method
-
     public void deleteDriveTorrent(String hash) {
         // Execute the task in background
         qBittorrentCommand qtc = new qBittorrentCommand();
         qtc.execute(new String[]{"deleteDrive", hash});
     }
+
+    // Drawer's method
 
     public void deleteDriveSelectedTorrents(String hashes) {
         // Execute the task in background
@@ -1902,13 +1938,15 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void saveLastState(String state) {
+
+        currentState = state;
+
         // Save options locally
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
         Editor editor = sharedPrefs.edit();
 
         // Save key-values
         editor.putString("lastState", state);
-
 
         // Commit changes
         editor.apply();
@@ -2063,18 +2101,6 @@ public class MainActivity extends FragmentActivity {
 
         }
     }
-
-//    // Print torrent list from Service
-//    protected void printTorrentList(Torrent[] torrents) {
-//
-//        try {
-//            for (int i = 0; i < torrents.length; i++) {
-//                Log.i("QBService", "Name: " + torrents[i].getFile());
-//            }
-//        } catch (Exception e) {
-//            Log.e("QBService", e.toString());
-//        }
-//    }
 
     // Here is where the action happens
     private class qBittorrentCommand extends AsyncTask<String, Integer, String> {
@@ -2245,6 +2271,18 @@ public class MainActivity extends FragmentActivity {
 
         }
     }
+
+//    // Print torrent list from Service
+//    protected void printTorrentList(Torrent[] torrents) {
+//
+//        try {
+//            for (int i = 0; i < torrents.length; i++) {
+//                Log.i("QBService", "Name: " + torrents[i].getFile());
+//            }
+//        } catch (Exception e) {
+//            Log.e("QBService", e.toString());
+//        }
+//    }
 
     // Here is where the action happens
     private class qBittorrentTask extends AsyncTask<String, Integer, Torrent[]> {
@@ -2509,11 +2547,11 @@ public class MainActivity extends FragmentActivity {
                         uploadSpeedCount += (int) Common.humanSizeToBytes(torrent.getUploadSpeed());
                         downloadSpeedCount += (int) Common.humanSizeToBytes(torrent.getDownloadSpeed());
 
-                        if ("uploading".equals(torrent.getState())){
-                            uploadCount = uploadCount +1;
+                        if ("uploading".equals(torrent.getState())) {
+                            uploadCount = uploadCount + 1;
                         }
 
-                        if ("downloading".equals(torrent.getState())){
+                        if ("downloading".equals(torrent.getState())) {
                             downloadCount = downloadCount + 1;
                         }
 
@@ -2535,9 +2573,6 @@ public class MainActivity extends FragmentActivity {
 //                    downloadCountTextView.setText(downloadCount + " "  + Character.toString('\u2193') );
 
 
-
-
-
                     // if (findViewById(R.id.one_frame) != null) {
                     //
                     // getFragmentManager().popBackStack();
@@ -2557,9 +2592,6 @@ public class MainActivity extends FragmentActivity {
                     myadapter.notifyDataSetChanged();
 
 //                    }
-
-
-
 
 
                     // Create the about fragment
@@ -2663,8 +2695,8 @@ public class MainActivity extends FragmentActivity {
                     }
 
 
-                    uploadSpeedTextView.setText(Character.toString('\u2191') + " " + Common.calculateSize(""+uploadSpeedCount) + "/s " + "(" + uploadCount +")");
-                    downloadSpeedTextView.setText(Character.toString('\u2193') + " " + Common.calculateSize(""+downloadSpeedCount) + "/s "  + "(" + downloadCount +")" );
+                    uploadSpeedTextView.setText(Character.toString('\u2191') + " " + Common.calculateSize("" + uploadSpeedCount) + "/s " + "(" + uploadCount + ")");
+                    downloadSpeedTextView.setText(Character.toString('\u2193') + " " + Common.calculateSize("" + downloadSpeedCount) + "/s " + "(" + downloadCount + ")");
 
 
                 }

@@ -11,10 +11,10 @@
         <item name="3">3</item>
     </string-array>
     <string-array name="autorefresh">
-        <item name="1">5 sekunder</item>
-        <item name="2">10 sekunder</item>
-        <item name="3">15 sekunder</item>
-        <item name="4">20 sekunder</item>
+        <item name="1">1 sekund</item>
+        <item name="2">2 sekunder</item>
+        <item name="3">5 sekunder</item>
+        <item name="4">10 sekunder</item>
         <item name="5">30 sekunder</item>
         <item name="6">1 minut</item>
         <item name="7">2 minuter</item>
