@@ -1109,23 +1109,27 @@ public class MainActivity extends FragmentActivity {
                 return true;
             case R.id.action_sortby_priority:
                 saveSortBy(getResources().getStringArray(R.array.sortByValues)[2]);
+                invalidateOptionsMenu();
                 refreshCurrent();
                 return true;
             case R.id.action_sortby_progress:
                 saveSortBy(getResources().getStringArray(R.array.sortByValues)[3]);
+                invalidateOptionsMenu();
                 refreshCurrent();
                 return true;
             case R.id.action_sortby_ratio:
                 saveSortBy(getResources().getStringArray(R.array.sortByValues)[4]);
+                invalidateOptionsMenu();
                 refreshCurrent();
                 return true;
             case R.id.action_sortby_downloadSpeed:
                 saveSortBy(getResources().getStringArray(R.array.sortByValues)[5]);
+                invalidateOptionsMenu();
                 refreshCurrent();
                 return true;
             case R.id.action_sortby_uploadSpeed:
                 saveSortBy(getResources().getStringArray(R.array.sortByValues)[6]);
-                refreshCurrent();
+                invalidateOptionsMenu();
                 return true;
 
             default:
@@ -1954,6 +1958,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void saveSortBy(String sortBy) {
+        MainActivity.sortby = sortBy;
         // Save options locally
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
         Editor editor = sharedPrefs.edit();
@@ -2579,19 +2584,35 @@ public class MainActivity extends FragmentActivity {
                     //
                     // }
 
-                    firstFragment = new ItemstFragment();
+                    try {
 
-//                    if (myadapter == null) {
-                    myadapter = new TorrentListAdapter(MainActivity.this, names, lines);
-                    firstFragment.setListAdapter(myadapter);
+                            myadapter.setNames(names);
+                            myadapter.setData(lines);
+                            myadapter.notifyDataSetChanged();
 
-//                    }else{
+                    }
+                    catch (NullPointerException ne)
 
-                    myadapter.setNames(names);
-                    myadapter.setData(lines);
-                    myadapter.notifyDataSetChanged();
+                    {
+                        myadapter = new TorrentListAdapter(MainActivity.this, names, lines);
+                        firstFragment.setListAdapter(myadapter);
 
+                        myadapter.setNames(names);
+                        myadapter.setData(lines);
+                        myadapter.notifyDataSetChanged();
+
+                    }
+                    catch(IllegalStateException le){
+
+//                        myadapter = new TorrentListAdapter(MainActivity.this, names, lines);
+//
+//                        myadapter.setNames(names);
+//                        myadapter.setData(lines);
+//                        myadapter.notifyDataSetChanged();
+//
+//                        Log.d("Debug", "Exception :(");
 //                    }
+
 
 
                     // Create the about fragment
@@ -2644,6 +2665,7 @@ public class MainActivity extends FragmentActivity {
                     } else {
 
                         // No results
+                        myadapter = null;
                         String[] emptyList = new String[]{getString(R.string.no_results)};
                         firstFragment.setListAdapter(new ArrayAdapter<String>(MainActivity.this, R.layout.no_items_found, R.id.no_results, emptyList));
 

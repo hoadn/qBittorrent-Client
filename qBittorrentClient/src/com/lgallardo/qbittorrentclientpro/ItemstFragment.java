@@ -33,6 +33,7 @@ public class ItemstFragment extends ListFragment {
     int secondContainer;
     TorrentDetailsFragment detailFragment;
 
+
     public ItemstFragment() {
     }
 
