@@ -2540,7 +2540,10 @@ public class MainActivity extends FragmentActivity {
                 uploadCount = 0;
                 downloadCount = 0;
 
+
                 try {
+
+                    Torrent torrentToUpdate = null;
 
                     for (int i = 0; i < torrentsFiltered.size(); i++) {
 
@@ -2548,6 +2551,12 @@ public class MainActivity extends FragmentActivity {
 
                         MainActivity.names[i] = torrent.getFile();
                         MainActivity.lines[i] = torrent;
+
+                        if(torrent.getHash().equals(TorrentDetailsFragment.hashToUpdate)){
+
+                            torrentToUpdate = torrent;
+
+                        }
 
                         uploadSpeedCount += (int) Common.humanSizeToBytes(torrent.getUploadSpeed());
                         downloadSpeedCount += (int) Common.humanSizeToBytes(torrent.getDownloadSpeed());
@@ -2611,7 +2620,7 @@ public class MainActivity extends FragmentActivity {
 //                        myadapter.notifyDataSetChanged();
 //
 //                        Log.d("Debug", "Exception :(");
-//                    }
+                    }
 
 
 
@@ -2633,15 +2642,41 @@ public class MainActivity extends FragmentActivity {
                             firstFragment.setSecondFragmentContainer(R.id.content_frame);
 
                             // Set first fragment
-                            fragmentTransaction.replace(R.id.list_frame, firstFragment);
-
-                            // Reset back button stack
-                            for (int i = 0; i < fragmentManager.getBackStackEntryCount(); ++i) {
-                                fragmentManager.popBackStack("secondFragment", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                            if (fragmentManager.findFragmentByTag("firstFragment") instanceof HelpFragment) {
+                                fragmentTransaction.replace(R.id.list_frame, firstFragment, "firstFragment");
                             }
 
-                            // Set second fragment with About fragment
-                            fragmentTransaction.replace(R.id.content_frame, aboutFragment);
+
+                            if(!(fragmentManager.findFragmentByTag("secondFragment") instanceof AboutFragment)){
+
+                                TorrentDetailsFragment detailsFragment = (TorrentDetailsFragment) fragmentManager.findFragmentByTag("secondFragment");
+
+                                if(torrentToUpdate != null) {
+
+                                    detailsFragment.updateDetails(torrentToUpdate);
+                                }else{
+
+                                    // Set second fragment with About fragment
+                                    fragmentTransaction.replace(R.id.content_frame, aboutFragment, "secondFragment");
+
+                                    // Reset back button stack
+                                    for (int i = 0; i < fragmentManager.getBackStackEntryCount(); ++i) {
+                                        fragmentManager.popBackStack("secondFragment", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                                    }
+                                }
+
+
+                            }else{
+                                // Reset back button stack
+                                for (int i = 0; i < fragmentManager.getBackStackEntryCount(); ++i) {
+                                    fragmentManager.popBackStack("secondFragment", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                                }
+
+                            }
+
+
+
+
 
                         } else {
 
@@ -2649,7 +2684,12 @@ public class MainActivity extends FragmentActivity {
                             firstFragment.setSecondFragmentContainer(R.id.one_frame);
 
                             // Set first and only fragment
-                            fragmentTransaction.replace(R.id.one_frame, firstFragment, "firstFragment");
+//                            fragmentTransaction.replace(R.id.one_frame, firstFragment, "firstFragment");
+                            // Set first fragment
+                            if (fragmentManager.findFragmentByTag("firstFragment") instanceof AboutFragment) {
+                                fragmentTransaction.replace(R.id.one_frame, firstFragment, "firstFragment");
+                            }
+
 
                             // // Destroy About fragment
                             // fragmentTransaction.remove(secondFragment);

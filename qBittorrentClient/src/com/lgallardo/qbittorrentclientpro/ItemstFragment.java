@@ -402,7 +402,7 @@ public class ItemstFragment extends ListFragment {
 
         if (detailFragment != null) {
             FragmentManager fragmentManager = getFragmentManager();
-            fragmentManager.beginTransaction().replace(this.getSecondFragmentContainer(), detailFragment).addToBackStack("secondFragment").commit();
+            fragmentManager.beginTransaction().replace(this.getSecondFragmentContainer(), detailFragment, "secondFragment").addToBackStack("secondFragment").commit();
         }
 
     }
