@@ -98,6 +98,8 @@ public class MainActivity extends FragmentActivity {
     public static String cookie = null;
     public static String qb_version = "3.1.x";
     public static LinearLayout headerInfo;
+    // Current state
+    public static String currentState;
     protected static JSONParser jParser;
     // Preferences properties
     protected static String hostname;
@@ -173,9 +175,6 @@ public class MainActivity extends FragmentActivity {
     // Alarm manager
     private AlarmManager alarmMgr;
     private PendingIntent alarmIntent;
-
-    // Current state
-    public static String currentState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -753,29 +752,9 @@ public class MainActivity extends FragmentActivity {
         return true;
     }
 
-    public TorrentDetailsFragment getTorrentDetailsFragment() {
-
-        TorrentDetailsFragment tf = null;
-
-        if (findViewById(R.id.fragment_container) != null) {
-            tf = (TorrentDetailsFragment) getFragmentManager().findFragmentById(R.id.content_frame);
-        } else {
-
-            if (getFragmentManager().findFragmentById(R.id.one_frame) instanceof TorrentDetailsFragment) {
-
-                tf = (TorrentDetailsFragment) getFragmentManager().findFragmentById(R.id.one_frame);
-            }
-
-        }
-        return tf;
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        TorrentDetailsFragment tf = null;
-        int position;
-        String hash;
         AlertDialog.Builder builder;
         AlertDialog dialog;
 
@@ -818,30 +797,18 @@ public class MainActivity extends FragmentActivity {
                 // Add URL torrent
                 addUrlTorrent();
                 return true;
-
             case R.id.action_pause:
-
-                tf = this.getTorrentDetailsFragment();
-
-                if (tf != null) {
-                    position = tf.position;
-                    hash = MainActivity.lines[position].getHash();
-                    pauseTorrent(hash);
+                if (TorrentDetailsFragment.hashToUpdate != null) {
+                    pauseTorrent(TorrentDetailsFragment.hashToUpdate);
 
                     if (findViewById(R.id.one_frame) != null) {
                         getFragmentManager().popBackStack();
                     }
-
                 }
                 return true;
             case R.id.action_resume:
-
-                tf = this.getTorrentDetailsFragment();
-
-                if (tf != null) {
-                    position = tf.position;
-                    hash = MainActivity.lines[position].getHash();
-                    startTorrent(hash);
+                if (TorrentDetailsFragment.hashToUpdate != null) {
+                    startTorrent(TorrentDetailsFragment.hashToUpdate);
 
                     if (findViewById(R.id.one_frame) != null) {
                         getFragmentManager().popBackStack();
@@ -873,25 +840,9 @@ public class MainActivity extends FragmentActivity {
                         public void onClick(DialogInterface dialog, int id) {
                             // User accepted the dialog
 
-                            TorrentDetailsFragment tf = null;
-                            int position;
-                            String hash;
+                            if (TorrentDetailsFragment.hashToUpdate != null) {
+                                deleteTorrent(TorrentDetailsFragment.hashToUpdate);
 
-                            if (findViewById(R.id.fragment_container) != null) {
-                                tf = (TorrentDetailsFragment) getFragmentManager().findFragmentById(R.id.content_frame);
-                            } else {
-
-                                if (getFragmentManager().findFragmentById(R.id.one_frame) instanceof TorrentDetailsFragment) {
-
-                                    tf = (TorrentDetailsFragment) getFragmentManager().findFragmentById(R.id.one_frame);
-                                }
-
-                            }
-
-                            if (tf != null) {
-                                position = tf.position;
-                                hash = MainActivity.lines[position].getHash();
-                                deleteTorrent(hash);
                                 if (findViewById(R.id.one_frame) != null) {
                                     getFragmentManager().popBackStack();
                                 }
@@ -906,7 +857,6 @@ public class MainActivity extends FragmentActivity {
                     // Show dialog
                     dialog.show();
                 }
-
                 return true;
             case R.id.action_delete_drive:
 
@@ -927,26 +877,9 @@ public class MainActivity extends FragmentActivity {
                     builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             // User accepted the dialog
+                            if (TorrentDetailsFragment.hashToUpdate != null) {
+                                deleteDriveTorrent(TorrentDetailsFragment.hashToUpdate);
 
-                            TorrentDetailsFragment tf = null;
-                            int position;
-                            String hash;
-
-                            if (findViewById(R.id.fragment_container) != null) {
-                                tf = (TorrentDetailsFragment) getFragmentManager().findFragmentById(R.id.content_frame);
-                            } else {
-
-                                if (getFragmentManager().findFragmentById(R.id.one_frame) instanceof TorrentDetailsFragment) {
-
-                                    tf = (TorrentDetailsFragment) getFragmentManager().findFragmentById(R.id.one_frame);
-                                }
-
-                            }
-
-                            if (tf != null) {
-                                position = tf.position;
-                                hash = MainActivity.lines[position].getHash();
-                                deleteDriveTorrent(hash);
                                 if (findViewById(R.id.one_frame) != null) {
                                     getFragmentManager().popBackStack();
                                 }
@@ -962,141 +895,90 @@ public class MainActivity extends FragmentActivity {
                     dialog.show();
 
                 }
-
                 return true;
             case R.id.action_increase_prio:
+                if (TorrentDetailsFragment.hashToUpdate != null) {
+                    increasePrioTorrent(TorrentDetailsFragment.hashToUpdate);
 
-                tf = this.getTorrentDetailsFragment();
-
-                if (tf != null) {
-                    position = tf.position;
-                    hash = MainActivity.lines[position].getHash();
-                    increasePrioTorrent(hash);
                     if (findViewById(R.id.one_frame) != null) {
                         getFragmentManager().popBackStack();
                     }
                 }
                 return true;
             case R.id.action_decrease_prio:
+                if (TorrentDetailsFragment.hashToUpdate != null) {
+                    decreasePrioTorrent(TorrentDetailsFragment.hashToUpdate);
 
-                tf = this.getTorrentDetailsFragment();
-
-                if (tf != null) {
-                    position = tf.position;
-                    hash = MainActivity.lines[position].getHash();
-                    decreasePrioTorrent(hash);
                     if (findViewById(R.id.one_frame) != null) {
                         getFragmentManager().popBackStack();
                     }
                 }
                 return true;
-
             case R.id.action_max_prio:
+                if (TorrentDetailsFragment.hashToUpdate != null) {
+                    maxPrioTorrent(TorrentDetailsFragment.hashToUpdate);
 
-                tf = this.getTorrentDetailsFragment();
-
-                if (tf != null) {
-                    position = tf.position;
-                    hash = MainActivity.lines[position].getHash();
-                    maxPrioTorrent(hash);
                     if (findViewById(R.id.one_frame) != null) {
                         getFragmentManager().popBackStack();
                     }
                 }
                 return true;
             case R.id.action_min_prio:
+                if (TorrentDetailsFragment.hashToUpdate != null) {
+                    minPrioTorrent(TorrentDetailsFragment.hashToUpdate);
 
-                tf = this.getTorrentDetailsFragment();
-
-                if (tf != null) {
-                    position = tf.position;
-                    hash = MainActivity.lines[position].getHash();
-                    minPrioTorrent(hash);
                     if (findViewById(R.id.one_frame) != null) {
                         getFragmentManager().popBackStack();
                     }
                 }
                 return true;
-
             case R.id.action_resume_all:
                 resumeAllTorrents();
                 return true;
             case R.id.action_pause_all:
                 pauseAllTorrents();
                 return true;
-
             case R.id.action_upload_rate_limit:
-
-                tf = this.getTorrentDetailsFragment();
-
-                if (tf != null) {
-                    position = tf.position;
-                    hash = MainActivity.lines[position].getHash();
-
-                    uploadRateLimitDialog(hash);
-                    // if (findViewById(R.id.one_frame) != null) {
-                    // getFragmentManager().popBackStack();
-                    // }
+                if (TorrentDetailsFragment.hashToUpdate != null) {
+                    uploadRateLimitDialog(TorrentDetailsFragment.hashToUpdate);
+                    if (findViewById(R.id.one_frame) != null) {
+                        getFragmentManager().popBackStack();
+                    }
                 }
                 return true;
 
             case R.id.action_download_rate_limit:
-
-                tf = this.getTorrentDetailsFragment();
-
-                if (tf != null) {
-                    position = tf.position;
-                    hash = MainActivity.lines[position].getHash();
-                    downloadRateLimitDialog(hash);
-                    // if (findViewById(R.id.one_frame) != null) {
-                    // getFragmentManager().popBackStack();
-                    // }
+                if (TorrentDetailsFragment.hashToUpdate != null) {
+                    downloadRateLimitDialog(TorrentDetailsFragment.hashToUpdate);
+                    if (findViewById(R.id.one_frame) != null) {
+                        getFragmentManager().popBackStack();
+                    }
                 }
                 return true;
-
             case R.id.action_recheck:
-
-                tf = this.getTorrentDetailsFragment();
-
-                if (tf != null) {
-                    position = tf.position;
-                    hash = MainActivity.lines[position].getHash();
-                    recheckTorrents(hash);
-                    // if (findViewById(R.id.one_frame) != null) {
-                    // getFragmentManager().popBackStack();
-                    // }
+                if (TorrentDetailsFragment.hashToUpdate != null) {
+                    recheckTorrents(TorrentDetailsFragment.hashToUpdate);
+                    if (findViewById(R.id.one_frame) != null) {
+                        getFragmentManager().popBackStack();
+                    }
                 }
                 return true;
-
             case R.id.action_firts_last_piece_prio:
-
-                tf = this.getTorrentDetailsFragment();
-
-                if (tf != null) {
-                    position = tf.position;
-                    hash = MainActivity.lines[position].getHash();
-                    toggleFirstLastPiecePrio(hash);
+                if (TorrentDetailsFragment.hashToUpdate != null) {
+                    toggleFirstLastPiecePrio(TorrentDetailsFragment.hashToUpdate);
                     if (findViewById(R.id.one_frame) != null) {
                         getFragmentManager().popBackStack();
                     }
                 }
                 return true;
-
-
             case R.id.action_sequential_download:
-
-                tf = this.getTorrentDetailsFragment();
-
-                if (tf != null) {
-                    position = tf.position;
-                    hash = MainActivity.lines[position].getHash();
-                    toggleSequentialDownload(hash);
+                if (TorrentDetailsFragment.hashToUpdate != null) {
+                    toggleSequentialDownload(TorrentDetailsFragment.hashToUpdate);
                     if (findViewById(R.id.one_frame) != null) {
                         getFragmentManager().popBackStack();
                     }
                 }
                 return true;
-
             case R.id.action_sortby_name:
                 saveSortBy(getResources().getStringArray(R.array.sortByValues)[0]);
                 invalidateOptionsMenu();
@@ -1423,6 +1305,12 @@ public class MainActivity extends FragmentActivity {
         refreshAfterCommand(1);
     }
 
+    public void deleteDriveTorrent(String hash) {
+        // Execute the task in background
+        qBittorrentCommand qtc = new qBittorrentCommand();
+        qtc.execute(new String[]{"deleteDrive", hash});
+    }
+
     private final Runnable m_Runnable = new Runnable() {
         public void run()
 
@@ -1451,14 +1339,6 @@ public class MainActivity extends FragmentActivity {
 
     };// runnable
 
-    public void deleteDriveTorrent(String hash) {
-        // Execute the task in background
-        qBittorrentCommand qtc = new qBittorrentCommand();
-        qtc.execute(new String[]{"deleteDrive", hash});
-    }
-
-    // Drawer's method
-
     public void deleteDriveSelectedTorrents(String hashes) {
         // Execute the task in background
         qBittorrentCommand qtc = new qBittorrentCommand();
@@ -1469,6 +1349,8 @@ public class MainActivity extends FragmentActivity {
         // Delay of 1 second
         refreshAfterCommand(1);
     }
+
+    // Drawer's method
 
     public void addTorrent(String url) {
         // Execute the task in background
@@ -1989,7 +1871,6 @@ public class MainActivity extends FragmentActivity {
         }
 
 
-
         switch (position) {
             case 0:
 
@@ -2031,7 +1912,6 @@ public class MainActivity extends FragmentActivity {
                 break;
             default:
                 break;
-
 
 
         }
@@ -2294,18 +2174,6 @@ public class MainActivity extends FragmentActivity {
 
         }
     }
-
-//    // Print torrent list from Service
-//    protected void printTorrentList(Torrent[] torrents) {
-//
-//        try {
-//            for (int i = 0; i < torrents.length; i++) {
-//                Log.i("QBService", "Name: " + torrents[i].getFile());
-//            }
-//        } catch (Exception e) {
-//            Log.e("QBService", e.toString());
-//        }
-//    }
 
     // Here is where the action happens
     private class qBittorrentTask extends AsyncTask<String, Integer, Torrent[]> {
@@ -2570,7 +2438,7 @@ public class MainActivity extends FragmentActivity {
                         MainActivity.names[i] = torrent.getFile();
                         MainActivity.lines[i] = torrent;
 
-                        if(torrent.getHash().equals(TorrentDetailsFragment.hashToUpdate)){
+                        if (torrent.getHash().equals(TorrentDetailsFragment.hashToUpdate)) {
 
                             torrentToUpdate = torrent;
 
@@ -2592,11 +2460,10 @@ public class MainActivity extends FragmentActivity {
 
                     // Update torrent list
                     try {
-                            myadapter.setNames(names);
-                            myadapter.setData(lines);
-                            myadapter.notifyDataSetChanged();
-                    }
-                    catch (NullPointerException ne)
+                        myadapter.setNames(names);
+                        myadapter.setData(lines);
+                        myadapter.notifyDataSetChanged();
+                    } catch (NullPointerException ne)
 
                     {
                         myadapter = new TorrentListAdapter(MainActivity.this, names, lines);
@@ -2606,12 +2473,10 @@ public class MainActivity extends FragmentActivity {
                         myadapter.setData(lines);
                         myadapter.notifyDataSetChanged();
 
-                    }
-                    catch(IllegalStateException le){
+                    } catch (IllegalStateException le) {
 
-                        Log.e("Debug", "IllegalStateException: " +le.toString());
+                        Log.e("Debug", "IllegalStateException: " + le.toString());
                     }
-
 
 
                     // Create the about fragment
@@ -2653,14 +2518,14 @@ public class MainActivity extends FragmentActivity {
                             }
 
                             // Set second fragment
-                            if(!(fragmentManager.findFragmentByTag("secondFragment") instanceof AboutFragment)){
+                            if (!(fragmentManager.findFragmentByTag("secondFragment") instanceof AboutFragment)) {
 
                                 TorrentDetailsFragment detailsFragment = (TorrentDetailsFragment) fragmentManager.findFragmentByTag("secondFragment");
 
-                                if(torrentToUpdate != null) {
+                                if (torrentToUpdate != null) {
                                     // Update torrent details
                                     detailsFragment.updateDetails(torrentToUpdate);
-                                }else{
+                                } else {
 
                                     // Torrent no longer found
 
@@ -2674,7 +2539,7 @@ public class MainActivity extends FragmentActivity {
                                 }
 
 
-                            }else{
+                            } else {
                                 // Reset back button stack
                                 for (int i = 0; i < fragmentManager.getBackStackEntryCount(); ++i) {
                                     fragmentManager.popBackStack("secondFragment", FragmentManager.POP_BACK_STACK_INCLUSIVE);
@@ -2690,16 +2555,16 @@ public class MainActivity extends FragmentActivity {
                             // Set first fragment
                             if (fragmentManager.findFragmentByTag("firstFragment") instanceof AboutFragment) {
                                 fragmentTransaction.replace(R.id.one_frame, firstFragment, "firstFragment");
-                            }else{
+                            } else {
 
                                 TorrentDetailsFragment detailsFragment = (TorrentDetailsFragment) fragmentManager.findFragmentByTag("firstFragment");
 
-                                if(torrentToUpdate != null) {
+                                if (torrentToUpdate != null) {
                                     // Update torrent
                                     detailsFragment.updateDetails(torrentToUpdate);
-                                }else{
+                                } else {
 
-                                   // Torrent no longer found
+                                    // Torrent no longer found
 
                                     // Reset back button stack
                                     for (int i = 0; i < fragmentManager.getBackStackEntryCount(); ++i) {
@@ -2744,9 +2609,7 @@ public class MainActivity extends FragmentActivity {
                     // Commit
                     fragmentTransaction.commit();
 
-                }
-
-                catch (Exception e) {
+                } catch (Exception e) {
                     Log.e("ADAPTER", e.toString());
                 }
 
@@ -2762,6 +2625,18 @@ public class MainActivity extends FragmentActivity {
 
         }
     }
+
+//    // Print torrent list from Service
+//    protected void printTorrentList(Torrent[] torrents) {
+//
+//        try {
+//            for (int i = 0; i < torrents.length; i++) {
+//                Log.i("QBService", "Name: " + torrents[i].getFile());
+//            }
+//        } catch (Exception e) {
+//            Log.e("QBService", e.toString());
+//        }
+//    }
 
     // Here is where the action happens
     private class qBittorrentOptions extends AsyncTask<String, Integer, String> {
