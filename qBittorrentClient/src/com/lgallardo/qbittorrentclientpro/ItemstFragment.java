@@ -396,13 +396,22 @@ public class ItemstFragment extends ListFragment {
             return;
         }
 
+
         detailFragment = new TorrentDetailsFragment();
+
+        // Get torrent from MainActivity
+        detailFragment.setTorrent(MainActivity.lines[position]);
 
         detailFragment.setPosition(position);
 
         if (detailFragment != null) {
             FragmentManager fragmentManager = getFragmentManager();
-            fragmentManager.beginTransaction().replace(this.getSecondFragmentContainer(), detailFragment, "secondFragment").addToBackStack("secondFragment").commit();
+
+            if (getActivity().findViewById(R.id.one_frame) != null){
+                fragmentManager.beginTransaction().replace(this.getSecondFragmentContainer(), detailFragment, "firstFragment").addToBackStack("secondFragment").commit();
+            }else{
+                fragmentManager.beginTransaction().replace(this.getSecondFragmentContainer(), detailFragment, "secondFragment").addToBackStack("secondFragment").commit();
+            }
         }
 
     }
