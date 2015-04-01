@@ -1012,6 +1012,7 @@ public class MainActivity extends FragmentActivity {
             case R.id.action_sortby_uploadSpeed:
                 saveSortBy(getResources().getStringArray(R.array.sortByValues)[6]);
                 invalidateOptionsMenu();
+                refreshCurrent();
                 return true;
 
             default:
@@ -2625,18 +2626,6 @@ public class MainActivity extends FragmentActivity {
 
         }
     }
-
-//    // Print torrent list from Service
-//    protected void printTorrentList(Torrent[] torrents) {
-//
-//        try {
-//            for (int i = 0; i < torrents.length; i++) {
-//                Log.i("QBService", "Name: " + torrents[i].getFile());
-//            }
-//        } catch (Exception e) {
-//            Log.e("QBService", e.toString());
-//        }
-//    }
 
     // Here is where the action happens
     private class qBittorrentOptions extends AsyncTask<String, Integer, String> {

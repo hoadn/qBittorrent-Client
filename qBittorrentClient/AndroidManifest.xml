@@ -152,10 +152,10 @@
             android:name="com.lgallardo.qbittorrentclientpro.OptionsActivity"
             android:label="Options"
             android:theme="@style/Theme_Light"></activity>
-        <activity android:name=".HelpActivity" />
-        <activity android:name=".AboutActivity">
+        <activity android:name="com.lgallardo.qbittorrentclientpro.HelpActivity" />
+        <activity android:name="com.lgallardo.qbittorrentclientpro.AboutActivity">
             <intent-filter>
-                <action android:name=".AboutActivity" />
+                <action android:name="com.lgallardo.qbittorrentclientpro.AboutActivity" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
