@@ -2496,8 +2496,7 @@ public class MainActivity extends FragmentActivity {
 
                         headerInfo = (LinearLayout) findViewById(R.id.header);
 
-                        headerInfo.setVisibility(View.VISIBLE);
-                        if (!header) {
+                        if (header) {
                             headerInfo.setVisibility(View.VISIBLE);
                         } else {
                             headerInfo.setVisibility(View.GONE);
