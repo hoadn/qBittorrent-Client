@@ -391,12 +391,13 @@ public class ItemstFragment extends ListFragment {
         int count = lv.getCount();
 
 
-        if (count == 1 && lv.getItemAtPosition(0).equals(getString(R.string.no_results))) {
+//        if (count == 1 && lv.getItemAtPosition(0).equals(getString(R.string.no_results))) {
+//
+//            Log.d("Debug", "Torrents not found");
+//
+//            return;
+//        }
 
-            return;
-        }
-
-//        i
 
         Torrent torrent = MainActivity.lines[position];
 
@@ -408,9 +409,13 @@ public class ItemstFragment extends ListFragment {
             if(!(fragmentManager.findFragmentByTag("secondFragment") instanceof AboutFragment)) {
 
 
+
                 detailsFragment = (TorrentDetailsFragment) fragmentManager.findFragmentByTag("secondFragment");
 
-                detailsFragment.updateDetails(torrent);
+                if (detailsFragment != null && torrent != null) {
+
+                    detailsFragment.updateDetails(torrent);
+                }
             }
             else{
                 newDetailsFragment(position);

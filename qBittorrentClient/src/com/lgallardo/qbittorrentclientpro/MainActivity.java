@@ -41,7 +41,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -2497,7 +2496,8 @@ public class MainActivity extends FragmentActivity {
 
                         headerInfo = (LinearLayout) findViewById(R.id.header);
 
-                        if (header) {
+                        headerInfo.setVisibility(View.VISIBLE);
+                        if (!header) {
                             headerInfo.setVisibility(View.VISIBLE);
                         } else {
                             headerInfo.setVisibility(View.GONE);
@@ -2579,31 +2579,67 @@ public class MainActivity extends FragmentActivity {
                     } else {
 
                         // No results
-                        myadapter = null;
-                        String[] emptyList = new String[]{getString(R.string.no_results)};
-                        firstFragment.setListAdapter(new ArrayAdapter<String>(MainActivity.this, R.layout.no_items_found, R.id.no_results, emptyList));
+//                        myadapter = null;
 
-                        // Set the second fragments container
+                        myadapter.setNames(null);
+                        myadapter.setData(null);
+
+                        myadapter.notifyDataSetChanged();
+
+                        // Hide headerInfo
+                        TextView uploadSpeedTextView = (TextView) findViewById(R.id.uploadSpeed);
+                        TextView downloadSpeedTextView = (TextView) findViewById(R.id.downloadSpeed);
+
+                        uploadSpeedTextView.setText("");
+                        downloadSpeedTextView.setText("");
+
+
+
+                        //Set first and second fragments
                         if (findViewById(R.id.fragment_container) != null) {
+
+                            // Set where is the second container
                             firstFragment.setSecondFragmentContainer(R.id.content_frame);
-                            fragmentTransaction.replace(R.id.list_frame, firstFragment);
-                            fragmentTransaction.replace(R.id.content_frame, aboutFragment);
 
-                        } else {
-                            firstFragment.setSecondFragmentContainer(R.id.one_frame);
-                            fragmentTransaction.replace(R.id.one_frame, firstFragment, "firstFragment");
-
-                            // // Destroy About fragment
-                            // fragmentTransaction.remove(secondFragment);
-
-                            // fragmentTransaction.addToBackStack(null);
-
-                            // Reset back button stack
-                            for (int i = 0; i < fragmentManager.getBackStackEntryCount(); ++i) {
-                                fragmentManager.popBackStack();
+                            // Set first fragment
+                            if (fragmentManager.findFragmentByTag("firstFragment") instanceof HelpFragment) {
+                                fragmentTransaction.replace(R.id.list_frame, firstFragment, "firstFragment");
                             }
 
+                            // Set second fragment
+                            if (!(fragmentManager.findFragmentByTag("secondFragment") instanceof AboutFragment)) {
+                                fragmentTransaction.replace(R.id.content_frame, aboutFragment, "secondFragment");
+
+                                // Reset back button stack
+                                for (int i = 0; i < fragmentManager.getBackStackEntryCount(); ++i) {
+                                    fragmentManager.popBackStack("secondFragment", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                                }
+
+                            }
                         }
+
+
+//                        String[] emptyList = new String[]{getString(R.string.no_results)};
+//                        firstFragment.setListAdapter(new ArrayAdapter<String>(MainActivity.this, R.layout.no_items_found, R.id.no_results, emptyList));
+//
+//
+//                        // Set the second fragments container
+//                        if (findViewById(R.id.fragment_container) != null) {
+//                            firstFragment.setSecondFragmentContainer(R.id.content_frame);
+//                            fragmentTransaction.replace(R.id.list_frame, firstFragment, "firstFragment");
+//                            fragmentTransaction.replace(R.id.content_frame, aboutFragment, "secondFragment");
+//
+//                        } else {
+//                            firstFragment.setSecondFragmentContainer(R.id.one_frame);
+//                            fragmentTransaction.replace(R.id.one_frame, firstFragment, "firstFragment");
+//
+//
+//                            // Reset back button stack
+//                            for (int i = 0; i < fragmentManager.getBackStackEntryCount(); ++i) {
+//                                fragmentManager.popBackStack();
+//                            }
+//
+//                        }
 
                     }
 
