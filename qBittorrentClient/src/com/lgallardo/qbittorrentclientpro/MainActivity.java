@@ -2510,6 +2510,8 @@ public class MainActivity extends FragmentActivity {
                         //Set first and second fragments
                         if (findViewById(R.id.fragment_container) != null) {
 
+                            Log.d("Debug","fragment_container");
+
                             // Set where is the second container
                             firstFragment.setSecondFragmentContainer(R.id.content_frame);
 
@@ -2550,13 +2552,18 @@ public class MainActivity extends FragmentActivity {
 
                         } else {
 
+                            Log.d("Debug","one_frame");
+
                             // Set where is the second container
                             firstFragment.setSecondFragmentContainer(R.id.one_frame);
 
                             // Set first fragment
                             if (fragmentManager.findFragmentByTag("firstFragment") instanceof AboutFragment) {
                                 fragmentTransaction.replace(R.id.one_frame, firstFragment, "firstFragment");
-                            } else {
+                            }
+
+                            if (fragmentManager.findFragmentByTag("firstFragment") instanceof TorrentDetailsFragment) {
+
 
                                 TorrentDetailsFragment detailsFragment = (TorrentDetailsFragment) fragmentManager.findFragmentByTag("firstFragment");
 
@@ -2615,6 +2622,20 @@ public class MainActivity extends FragmentActivity {
                                     fragmentManager.popBackStack("secondFragment", FragmentManager.POP_BACK_STACK_INCLUSIVE);
                                 }
 
+                            }
+                        }else{
+
+                            // Set where is the second container
+                            firstFragment.setSecondFragmentContainer(R.id.one_frame);
+
+                            // Set first fragment
+                            if (fragmentManager.findFragmentByTag("firstFragment") instanceof AboutFragment) {
+                                fragmentTransaction.replace(R.id.one_frame, firstFragment, "firstFragment");
+                            }
+
+                            // Reset back button stack
+                            for (int i = 0; i < fragmentManager.getBackStackEntryCount(); ++i) {
+                                fragmentManager.popBackStack();
                             }
                         }
 
