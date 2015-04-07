@@ -451,10 +451,6 @@ public class JSONParser {
 
             HttpPost httpget = new HttpPost(url);
 
-
-//            Log.i("postCommand", "key: " + key);
-//            Log.i("postCommand", "hash(es): " + hash);
-
             if ("addTorrent".equals(command)) {
                 URI hash_uri = new URI(hash);
                 hash = hash_uri.toString();
@@ -474,66 +470,17 @@ public class JSONParser {
 
             httpget.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
 
-
-//            if ("addTorrent".equals(command)) {
-//
-////                hash = URLEncoder.encode(hash, "UTF-8");
-//
-//                Log.d("Debug", "Hash_0: >" + hash + "<");
-//
-//                URI hash_uri = new URI(hash);
-//
-//                URL hash_uri_url = hash_uri.toURL();
-//
-//                Log.d("Debug", "Hash_uri: " + hash_uri.toASCIIString());
-//                Log.d("Debug", "Hash_uri_url: " + hash_uri_url);
-//                Log.d("Debug", "Hash_uri_toString: " + hash_uri.toString());
-//
-//                URL hash_url = new URL(hash);
-//                String url_protocol = hash_url.getProtocol();
-//                String url_path = hash_url.getPath();
-//
-//                hash = url_protocol + "://" + hash_url.getHost() + URLEncoder.encode(url_path, "UTF-8");
-//
-//                Log.d("Debug", "Hash_1: " + hash);
-//                Log.d("Debug", "Path_1: " + hash_url.getPath());
-//                Log.d("Debug", "Protocol_1: " + hash_url.getProtocol());
-//
-//                hash = hash_uri.toString();
-
-//            }
-
             // Set content type and urls
             if ("addTorrent".equals(command) || "increasePrio".equals(command) || "decreasePrio".equals(command) || "maxPrio".equals(command)) {
                 httpget.setHeader("Content-Type", urlContentType);
 
             }
 
-//            // Set content type and urls
-//            if ("addTorrent".equals(command)) {
-//
-//                URL new_url = new URL(hash);
-//                ;
-//
-//                String encodedurl = URLEncoder.encode(hash, "UTF-8");
-//
-//                Log.d("Debug", "Path: " + new_url.getPath());
-//                Log.d("Debug", "Protocol: " + new_url.getProtocol());
-//                Log.d("Debug", "Hash encoded: " + encodedurl);
-//                Log.d("Debug", "Hash: " + hash);
-//                Log.d("Debug", "Key: " + key);
-//                Log.d("Debug", "url: " + url);
-//                Log.d("Debug", "Header - Content-Type: " + httpget.getHeaders("Content-Type").toString());
-//            }
-
-
+            // Set cookie
             if (this.cookie != null) {
-
                 httpget.setHeader("Cookie", this.cookie);
-
-//                Log.i("postCommand", "Cookie set to " + this.cookie);
             }
-//            Log.d("Debug", "Command: " + command);
+
 
             // Set content type and urls
             if ("addTorrentFile".equals(command)) {
@@ -558,14 +505,13 @@ public class JSONParser {
                 // builder.addPart("file", fileBody);
 
                 builder.addBinaryBody("upfile", file, ContentType.DEFAULT_BINARY, hash);
+//                builder.addBinaryBody("upfile", file, ContentType.create(urlContentType), hash);
 
                 // Build entity
                 HttpEntity entity = builder.build();
 
                 // Set entity to http post
                 httpget.setEntity(entity);
-
-//                Log.d("Debug", "Torrent sent 0");
 
             }
 
@@ -575,14 +521,11 @@ public class JSONParser {
 
             int mStatusCode = statusLine.getStatusCode();
 
-//            Log.d("Debug", "Torrent sent 1");
-
             if (mStatusCode != 200) {
                 httpclient.getConnectionManager().shutdown();
                 throw new JSONParserStatusCodeException(mStatusCode);
             }
 
-//            Log.d("Debug", "Torrent sent 2");
             HttpEntity httpEntity = httpResponse.getEntity();
 
             is = httpEntity.getContent();

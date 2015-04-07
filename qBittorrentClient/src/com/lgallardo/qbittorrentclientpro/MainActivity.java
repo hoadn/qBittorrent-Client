@@ -52,6 +52,8 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -706,6 +708,8 @@ public class MainActivity extends FragmentActivity {
 
         String urlTorrent = intent.getDataString();
 
+//        Log.d("Debug", "urlTorrent: " + urlTorrent);
+
         if (urlTorrent != null && urlTorrent.length() != 0) {
 
             if (urlTorrent.substring(0, 4).equals("file")) {
@@ -716,25 +720,26 @@ public class MainActivity extends FragmentActivity {
             } else {
 
                 // Web
-                addTorrent(Uri.decode(urlTorrent));
+//                addTorrent(Uri.decode(urlTorrent));
+                try {
+                    addTorrent(Uri.decode(URLEncoder.encode(urlTorrent, "UTF-8")));
+                }catch(UnsupportedEncodingException e){
+                    Log.e("Debug", "Check URL: "+e.toString());
+                }
+
             }
 
         }
 
         try {
             if (intent.getStringExtra("from").equals("NotifierService")) {
-//                Log.d("Notifier", "addTorrentByIntent ok");
-
                 drawerList.setItemChecked(2, true);
                 setTitle(navigationDrawerItemTitles[2]);
                 refresh("completed");
-
             }
         } catch (NullPointerException npe) {
 
         }
-
-//        Log.d("Notifier", "addTorrentByIntent oO");
 
     }
 
