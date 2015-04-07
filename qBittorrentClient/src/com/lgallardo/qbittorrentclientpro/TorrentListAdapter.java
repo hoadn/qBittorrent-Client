@@ -102,9 +102,6 @@ class TorrentListAdapter extends ArrayAdapter<String> {
 
             if (mSelection.get(position) != null) {
                 row.setBackgroundColor(getContext().getResources().getColor(android.R.color.holo_blue_light));// this is a selected position so make it blue
-            } else {
-//            Log.i("torrentListAdapter","size: "+mSelection.size());
-//            Log.i("torrentListAdapter","position: "+position);
             }
 
         } else {
